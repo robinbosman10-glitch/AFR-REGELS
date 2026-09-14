@@ -598,3 +598,14 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 |---|---|
 
 *"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
+
+### Artikel 53 - Voertuig Impound
+
+- Vanaf nu als je voertuig niet juist geparkeerd is, zal de staff uw voertuig gaan impounden. 
+- De prijs zal 500k zijn.
+- Een refund aanmaken voor dit, zal ten alletijden afgekeurd worden.
+- Dit zal onder de catagorie vallen van: **Midden op de weg je auto achterlaten, **
+
+- Je voertuig zal niet geimpound worden als je in de buurt bent, dit geldt alleen als de auto al langer dan 5 minuten op 1 plek staat.
+
+**Strafcategorie:** Categorie 4
