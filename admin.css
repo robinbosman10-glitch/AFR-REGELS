@@ -9,3 +9,31 @@
 .admin-switch-row{display:flex!important;align-items:center;justify-content:space-between;padding:14px;border:1px solid #294a63;border-radius:12px}.admin-switch-row span{display:grid}.admin-switch-row small{margin-top:3px;color:#7895aa}.admin-switch-row input{width:22px!important;height:22px}.admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.admin-create-account{margin-top:22px;padding:22px;border:1px solid #1b4563;border-radius:16px;background:#091b2b}.admin-create-account h4{margin:0;font-size:20px}.admin-form fieldset{display:grid;grid-template-columns:1fr 1fr;gap:10px;border:1px solid #294a63;border-radius:12px;padding:15px}.admin-form fieldset legend{padding:0 7px;color:#8edfff;font-weight:800}.admin-form fieldset label{display:flex;align-items:center;gap:8px}.admin-form fieldset input{width:17px}
 .admin-accounts,.admin-audit{display:grid;gap:10px}.admin-account,.admin-audit-item{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #1b405b;border-radius:13px;background:#0a1c2c}.admin-account>div,.admin-audit-item>div{display:grid;gap:3px}.admin-account small,.admin-audit-item small{color:#86a1b5}.admin-account .account-role{margin-left:auto;padding:6px 9px;border-radius:999px;background:#113c59;color:#8edfff;font-size:11px;font-weight:900;text-transform:uppercase}.account-state{width:9px;height:9px;border-radius:50%;background:#ef6677}.account-state.active{background:#56e6a6;box-shadow:0 0 12px rgba(86,230,166,.5)}
 @media(max-width:760px){.admin-open{width:42px;padding:0;justify-content:center}.admin-open>span:last-child{display:none}.admin-overlay{padding:0}.admin-shell{height:100%;max-height:none;border-radius:0}.admin-head{padding:14px 16px}.admin-login{grid-template-columns:1fr;overflow:auto;height:calc(100vh - 72px)}.admin-login-copy{padding:28px}.admin-form{padding:24px}.admin-dashboard{grid-template-columns:1fr;height:calc(100vh - 72px)}.admin-nav{flex-direction:row;align-items:center;overflow-x:auto;border-right:0;border-bottom:1px solid #173a54;padding:10px}.admin-user{display:none}.admin-tab{flex:0 0 auto;padding:0 11px}.admin-logout{margin:0 0 0 auto;flex:0 0 auto}.admin-dashboard{display:flex;flex-direction:column}.admin-main{padding:22px 16px}.admin-stats{grid-template-columns:1fr}.admin-form-grid,.admin-form fieldset{grid-template-columns:1fr}.admin-create-account{padding:17px}}
+
+/* Admin layout clarity v2 */
+.admin-login[hidden],.admin-dashboard[hidden],.admin-view[hidden]{display:none!important}
+.admin-overlay{padding:12px}
+.admin-shell{display:flex;flex-direction:column;width:min(1240px,100%);height:min(880px,calc(100dvh - 24px));max-height:none;font-size:16px}
+.admin-head{flex:0 0 auto;padding:18px 24px}.admin-head h2{font-size:25px}
+.admin-login{flex:1;min-height:0;overflow:auto;grid-template-columns:minmax(320px,.8fr) minmax(430px,1.2fr)}
+.admin-login-copy{padding:42px}.admin-login-copy h3{font-size:34px}.admin-login-copy p{font-size:16px;line-height:1.55;color:#c3d4e1}
+.admin-login>.admin-form{padding:44px;align-content:center}
+.admin-form label{font-size:15px;color:#d8e5ef}.admin-form input,.admin-form textarea,.admin-form select{min-height:48px;font-size:16px;border-color:#3d6079;background:#0c2133}.admin-form textarea{min-height:120px}
+.admin-primary{min-height:50px;font-size:15px}
+.admin-dashboard{flex:1;min-height:0;height:auto;grid-template-columns:270px minmax(0,1fr)}
+.admin-nav{min-height:0;overflow-y:auto;padding:20px}.admin-user{padding:14px;margin-bottom:17px}.admin-user strong{font-size:15px}.admin-user small{font-size:13px}
+.admin-tab,.admin-logout{flex:0 0 auto;min-height:48px;font-size:14px;color:#d7e5ef}
+.admin-main{min-width:0;min-height:0;overflow-y:auto;padding:36px 42px 48px;scrollbar-color:#1688b7 #091724}
+.admin-view>h3{font-size:32px;margin-bottom:26px}.admin-kicker{font-size:11px}
+.admin-stats{gap:18px}.admin-stats article{min-height:105px;padding:22px}.admin-stats span{font-size:13px;color:#b8ccda}.admin-stats strong{font-size:32px}
+.admin-info{padding:21px;font-size:15px}.admin-info p{font-size:15px;color:#c2d9ce}
+.admin-account,.admin-audit-item{min-height:56px;padding:16px}.admin-account strong,.admin-audit-item strong{font-size:15px}.admin-account small,.admin-audit-item small{font-size:13px;color:#a9becc}
+.admin-status{font-size:14px}
+@media(max-width:900px) and (min-width:761px){.admin-shell{width:calc(100vw - 20px)}.admin-dashboard{grid-template-columns:220px minmax(0,1fr)}.admin-main{padding:28px}.admin-nav{padding:14px}.admin-login-copy{padding:30px}.admin-login>.admin-form{padding:32px}}
+@media(max-width:760px){
+  .admin-overlay{padding:0}.admin-shell{width:100%;height:100dvh;max-height:none;border:0;border-radius:0}
+  .admin-head{padding:13px 15px}.admin-head h2{font-size:20px}
+  .admin-login{display:block;overflow-y:auto}.admin-login-copy{padding:25px 22px}.admin-login-copy h3{font-size:27px}.admin-login>.admin-form{padding:25px 22px 42px}
+  .admin-dashboard{display:flex;height:auto;min-height:0}.admin-nav{flex:0 0 auto;min-height:62px;overflow-x:auto;overflow-y:hidden;padding:8px 10px}.admin-tab,.admin-logout{min-height:44px;font-size:13px}
+  .admin-main{flex:1;padding:24px 17px 60px}.admin-view>h3{font-size:27px}.admin-stats article{min-height:84px}
+}

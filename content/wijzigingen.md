@@ -28,6 +28,9 @@ Bezoekers kunnen de huidige regelpagina via de deelknop delen of de link kopiër
 ### Nieuw — Bezoekersmeting
 Google Analytics is toegevoegd met een duidelijke toestemmingsmelding.
 
+### Aangepast — Beheerdersomgeving duidelijker
+Het inlogscherm en dashboard passen nu volledig binnen het scherm. Tekst, knoppen en formulieren zijn groter en het dashboard kan netjes scrollen op desktop en mobiel.
+
 ### Aangepast — Nieuwe AFR-huisstijl
 De website kreeg een modernere command-center vormgeving, een AFR-logo en een eigen browsericoon.
 
