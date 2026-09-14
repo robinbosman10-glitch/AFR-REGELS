@@ -151,6 +151,83 @@
       .penalty{grid-template-columns:100px 1fr}.search-results{top:65px;left:8px;right:8px;width:auto;border-radius:13px}
     }
   </style>
+
+  <style id="afr-command-center">
+    @media(min-width:981px){
+      body{padding-left:292px}
+      .top{
+        position:fixed;inset:0 auto 0 0;width:292px;height:100vh;display:flex;flex-direction:column;overflow:hidden;
+        background:
+          linear-gradient(180deg,rgba(3,13,32,.96),rgba(5,25,53,.99)),
+          radial-gradient(circle at 50% 0,rgba(0,194,255,.25),transparent 18rem);
+        border:0;border-right:1px solid rgba(54,208,255,.3);box-shadow:22px 0 65px rgba(0,0,0,.2)
+      }
+      .top:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 0 48%,rgba(67,213,255,.025) 49% 51%,transparent 52%);background-size:32px 32px;pointer-events:none}
+      .top:after{content:"";position:absolute;right:-1px;top:8%;height:34%;width:2px;background:linear-gradient(transparent,#24d7ff,transparent);box-shadow:0 0 22px #24d7ff;pointer-events:none}
+      .brandbar{height:auto;min-height:258px;display:flex;flex-direction:column;align-items:stretch;padding:28px 21px 18px;gap:18px;position:relative}
+      .brand-home{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:3px 7px 12px}
+      .brand-home:after{content:"RULES  /  KNOWLEDGE  /  RP";font-size:9px;font-weight:800;letter-spacing:.2em;color:#62d8ff;opacity:.75}
+      .logo{width:84px;height:84px;place-items:start}.logo img{width:82px;height:82px;filter:drop-shadow(0 0 20px rgba(39,212,255,.5))}
+      .brand{font-size:21px;line-height:1.1;letter-spacing:-.3px}
+      .brandbar .spacer{display:none}
+      .theme{position:absolute;right:25px;top:35px}
+      .searchbox{width:100%;height:46px;border-radius:10px;padding:0 13px;background:rgba(3,15,37,.72)}
+      .nav{height:auto;min-height:0;flex:1;display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:8px 16px 24px;border-top:1px solid rgba(119,207,255,.12);overflow-y:auto;counter-reset:menu}
+      .nav a{counter-increment:menu;width:100%;display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;font-size:14px}
+      .nav a:before{content:"0" counter(menu);font-size:9px;font-weight:900;letter-spacing:.08em;color:#4edbff;opacity:.72}
+      .nav a.active{background:linear-gradient(90deg,rgba(0,189,245,.18),rgba(40,82,180,.12));box-shadow:inset 3px 0 #24d7ff,inset 0 0 0 1px rgba(70,208,255,.13)}
+      .search-results{left:20px;right:auto;top:248px;width:252px;max-height:calc(100vh - 270px);z-index:100}
+      .layout{max-width:1550px;grid-template-columns:minmax(0,1fr) 295px;gap:28px;padding:34px clamp(24px,3.2vw,54px) 100px}
+      .side{display:none}.toc{top:34px;max-height:calc(100vh - 68px)}
+      .article{min-height:calc(100vh - 168px)}
+    }
+    body.dark{
+      background:
+        linear-gradient(rgba(9,21,40,.82),rgba(5,12,24,.95)),
+        repeating-linear-gradient(90deg,transparent 0 79px,rgba(50,182,255,.035) 80px),
+        repeating-linear-gradient(0deg,transparent 0 79px,rgba(50,182,255,.035) 80px),
+        radial-gradient(circle at 75% 8%,rgba(0,169,255,.16),transparent 34rem),#050b14
+    }
+    body.dark .article,body.dark .toc{
+      background:linear-gradient(145deg,rgba(10,25,47,.94),rgba(6,17,34,.94));border-color:rgba(69,157,221,.24);
+      box-shadow:0 28px 90px rgba(0,0,0,.38),inset 0 1px rgba(112,219,255,.05)
+    }
+    .article{position:relative}
+    .article:before{content:"";position:absolute;left:34px;right:34px;top:0;height:2px;background:linear-gradient(90deg,transparent,#1bd1ff 22%,#326eff 62%,transparent);opacity:.7;box-shadow:0 0 18px rgba(22,202,255,.42)}
+    body.dark .article h1{text-transform:none;text-shadow:0 0 35px rgba(28,176,255,.12)}
+    body.dark .article h2{color:#eff8ff}
+    body.dark .article h3{color:#dcecff;padding-left:17px;position:relative}
+    body.dark .article h3:before{content:"";position:absolute;left:0;top:.28em;width:4px;height:1.05em;border-radius:4px;background:linear-gradient(#22dcff,#4776ff);box-shadow:0 0 12px #21cfff}
+    body.dark .article table{background:rgba(8,22,42,.86);border-color:rgba(69,157,221,.26)}
+    body.dark .article th{background:rgba(24,58,91,.68)}
+    body.dark .article tr:hover td{background:rgba(19,70,104,.2)}
+    body.dark .note{background:linear-gradient(135deg,rgba(8,45,73,.9),rgba(10,28,54,.86))}
+    body.dark .card{background:linear-gradient(145deg,rgba(15,36,65,.96),rgba(8,22,42,.96))}
+    body.dark .category-jump{background:rgba(0,191,245,.11);box-shadow:inset 0 0 16px rgba(0,191,245,.04)}
+    .toc a{transition:.15s ease}
+    .toc a:hover{transform:translateX(3px)}
+    @media(max-width:980px){
+      body{padding-left:0}
+      .top{position:sticky;inset:auto;width:auto;height:auto;display:block;overflow:visible}
+      .top:before,.top:after{display:none}
+      .brandbar{height:74px;min-height:0;display:flex;flex-direction:row;align-items:center;padding:0 20px;gap:14px}
+      .brand-home{display:flex;flex-direction:row;align-items:center;gap:10px;padding:0}.brand-home:after{display:none}
+      .logo{width:52px;height:auto;place-items:center}.logo img{width:52px;height:52px}.brand{font-size:20px}
+      .brandbar .spacer{display:block}.theme{position:relative;right:auto;top:auto}
+      .searchbox{width:230px;height:46px}.nav{height:58px;min-height:0;display:flex;flex-direction:row;align-items:center;padding:0 20px;gap:6px;overflow-x:auto}
+      .nav a{width:auto;display:block;padding:9px 12px}.nav a:before{display:none}
+      .layout{grid-template-columns:minmax(0,1fr) 270px;padding:26px 18px 75px}.side{display:none}.toc{top:150px}
+      .search-results{left:auto;right:20px;top:68px;width:300px}
+    }
+    @media(max-width:760px){
+      .brandbar{height:68px;padding:0 10px;gap:6px}.brand-home{min-width:0;flex:1}.logo{width:42px}.logo img{width:42px;height:42px}
+      .brand{font-size:17px}.theme{display:block}.searchbox{width:42px}.nav{display:none;height:auto;padding:10px}
+      .nav.open{display:flex;flex-direction:column;align-items:stretch}.nav a{width:100%}
+      .layout{display:block;padding:14px 8px 60px}.article{min-height:0}.toc{display:none}
+      .article:before{left:18px;right:18px}
+      .search-results{left:8px;right:8px;top:65px;width:auto}
+    }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -199,7 +276,7 @@
     const searchBox=document.querySelector('.searchbox'),searchInput=document.querySelector('#search'),searchResults=document.querySelector('#searchResults');
     const themeButton=document.querySelector('.theme');
     function setDarkMode(enabled){document.body.classList.toggle('dark',enabled);themeButton.setAttribute('aria-pressed',String(enabled));themeButton.setAttribute('aria-label',enabled?'Lichte modus aanzetten':'Donkere modus aanzetten');themeButton.title=enabled?'Lichte modus':'Donkere modus'}
-    let savedTheme='light';try{savedTheme=localStorage.getItem('afr-theme')||'light'}catch(e){}
+    let savedTheme='light';try{savedTheme=localStorage.getItem('afr-theme')||'dark'}catch(e){}
     setDarkMode(savedTheme==='dark');
     themeButton.addEventListener('click',()=>{const enabled=!document.body.classList.contains('dark');setDarkMode(enabled);try{localStorage.setItem('afr-theme',enabled?'dark':'light')}catch(e){}});
 
