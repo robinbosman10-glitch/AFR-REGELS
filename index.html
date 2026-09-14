@@ -400,13 +400,33 @@
     body.dark .copy-article-link:hover{color:#031827;background:#62d8ff}
     @media(max-width:760px){.copy-article-link{margin-left:0}.copy-link-label{font-size:11px}}
   </style>
+  <style id="afr-maintenance-style">
+    .maintenance-banner{position:relative;z-index:1200;display:flex;align-items:center;gap:14px;padding:12px max(18px,calc((100vw - 1500px)/2));color:#fff4d6;background:linear-gradient(90deg,#6f3500,#ad5700 48%,#6f3500);border-bottom:1px solid #ffb13b;box-shadow:0 5px 22px rgba(45,21,0,.25)}
+    .maintenance-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:2px solid #ffd277;border-radius:50%;font-weight:950;color:#261100;background:#ffd277}
+    .maintenance-copy{display:flex;align-items:baseline;gap:12px;min-width:0}.maintenance-copy strong{font-size:14px;letter-spacing:.04em;text-transform:uppercase}.maintenance-copy span{font-size:14px}
+    .maintenance-close{margin-left:auto;flex:0 0 36px;width:36px;height:36px;border:1px solid rgba(255,255,255,.28);border-radius:10px;color:#fff;background:rgba(0,0,0,.15);font-size:24px;line-height:1;cursor:pointer}
+    .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
+    @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
+  </style>
 </head>
 <body>
+  <section class="maintenance-banner" data-notice-id="site-update-2026-09-14" role="status" aria-label="Onderhoudsmelding">
+    <div class="maintenance-icon" aria-hidden="true">!</div>
+    <div class="maintenance-copy"><strong>Website-update</strong><span>De AFR-regelsite wordt momenteel verbeterd. Alle regels blijven gewoon beschikbaar.</span></div>
+    <button type="button" class="maintenance-close" aria-label="Onderhoudsmelding sluiten">×</button>
+  </section>
   <header class="top">
     <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="theme" title="Donkere modus" aria-label="Donkere modus aanzetten" aria-pressed="false"></button><div class="searchbox"><button type="button" class="searchToggle" aria-label="Zoeken openen"><span class="searchIcon"></span></button><input id="search" placeholder="Zoeken" aria-label="Doorzoek de website"></div><button class="hamb" aria-label="Menu openen">☰</button></div>
     <nav class="nav" aria-label="Hoofdnavigatie"></nav>
   </header>
   <div id="searchResults" class="search-results"></div>
+  <script id="afr-maintenance-script">
+    (()=>{const banner=document.querySelector('.maintenance-banner');if(!banner)return;const key='afr-dismissed-maintenance',id=banner.dataset.noticeId;
+      try{if(sessionStorage.getItem(key)===id)banner.classList.add('is-hidden')}catch(e){}
+      banner.querySelector('.maintenance-close').addEventListener('click',()=>{banner.classList.add('is-hidden');try{sessionStorage.setItem(key,id)}catch(e){}});
+    })();
+  </script>
+
   <main class="layout"><aside class="side"></aside><article class="article" id="content"></article><aside class="toc"><h3>Inhoudsopgave</h3><div id="tocLinks"></div></aside></main>
   <footer class="footer">© 2026 AmersfoortRolePlay · Alle regels kunnen tussentijds worden aangepast. · Live vernieuwen: iedere 5 minuten</footer>
   <script>

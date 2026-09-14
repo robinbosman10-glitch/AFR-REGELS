@@ -7,6 +7,9 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ### Nieuw — Wijzigingenoverzicht
 Nieuwe pagina waarop spelers direct kunnen zien wat er aan de regelsite is veranderd.
 
+### Nieuw — Onderhoudsmelding
+Bovenaan de website kan een opvallende onderhouds- of storingsmelding worden getoond. Bezoekers kunnen de melding voor hun huidige sessie sluiten.
+
 ### Nieuw — Automatisch vernieuwen
 De website haalt iedere vijf minuten automatisch de nieuwste versie op en probeert dezelfde leespositie te behouden.
 
