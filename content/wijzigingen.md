@@ -7,6 +7,9 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ### Nieuw — Wijzigingenoverzicht
 Nieuwe pagina waarop spelers direct kunnen zien wat er aan de regelsite is veranderd.
 
+### Nieuw — Beheerdersomgeving
+Er is een beveiligd inlogscherm en beheerdersdashboard toegevoegd. De eigenaar kan de onderhoudsmelding beheren en krijgt toegang tot accounts, rechten en activiteiten.
+
 ### Nieuw — Onderhoudsmelding
 Bovenaan de website kan een opvallende onderhouds- of storingsmelding worden getoond. Bezoekers kunnen de melding voor hun huidige sessie sluiten.
 

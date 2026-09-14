@@ -408,6 +408,7 @@
     .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
+  <link rel="stylesheet" href="./admin.css?v=1">
 </head>
 <body>
   <section class="maintenance-banner" data-notice-id="site-update-2026-09-14" role="status" aria-label="Onderhoudsmelding">
@@ -416,14 +417,71 @@
     <button type="button" class="maintenance-close" aria-label="Onderhoudsmelding sluiten">×</button>
   </section>
   <header class="top">
-    <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="theme" title="Donkere modus" aria-label="Donkere modus aanzetten" aria-pressed="false"></button><div class="searchbox"><button type="button" class="searchToggle" aria-label="Zoeken openen"><span class="searchIcon"></span></button><input id="search" placeholder="Zoeken" aria-label="Doorzoek de website"></div><button class="hamb" aria-label="Menu openen">☰</button></div>
+    <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="admin-open" aria-label="Beheerdersomgeving openen"><span aria-hidden="true">◆</span><span>Beheer</span></button><button type="button" class="theme" title="Donkere modus" aria-label="Donkere modus aanzetten" aria-pressed="false"></button><div class="searchbox"><button type="button" class="searchToggle" aria-label="Zoeken openen"><span class="searchIcon"></span></button><input id="search" placeholder="Zoeken" aria-label="Doorzoek de website"></div><button class="hamb" aria-label="Menu openen">☰</button></div>
     <nav class="nav" aria-label="Hoofdnavigatie"></nav>
   </header>
+  <section id="adminOverlay" class="admin-overlay" aria-hidden="true">
+    <div class="admin-shell" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+      <header class="admin-head"><div><span class="admin-kicker">AFR CONTROL</span><h2 id="adminTitle">Beheerdersomgeving</h2></div><button type="button" class="admin-close" aria-label="Beheerdersomgeving sluiten">×</button></header>
+      <div id="adminLogin" class="admin-login">
+        <div class="admin-login-copy"><span class="admin-shield" aria-hidden="true">◆</span><h3>Beveiligd inloggen</h3><p>Log in met je AFR-gebruikersnaam en wachtwoord.</p></div>
+        <form id="adminLoginForm" class="admin-form">
+          <label>Gebruikersnaam<input id="adminUsername" name="username" autocomplete="username" required pattern="[a-z0-9._-]{3,32}" placeholder="afrrobin2"></label>
+          <label>Wachtwoord<input id="adminPassword" name="password" type="password" autocomplete="current-password" required></label>
+          <button class="admin-primary" type="submit">Inloggen</button>
+          <p id="adminLoginStatus" class="admin-status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div id="adminDashboard" class="admin-dashboard" hidden>
+        <aside class="admin-nav">
+          <div class="admin-user"><span class="admin-avatar">A</span><div><strong id="adminDisplayName">Beheerder</strong><small id="adminRole">—</small></div></div>
+          <button type="button" class="admin-tab active" data-admin-tab="overview">Overzicht</button>
+          <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button>
+          <button type="button" class="admin-tab" data-admin-tab="accounts">Accounts</button>
+          <button type="button" class="admin-tab" data-admin-tab="audit">Activiteiten</button>
+          <button type="button" id="adminLogout" class="admin-logout">Uitloggen</button>
+        </aside>
+        <main class="admin-main">
+          <section class="admin-view active" data-admin-view="overview">
+            <span class="admin-kicker">DASHBOARD</span><h3>Welkom terug</h3>
+            <div class="admin-stats"><article><span>Accounts</span><strong id="adminAccountCount">—</strong></article><article><span>Actief</span><strong id="adminActiveCount">—</strong></article><article><span>Jouw rol</span><strong id="adminRoleStat">—</strong></article></div>
+            <div class="admin-info"><strong>Beveiligde verbinding actief</strong><p>Je sessie en rechten worden gecontroleerd via Supabase.</p></div>
+          </section>
+          <section class="admin-view" data-admin-view="maintenance">
+            <span class="admin-kicker">SITEBERICHT</span><h3>Onderhoudsmelding</h3>
+            <form id="maintenanceForm" class="admin-form">
+              <label class="admin-switch-row"><span><strong>Melding zichtbaar</strong><small>Toon de balk voor alle bezoekers</small></span><input id="maintenanceEnabled" type="checkbox"></label>
+              <label>Titel<input id="maintenanceTitle" maxlength="60" required></label>
+              <label>Bericht<textarea id="maintenanceMessage" rows="4" maxlength="240" required></textarea></label>
+              <label>Kleur<select id="maintenanceTone"><option value="warning">Oranje — onderhoud</option><option value="danger">Rood — storing</option><option value="info">Blauw — informatie</option></select></label>
+              <button class="admin-primary" type="submit">Melding opslaan</button>
+              <p id="maintenanceStatus" class="admin-status" aria-live="polite"></p>
+            </form>
+          </section>
+          <section class="admin-view" data-admin-view="accounts">
+            <span class="admin-kicker">TOEGANG</span><h3>Accounts en rechten</h3>
+            <div id="adminAccountsList" class="admin-accounts"></div>
+            <form id="createAccountForm" class="admin-form admin-create-account">
+              <h4>Nieuw account</h4>
+              <div class="admin-form-grid"><label>Gebruikersnaam<input id="newUsername" pattern="[a-z0-9._-]{3,32}" required></label><label>Weergavenaam<input id="newDisplayName" maxlength="50" required></label></div>
+              <div class="admin-form-grid"><label>Tijdelijk wachtwoord<input id="newPassword" type="password" minlength="10" required autocomplete="new-password"></label><label>Rol<select id="newRole"><option value="admin">Beheerder</option><option value="editor">Redacteur</option><option value="analyst">Analist</option><option value="viewer">Alleen bekijken</option></select></label></div>
+              <fieldset><legend>Rechten kiezen</legend><label><input type="checkbox" name="permission" value="manage_articles"> Artikelen beheren</label><label><input type="checkbox" name="permission" value="manage_maintenance"> Onderhoud beheren</label><label><input type="checkbox" name="permission" value="manage_changelog"> Wijzigingen beheren</label><label><input type="checkbox" name="permission" value="view_analytics"> Statistieken bekijken</label><label><input type="checkbox" name="permission" value="view_audit_log"> Activiteiten bekijken</label><label><input type="checkbox" name="permission" value="manage_accounts"> Accounts beheren</label></fieldset>
+              <button class="admin-primary" type="submit">Account aanmaken</button>
+              <p id="createAccountStatus" class="admin-status" aria-live="polite"></p>
+            </form>
+          </section>
+          <section class="admin-view" data-admin-view="audit">
+            <span class="admin-kicker">CONTROLE</span><h3>Recente activiteiten</h3><div id="adminAuditList" class="admin-audit"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </section>
   <div id="searchResults" class="search-results"></div>
   <script id="afr-maintenance-script">
-    (()=>{const banner=document.querySelector('.maintenance-banner');if(!banner)return;const key='afr-dismissed-maintenance',id=banner.dataset.noticeId;
-      try{if(sessionStorage.getItem(key)===id)banner.classList.add('is-hidden')}catch(e){}
-      banner.querySelector('.maintenance-close').addEventListener('click',()=>{banner.classList.add('is-hidden');try{sessionStorage.setItem(key,id)}catch(e){}});
+    (()=>{const banner=document.querySelector('.maintenance-banner');if(!banner)return;const key='afr-dismissed-maintenance',currentId=()=>banner.dataset.noticeId;
+      try{if(sessionStorage.getItem(key)===currentId())banner.classList.add('is-hidden')}catch(e){}
+      banner.querySelector('.maintenance-close').addEventListener('click',()=>{banner.classList.add('is-hidden');try{sessionStorage.setItem(key,currentId())}catch(e){}});
     })();
   </script>
 
@@ -590,5 +648,6 @@
       restorePosition();setTimeout(refreshSite,refreshDelay);
     })();
   </script>
+  <script src="./admin.js?v=1"></script>
 </body>
 </html>
