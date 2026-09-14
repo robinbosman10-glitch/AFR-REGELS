@@ -312,6 +312,43 @@
       body.dark .toc a{color:#f4f8ff}
     }
   </style>
+
+  <style id="afr-article-cards">
+    .rule-card{
+      position:relative;margin:25px 0 34px;padding:27px 30px 30px;border:1px solid #c9dced;border-radius:16px;
+      background:linear-gradient(145deg,#fff,#f7fbff);box-shadow:0 8px 24px rgba(12,48,91,.07);overflow:hidden
+    }
+    .rule-card:after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(#00c8f4,#3d6cff)}
+    .rule-card h3{
+      display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin:0 0 22px;padding:0 0 17px!important;
+      border-bottom:1px solid #d7e5f1;font-size:22px!important
+    }
+    .rule-card h3:before{display:none!important}
+    .rule-tag{
+      display:inline-flex;align-items:center;min-height:29px;padding:4px 11px;border-radius:7px;
+      background:linear-gradient(120deg,#007fc9,#315ce2);color:#fff;font-size:12px;font-weight:950;
+      letter-spacing:.07em;text-transform:uppercase;box-shadow:0 5px 13px rgba(22,101,197,.18)
+    }
+    .rule-title{font-size:22px;font-weight:950;letter-spacing:-.35px;color:#10284c}
+    .rule-card p{margin:10px 0 17px}
+    .rule-card>ol,.rule-card>ul{margin:8px 0 20px;padding-left:25px}
+    .rule-card li{padding-left:4px;margin:10px 0}
+    .rule-card li::marker{color:#087fc3;font-weight:850}
+    .rule-card .penalty{margin:25px 0 0;max-width:none}
+    .rule-card table{margin:24px 0 0}
+    body.dark .rule-card{
+      background:#0b1d33;border:1px solid #205477;box-shadow:none
+    }
+    body.dark .rule-card h3{border-color:#21445f}
+    body.dark .rule-title{color:#fff}
+    body.dark .rule-card li::marker{color:#54dcff}
+    body.dark .rule-card:after{width:5px}
+    @media(max-width:760px){
+      .rule-card{margin:19px 0 26px;padding:21px 17px 23px;border-radius:13px}
+      .rule-card h3{align-items:flex-start;flex-direction:column;gap:8px;margin-bottom:17px}
+      .rule-title{font-size:20px}.rule-card p,.rule-card ol,.rule-card ul{font-size:15.5px}
+    }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -399,7 +436,17 @@
 
     function inlineMd(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img alt="$1" src="$2">').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>')}
     function markdownMd(md){const source=md.replace(/\r/g,'').replace(/^---\s*\n[\s\S]*?\n---\s*(?:\n|$)/,'').replace(/<\/?br\s*\/?>/gi,'');const lines=source.split('\n'),out=[],heads=[];let i=0,list='';const close=()=>{if(list){out.push(`</${list}>`);list=''}};while(i<lines.length){const raw=lines[i],t=raw.trim();if(!t){close();i++;continue}const hm=t.match(/^(#{1,6})\s+(.+)$/);if(hm){close();const level=Math.min(3,hm[1].length),title=cleanMd(hm[2]),id=slugMd(title)||`deel-${i}`;heads.push({level,title,id});out.push(`<h${level} id="${id}">${inlineMd(hm[2])}</h${level}>`);i++;continue}if(/^\|.*\|$/.test(t)&&i+1<lines.length&&/^\|?[\s:|-]+\|?$/.test(lines[i+1].trim())){close();const rows=[];rows.push(t);i+=2;while(i<lines.length&&/^\|.*\|$/.test(lines[i].trim()))rows.push(lines[i++].trim());out.push('<table><tbody>'+rows.map((r,ri)=>'<tr>'+r.replace(/^\||\|$/g,'').split('|').map(c=>`<${ri?'td':'th'}>${inlineMd(c.trim())}</${ri?'td':'th'}>`).join('')+'</tr>').join('')+'</tbody></table>');continue}if(/^---+$|^\*\*\*+$/.test(t)){close();out.push('<hr>');i++;continue}if(/^!!!\s+/.test(t)){close();const label=t.replace(/^!!!\s+\w+\s*/, '').replace(/^"|"$/g,'')||'LET OP';i++;const body=[];while(i<lines.length&&(lines[i].startsWith('    ')||!lines[i].trim())){if(lines[i].trim())body.push(lines[i].trim());i++}out.push(`<aside class="note"><strong>${inlineMd(label)}</strong><p>${inlineMd(body.join(' '))}</p></aside>`);continue}const li=t.match(/^(\d+\.|[-*])\s+(.+)$/);if(li){const want=/\d+\./.test(li[1])?'ol':'ul';if(list!==want){close();list=want;out.push(`<${list}>`)}out.push(`<li>${inlineMd(li[2])}</li>`);i++;continue}if(t.startsWith('>')){close();out.push(`<blockquote>${inlineMd(t.replace(/^>\s?/,''))}</blockquote>`);i++;continue}close();const para=[t];i++;while(i<lines.length&&lines[i].trim()&&!/^(#{1,6})\s|^\|.*\|$|^(\d+\.|[-*])\s+|^!!!\s+|^---+$|^\*\*\*+$/.test(lines[i].trim()))para.push(lines[i++].trim());out.push(`<p>${inlineMd(para.join(' '))}</p>`)}close();return{html:out.join(''),heads}}
-    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);document.querySelector('#content').innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
+    function enhanceArticleLayout(){
+      const root=document.querySelector('#content');
+      [...root.querySelectorAll(':scope > h3')].forEach(heading=>{
+        const card=document.createElement('section');card.className='rule-card';
+        const label=heading.textContent.trim().match(/^((?:Artikel\s+\d+(?:\.\d+)?|A\d+))\s*(?:[-–—]\s*)?(.*)$/i);
+        if(label){heading.textContent='';const tag=document.createElement('span');tag.className='rule-tag';tag.textContent=label[1];const title=document.createElement('span');title.className='rule-title';title.textContent=label[2]||label[1];heading.append(tag,title);card.classList.add('numbered-rule')}
+        heading.parentNode.insertBefore(card,heading);let node=heading.nextSibling;card.appendChild(heading);
+        while(node&&!(node.nodeType===1&&node.matches('h2,h3'))){const next=node.nextSibling;card.appendChild(node);node=next}
+      });
+    }
+    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);document.querySelector('#content').innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
     contentEl.addEventListener('click',e=>{const button=e.target.closest('.category-jump');if(!button)return;const target=document.querySelector(`#categorie-${button.dataset.category}`)||document.querySelector('#a3-strafbepaling');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.remove('category-target-flash');void target.offsetWidth;target.classList.add('category-target-flash')}});
     window.addEventListener('hashchange',renderFull);renderFull();
   </script>
