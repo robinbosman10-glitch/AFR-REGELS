@@ -89,9 +89,9 @@
     * Het is niet toegestaan om na een crash door te rijden op het moment dat je gecrashed bent ben je verplicht 10 seconden stil te staan en niet uit te stappen.
 	* Het is niet toegestaaan op het moment dat je een respawn pass gebruikt terug te keren naar het zelfde scenario waar je dood bent gegaan.
 	* Het is niet toegestaan voor zowel Politie, Kmar & Criminelen om als je gerespawned bent terug aan te koppelen aan het zelfde scenario / shootout.
-    
-| Straf | Categorie 6 |
+    | Straf | Categorie 6 |
 |---|---|
+
 
 ### Artikel 2 - Cheats
 1. Hij/zij die gebruik maakt van software/hulpmiddelen (cheats) van derde partijen om profijt te krijgen in het eigen spel of die van een ander:
@@ -100,10 +100,9 @@
 4. De hoge raad kan na het zien van eventueel beeldmateriaal een stemmingsronde houden om te beslissen of iemand gebruikt heeft gemaakt van software/hulpmiddelen (cheats) van derde partijen.
 5. Combatpacks zijn niet toegestaan, bijvoorbeeld minder bosjes of andere zaken die in het voordeel zijn van de speler.
 6. Het is niet toegestaan om cheats op jou pc te hebben staan in welke form dan ook.
-
-
-| Straf | Categorie 9 |
+    | Straf | Categorie 9 |
 |---|---|
+
 
 ### Artikel 3 - Exploits 
 1. Hij/zij die moedwillig een bug en/of exploit misbruikt om voor zichzelf of anderen profijt te behalen, ongeacht in welke middelen.
@@ -129,9 +128,9 @@
     - ANWB
     - Advocatuur // Justitie
     - Gemeente (Staff)
-
 | Straf | Categorie 2 |
 |---|---|
+
 
 ### Artikel 4 - Verstoring RP
 1. Hij/zij die moedwillig Roleplays van andere spelers verstoord.
@@ -150,13 +149,12 @@
 8. Het overtreden van lid 7 zal resulteren in een straf van minimaal de 1e categorie.
 9. Om een overvalscenario uit te voeren is het toegestaan om via Discord aanvullende documenten en bijlagen te sturen. Dit dient echter altijd ondersteund te worden door middel van een in-game document.
 10. Ten behoeve van het handhaven van dit artikel is een stafflid bevoegd om beelden op te vragen van de persoon die verdacht wordt van het overtreden van lid 7. Indien de speler dit niet kan, dan volgt er een straf volgens lid 3.
-
 | Straf | Categorie 3 |
 |---|---|
 
+
 ### Artikel 6 - Beroepskleding
 1. Er wordt geacht dat de kleding wordt gedragen die is verstrekt door de baas voor het uitvoeren van het beroep.
-
 | Straf | Categorie 2 |
 |---|---|
 
@@ -165,15 +163,15 @@
 2. Genoemd in lid 1 wordt het ook wel Artikel 7 - Copbaiting genoemd.
 3. Hij/zij die officiele/onofficiele gang leden uitlokt met de intensie deze te irriteren en/of bezig te houden zonder enige vorm van rp wordt bestraft met de 1st categorie
 4. Genoemnd in lid 3 word het ook wel Artikel 7.1 - Crime Baiting genoemd.
-
 | Straf | Categorie 3 |
 |---|---|
 
+
 ### Artikel 8 - Spam
 1. Hij/zij die in welk middel dan ook meer dan 3 berichten per 10 seconden of 10 berichten per 60 seconden stuurt.
-
 | Straf | Categorie 1 |
 |---|---|
+
 
 ### Artikel 9.1 - Combat-logging
 1. Hij/zij die tijdens een roleplay scenario, de stad verlaat zonder enige reden op te geven.
@@ -183,8 +181,7 @@
 5. Hij/zij die geschoten heeft zal eerst 10 minuten in de stad moeten blijven voor dat hij de stad mag verlaten.
 6. Hij/zij die tijdens een roleplay scenario uitlogt of dood gaat met een wapen en de stad verlaat zal de 1e keer zijn wapen worden ingenomen.
 7. Hij/zij die tijdens een roleplay scenario uitlogt of dood gaat met een wapen en de stad verlaat zal de helft van de wapens worden ingenomen.
-
-   **| Straf | Categorie 6 |**
+ **| Straf | Categorie 6 |**
 |---|---|Op basis van het aantal waarschuwingen dat je hebt en je gedrag binnen de stad, wordt bepaald hoeveel wapens er per combatlog worden ingenomen, dit zal worden besloten door Hoge Raad+
 
 
@@ -194,7 +191,6 @@
 3. Een wapen dat tijdens een roleplay scenario is geript, mag pas na 10 minuten worden weggelegd.
 4. Na gebruik van een wapen geldt een wachttijd van 10 minuten voordat het wapen gestasht mag worden pas daarna mag het wapen worden weggelegd.
 5. Wapens verkregen via bodyloot mogen pas na 10 minuten worden gestasht door Politie, de Koninklijke Marechaussee en criminelen.
-
 | Straf | Straf | Wapen inleveren |
 |---|---|---|
 | Combat-stashen | Categorie 5 | Ban voor spullen inleveren |
