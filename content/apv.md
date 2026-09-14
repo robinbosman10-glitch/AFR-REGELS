@@ -590,7 +590,6 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 |---|---|
 
 ---------------------
-*"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
 
 ### Artikel 51 - Elite Turf
 
@@ -601,3 +600,5 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 
 | Straf | Categorie 5 |
 |---|---|
+
+*"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
