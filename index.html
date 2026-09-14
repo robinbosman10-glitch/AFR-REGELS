@@ -228,6 +228,43 @@
       .search-results{left:8px;right:8px;top:65px;width:auto}
     }
   </style>
+
+  <style id="afr-performance-power">
+    body.dark{
+      background:
+        linear-gradient(135deg,rgba(4,10,20,.96),rgba(5,18,35,.97)),
+        repeating-linear-gradient(90deg,transparent 0 95px,rgba(38,186,255,.025) 96px),
+        #050b14
+    }
+    .top,.article,.side,.toc{backdrop-filter:none;-webkit-backdrop-filter:none}
+    .top{box-shadow:12px 0 34px rgba(0,0,0,.22)}
+    body.dark .article,body.dark .toc{
+      background:#08172a;border:1px solid #183b5b;
+      box-shadow:0 14px 38px rgba(0,0,0,.25)
+    }
+    .article{border-width:2px;box-shadow:0 14px 38px rgba(12,35,72,.12)}
+    .article:before{height:4px;opacity:1;box-shadow:0 0 10px rgba(22,202,255,.35)}
+    .article h1{font-weight:950;letter-spacing:-2.3px}
+    body.dark .article h1{filter:none;text-shadow:none}
+    .article h2{font-weight:900;border-bottom-width:2px}
+    .article h2:after{height:5px;width:105px;box-shadow:none}
+    body.dark .article h3:before{width:5px;box-shadow:none}
+    .nav a{font-weight:800}
+    .nav a.active{box-shadow:inset 4px 0 #2be1ff,inset 0 0 0 1px rgba(70,208,255,.18)}
+    .category-jump{font-weight:850;border-width:2px}
+    .penalty{border-width:2px;box-shadow:none}
+    .note,.card,.article table{box-shadow:none}
+    .card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(4,62,121,.11)}
+    .article table,.card,.note,.penalty{contain:paint}
+    .logo img{filter:drop-shadow(0 0 8px rgba(39,212,255,.35))}
+    @media(max-width:760px){
+      .article{box-shadow:none}.article h1{font-size:36px;font-weight:950}
+      .article h2{font-weight:900}.card:hover,.category-jump:hover{transform:none}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+    }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -259,7 +296,7 @@
     };
     const slug=()=>location.hash.slice(1)||'home';
     const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-    function render(){const key=pages[slug()]?slug():'home',p=pages[key];document.querySelector('.nav').innerHTML=order.map(k=>`<a href="#${k}" class="${k===key?'active':''}">${pages[k].nav}</a>`).join('')+'<a href="https://amersfoortroleplay.nl" target="_blank" rel="noopener">Main website</a>';document.querySelector('.side').innerHTML=`<a href="#${key}">${p.nav}</a>`;let out=`<h1>${p.title}</h1>`;if(p.intro)out+=`<p>${p.intro}</p>`;if(p.meta)out+=`<section class="meta">${p.meta.map(r=>`<div><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}</section>`;if(p.note)out+=`<aside class="note"><strong>LET OP</strong><p>${p.note}</p></aside>`;out+=p.sections.map((s,i)=>{const group=i===0||!s[1],tag=group?'h2':'h3';return `<${tag} id="s${i}">${s[0]}</${tag}>${s[1]?s[1].startsWith('<')?s[1]:`<p>${s[1]}</p>`:''}`}).join('');document.querySelector('#content').innerHTML=out;document.querySelector('#tocLinks').innerHTML=p.sections.map((s,i)=>`<a class="${i===0||!s[1]?'':'sub'}" href="#s${i}">${s[0]}</a>`).join('');document.title=`${p.nav} — AmersfoortRolePlay`;window.scrollTo(0,0);document.querySelector('.nav').classList.remove('open')}
+    function render(){const key=pages[slug()]?slug():'home',p=pages[key];document.querySelector('.nav').innerHTML=order.map(k=>`<a href="#${k}" class="${k===key?'active':''}">${pages[k].nav}</a>`).join('')+'<a href="https://amersfoortroleplay.nl" target="_blank" rel="noopener">Main website</a>';document.querySelector('.side').innerHTML=`<a href="#${key}">${p.nav}</a>`;let out=`<h1>${p.title}</h1>`;if(p.intro)out+=`<p>${p.intro}</p>`;if(p.meta)out+=`<section class="meta">${p.meta.map(r=>`<div><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}</section>`;if(p.note)out+=`<aside class="note"><strong>LET OP</strong><p>${p.note}</p></aside>`;out+=p.sections.map((s,i)=>{const group=i===0||!s[1],tag=group?'h2':'h3';return `<${tag} id="s${i}">${s[0]}</${tag}>${s[1]?s[1].startsWith('<')?s[1]:`<p>${s[1]}</p>`:''}`}).join('');document.querySelector('#content').innerHTML=out;addMissingPenalties();document.querySelector('#tocLinks').innerHTML=p.sections.map((s,i)=>`<a class="${i===0||!s[1]?'':'sub'}" href="#s${i}">${s[0]}</a>`).join('');document.title=`${p.nav} — AmersfoortRolePlay`;window.scrollTo(0,0);document.querySelector('.nav').classList.remove('open')}
     const categoryPattern=()=>/\b(?:cat(?:e|o)gorie\s*(\d+)|(\d+)(?:ste|de|e|st)?\s+cat(?:e|o)gorie)\b/gi;
     const categoryMarkup=s=>String(s).replace(categoryPattern(),(m,a,b)=>`<button type="button" class="category-jump" data-category="${a||b}">${m}</button>`);
     function prepareCategoryLinks(key){
@@ -271,7 +308,7 @@
       nodes.forEach(node=>{const fragment=document.createDocumentFragment(),rx=categoryPattern();let last=0,match;while((match=rx.exec(node.nodeValue))){fragment.append(document.createTextNode(node.nodeValue.slice(last,match.index)));const button=document.createElement('button');button.type='button';button.className='category-jump';button.dataset.category=match[1]||match[2];button.textContent=match[0];fragment.append(button);last=rx.lastIndex}fragment.append(document.createTextNode(node.nodeValue.slice(last)));node.replaceWith(fragment)});
     }
     const contentEl=document.querySelector('#content');
-    new MutationObserver(()=>{contentEl.querySelectorAll('h3').forEach(h=>{const value=penalties[h.textContent.trim()];let node=h.nextElementSibling,alreadyShown=false;while(node&&!node.matches('h2,h3')){if(node.matches('table,.penalty')&&/(straf|cat(?:e|o)gorie)/i.test(node.textContent)){alreadyShown=true;break}node=node.nextElementSibling}if(value&&!alreadyShown){const box=document.createElement('div');box.className='penalty';box.innerHTML=`<strong>Straf</strong><span>${categoryMarkup(value)}</span>`;h.insertAdjacentElement('afterend',box)}})}).observe(contentEl,{childList:true});
+    function addMissingPenalties(){contentEl.querySelectorAll('h3').forEach(h=>{const value=penalties[h.textContent.trim()];let node=h.nextElementSibling,alreadyShown=false;while(node&&!node.matches('h2,h3')){if(node.matches('table,.penalty')&&/(straf|cat(?:e|o)gorie)/i.test(node.textContent)){alreadyShown=true;break}node=node.nextElementSibling}if(value&&!alreadyShown){const box=document.createElement('div');box.className='penalty';box.innerHTML=`<strong>Straf</strong><span>${categoryMarkup(value)}</span>`;h.insertAdjacentElement('afterend',box)}})}
     window.addEventListener('hashchange',render);document.querySelector('.hamb').addEventListener('click',()=>document.querySelector('.nav').classList.toggle('open'));
     const searchBox=document.querySelector('.searchbox'),searchInput=document.querySelector('#search'),searchResults=document.querySelector('#searchResults');
     const themeButton=document.querySelector('.theme');
@@ -315,7 +352,7 @@
 
     function inlineMd(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img alt="$1" src="$2">').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>')}
     function markdownMd(md){const source=md.replace(/\r/g,'').replace(/^---\s*\n[\s\S]*?\n---\s*(?:\n|$)/,'').replace(/<\/?br\s*\/?>/gi,'');const lines=source.split('\n'),out=[],heads=[];let i=0,list='';const close=()=>{if(list){out.push(`</${list}>`);list=''}};while(i<lines.length){const raw=lines[i],t=raw.trim();if(!t){close();i++;continue}const hm=t.match(/^(#{1,6})\s+(.+)$/);if(hm){close();const level=Math.min(3,hm[1].length),title=cleanMd(hm[2]),id=slugMd(title)||`deel-${i}`;heads.push({level,title,id});out.push(`<h${level} id="${id}">${inlineMd(hm[2])}</h${level}>`);i++;continue}if(/^\|.*\|$/.test(t)&&i+1<lines.length&&/^\|?[\s:|-]+\|?$/.test(lines[i+1].trim())){close();const rows=[];rows.push(t);i+=2;while(i<lines.length&&/^\|.*\|$/.test(lines[i].trim()))rows.push(lines[i++].trim());out.push('<table><tbody>'+rows.map((r,ri)=>'<tr>'+r.replace(/^\||\|$/g,'').split('|').map(c=>`<${ri?'td':'th'}>${inlineMd(c.trim())}</${ri?'td':'th'}>`).join('')+'</tr>').join('')+'</tbody></table>');continue}if(/^---+$|^\*\*\*+$/.test(t)){close();out.push('<hr>');i++;continue}if(/^!!!\s+/.test(t)){close();const label=t.replace(/^!!!\s+\w+\s*/, '').replace(/^"|"$/g,'')||'LET OP';i++;const body=[];while(i<lines.length&&(lines[i].startsWith('    ')||!lines[i].trim())){if(lines[i].trim())body.push(lines[i].trim());i++}out.push(`<aside class="note"><strong>${inlineMd(label)}</strong><p>${inlineMd(body.join(' '))}</p></aside>`);continue}const li=t.match(/^(\d+\.|[-*])\s+(.+)$/);if(li){const want=/\d+\./.test(li[1])?'ol':'ul';if(list!==want){close();list=want;out.push(`<${list}>`)}out.push(`<li>${inlineMd(li[2])}</li>`);i++;continue}if(t.startsWith('>')){close();out.push(`<blockquote>${inlineMd(t.replace(/^>\s?/,''))}</blockquote>`);i++;continue}close();const para=[t];i++;while(i<lines.length&&lines[i].trim()&&!/^(#{1,6})\s|^\|.*\|$|^(\d+\.|[-*])\s+|^!!!\s+|^---+$|^\*\*\*+$/.test(lines[i].trim()))para.push(lines[i++].trim());out.push(`<p>${inlineMd(para.join(' '))}</p>`)}close();return{html:out.join(''),heads}}
-    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);document.querySelector('#content').innerHTML=parsed.html;prepareCategoryLinks(key);const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
+    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);document.querySelector('#content').innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
     contentEl.addEventListener('click',e=>{const button=e.target.closest('.category-jump');if(!button)return;const target=document.querySelector(`#categorie-${button.dataset.category}`)||document.querySelector('#a3-strafbepaling');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.remove('category-target-flash');void target.offsetWidth;target.classList.add('category-target-flash')}});
     window.addEventListener('hashchange',renderFull);renderFull();
   </script>
