@@ -349,6 +349,29 @@
       .rule-title{font-size:20px}.rule-card p,.rule-card ol,.rule-card ul{font-size:15.5px}
     }
   </style>
+
+  <style id="afr-analytics-ui">
+    .share-site{
+      position:fixed;right:22px;bottom:22px;z-index:45;display:flex;align-items:center;gap:9px;
+      min-height:48px;padding:0 18px;border:1px solid #49dcff;border-radius:13px;cursor:pointer;
+      color:#fff;background:linear-gradient(120deg,#057bbd,#294fd0);font:800 14px Inter,Roboto,sans-serif;
+      box-shadow:0 10px 25px rgba(0,88,177,.25)
+    }
+    .share-site:hover{background:linear-gradient(120deg,#0898da,#345feb)}
+    .share-site svg{width:18px;height:18px;fill:currentColor}
+    .consent-banner{
+      position:fixed;z-index:90;left:50%;bottom:18px;transform:translateX(-50%);width:min(720px,calc(100% - 24px));
+      display:none;align-items:center;gap:18px;padding:17px 19px;border:1px solid #2acdf5;border-radius:15px;
+      color:#eef8ff;background:#07182b;box-shadow:0 18px 55px rgba(0,0,0,.45)
+    }
+    .consent-banner.open{display:flex}.consent-copy{flex:1}.consent-copy strong{display:block;margin-bottom:3px}.consent-copy span{font-size:13px;color:#bed0e5}
+    .consent-actions{display:flex;gap:8px}.consent-actions button{padding:9px 13px;border-radius:9px;font-weight:800;cursor:pointer}
+    .consent-decline{border:1px solid #42617d;color:#e7f3ff;background:#10243a}.consent-accept{border:0;color:#041321;background:#52dcff}
+    @media(max-width:760px){
+      .share-site{right:10px;bottom:10px;min-height:44px;padding:0 14px}
+      .consent-banner{bottom:8px;align-items:stretch;flex-direction:column;gap:12px}.consent-actions button{flex:1}
+    }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -449,6 +472,33 @@
     async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);document.querySelector('#content').innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
     contentEl.addEventListener('click',e=>{const button=e.target.closest('.category-jump');if(!button)return;const target=document.querySelector(`#categorie-${button.dataset.category}`)||document.querySelector('#a3-strafbepaling');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.remove('category-target-flash');void target.offsetWidth;target.classList.add('category-target-flash')}});
     window.addEventListener('hashchange',renderFull);renderFull();
+  </script>
+
+  <button type="button" class="share-site" aria-label="Deel deze pagina">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.1c-.8 0-1.5.3-2 .8L8.9 12.7c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.5.5 1.2.8 2 .8a3 3 0 1 0-3-3c0 .2 0 .5.1.7L8 9.8A3 3 0 1 0 8 14.2l7.1 4.2c-.1.2-.1.4-.1.7a3 3 0 1 0 3-3z"/></svg>
+    <span>Pagina delen</span>
+  </button>
+  <section class="consent-banner" aria-label="Analytics toestemming">
+    <div class="consent-copy"><strong>Help de regelsite verbeteren</strong><span>Met jouw toestemming meten we anoniem welke pagina’s worden bezocht en hoe vaak de deelknop wordt gebruikt.</span></div>
+    <div class="consent-actions"><button type="button" class="consent-decline">Weigeren</button><button type="button" class="consent-accept">Toestaan</button></div>
+  </section>
+  <script>
+    (()=>{const measurementId='G-2FRBLR5LQR',consentKey='afr-analytics-consent';let analyticsLoaded=false,lastPage='';
+      const consentBanner=document.querySelector('.consent-banner'),shareButton=document.querySelector('.share-site'),shareLabel=shareButton.querySelector('span');
+      const getConsent=()=>{try{return localStorage.getItem(consentKey)}catch(e){return null}};
+      const setConsent=value=>{try{localStorage.setItem(consentKey,value)}catch(e){}};
+      window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};
+      function loadAnalytics(){if(analyticsLoaded)return;analyticsLoaded=true;const script=document.createElement('script');script.async=true;script.src=`https://www.googletagmanager.com/gtag/js?id=${measurementId}`;document.head.appendChild(script);gtag('js',new Date());gtag('config',measurementId,{send_page_view:false});setTimeout(trackPage,250)}
+      function trackPage(){if(getConsent()!=='granted'||!analyticsLoaded)return;const page=location.pathname+location.search+location.hash;if(page===lastPage)return;lastPage=page;gtag('event','page_view',{page_title:document.title,page_location:location.href,page_path:page})}
+      function trackShare(method){if(getConsent()==='granted'&&analyticsLoaded)gtag('event','share',{method,content_type:'rules_page',item_id:location.hash.slice(1)||'home'})}
+      if(getConsent()==='granted')loadAnalytics();else if(getConsent()!=='denied')consentBanner.classList.add('open');
+      consentBanner.querySelector('.consent-accept').addEventListener('click',()=>{setConsent('granted');consentBanner.classList.remove('open');loadAnalytics()});
+      consentBanner.querySelector('.consent-decline').addEventListener('click',()=>{setConsent('denied');consentBanner.classList.remove('open')});
+      window.addEventListener('hashchange',()=>setTimeout(trackPage,300));
+      shareButton.addEventListener('click',async()=>{const data={title:document.title,text:'Bekijk de regels van AmersfoortRolePlay',url:location.href};let method='copy';
+        try{if(navigator.share){await navigator.share(data);method='web_share'}else if(navigator.clipboard){await navigator.clipboard.writeText(data.url)}else{const area=document.createElement('textarea');area.value=data.url;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}trackShare(method);shareLabel.textContent=method==='web_share'?'Gedeeld!':'Link gekopieerd!';setTimeout(()=>shareLabel.textContent='Pagina delen',1800)}catch(e){}
+      });
+    })();
   </script>
 </body>
 </html>
