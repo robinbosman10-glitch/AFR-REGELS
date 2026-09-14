@@ -597,4 +597,15 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 | Straf | Categorie 5 |
 |---|---|
 
+### Artikel 52 - Test 
+
+1. Test
+2. test
+3. test
+4. test
+
+| Straf | Categorie 9 |
+|---|---|
+
+
 *"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
