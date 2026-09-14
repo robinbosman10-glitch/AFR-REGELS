@@ -390,6 +390,16 @@
     body.dark .article[data-page="wijzigingen"] .rule-card p,body.dark .article[data-page="wijzigingen"] .rule-card li{color:#f4f8ff}
     @media(max-width:760px){.article[data-page="wijzigingen"] .rule-card{padding:18px}.change-title{font-size:17px}}
   </style>
+  <style id="afr-article-links-style">
+    .copy-article-link{margin-left:auto;display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:7px 11px;border:1px solid rgba(0,174,239,.38);border-radius:10px;background:rgba(0,174,239,.08);color:#0079b5;font:800 12px/1 inherit;cursor:pointer;white-space:nowrap;transition:.18s ease}
+    .copy-article-link:hover{transform:translateY(-1px);background:#00aeef;color:#031827;box-shadow:0 7px 18px rgba(0,174,239,.23)}
+    .copy-article-link.copied{background:#55e7a8;border-color:#55e7a8;color:#073a2b}
+    .article-link-target{animation:articleLinkPulse 2.1s ease}
+    @keyframes articleLinkPulse{0%,100%{box-shadow:0 8px 24px rgba(12,48,91,.07)}25%,70%{box-shadow:0 0 0 3px rgba(0,200,244,.7),0 0 34px rgba(0,200,244,.38)}}
+    body.dark .copy-article-link{color:#8cddff;background:rgba(0,174,239,.1);border-color:#1e6d96}
+    body.dark .copy-article-link:hover{color:#031827;background:#62d8ff}
+    @media(max-width:760px){.copy-article-link{margin-left:0}.copy-link-label{font-size:11px}}
+  </style>
 </head>
 <body>
   <header class="top">
@@ -458,7 +468,7 @@
     const sourceCache={};
     const cleanMd=s=>s.replace(/\*\*/g,'').replace(/__/g,'').replace(/`/g,'').trim();
     const slugMd=s=>cleanMd(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    let searchEntriesPromise=null,pendingSearchTarget='';
+    let searchEntriesPromise=null,pendingSearchTarget=new URLSearchParams(location.search).get('artikel')||'';
     async function buildSearchEntries(){
       const entries=[];
       await Promise.all(Object.entries(fullSources).map(async([page,file])=>{
@@ -488,6 +498,15 @@
         while(node&&!(node.nodeType===1&&node.matches('h2,h3'))){const next=node.nextSibling;card.appendChild(node);node=next}
       });
     }
+    function enhanceArticleLinks(key){
+      const root=document.querySelector('#content');
+      root.querySelectorAll('.rule-card > h3[id]').forEach(heading=>{
+        const button=document.createElement('button');button.type='button';button.className='copy-article-link';
+        button.dataset.article=heading.id;button.dataset.page=key;button.setAttribute('aria-label',`Kopieer link naar ${heading.textContent.trim()}`);
+        button.innerHTML='<span aria-hidden="true">↗</span><span class="copy-link-label">Link kopiëren</span>';
+        heading.appendChild(button);
+      });
+    }
     function enhanceChangeLog(){
       const root=document.querySelector('#content');if(root.dataset.page!=='wijzigingen')return;
       root.querySelectorAll('.rule-card h3').forEach(heading=>{
@@ -498,7 +517,15 @@
         heading.append(badge,title);
       });
     }
-    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);const contentRoot=document.querySelector('#content');contentRoot.dataset.page=key;contentRoot.innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();enhanceChangeLog();const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
+    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);const contentRoot=document.querySelector('#content');contentRoot.dataset.page=key;contentRoot.innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();enhanceChangeLog();enhanceArticleLinks(key);const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>{const target=document.getElementById(searchTarget);if(target){target.scrollIntoView({behavior:'smooth',block:'center'});const card=target.closest('.rule-card')||target;card.classList.add('article-link-target');setTimeout(()=>card.classList.remove('article-link-target'),2200)}});document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
+    contentEl.addEventListener('click',async e=>{
+      const copyButton=e.target.closest('.copy-article-link');if(!copyButton)return;
+      const url=new URL(location.href);url.searchParams.set('artikel',copyButton.dataset.article);url.hash=copyButton.dataset.page;
+      const value=url.toString();
+      try{if(navigator.clipboard)await navigator.clipboard.writeText(value);else{const area=document.createElement('textarea');area.value=value;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}
+        const label=copyButton.querySelector('.copy-link-label');label.textContent='Gekopieerd!';copyButton.classList.add('copied');setTimeout(()=>{label.textContent='Link kopiëren';copyButton.classList.remove('copied')},1600);
+      }catch(err){}
+    });
     contentEl.addEventListener('click',e=>{const button=e.target.closest('.category-jump');if(!button)return;const target=document.querySelector(`#categorie-${button.dataset.category}`)||document.querySelector('#a3-strafbepaling');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.remove('category-target-flash');void target.offsetWidth;target.classList.add('category-target-flash')}});
     window.addEventListener('hashchange',renderFull);renderFull();
   </script>

@@ -7,6 +7,9 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ### Nieuw — Wijzigingenoverzicht
 Nieuwe pagina waarop spelers direct kunnen zien wat er aan de regelsite is veranderd.
 
+### Nieuw — Directe artikellinks
+Ieder artikel heeft een knop waarmee je een rechtstreekse link naar precies die regel kunt kopiëren.
+
 ### Nieuw — Slimme zoekfunctie
 Zoeken werkt op namen van artikelen, onderwerpen en tekst uit alle regelpagina's.
 
