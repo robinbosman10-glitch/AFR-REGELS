@@ -373,6 +373,23 @@
       .consent-banner{bottom:8px;align-items:stretch;flex-direction:column;gap:12px}.consent-actions button{flex:1}
     }
   </style>
+  <style id="afr-changelog-style">
+    .article[data-page="wijzigingen"]>h1{margin-bottom:8px}
+    .article[data-page="wijzigingen"]>h1+p{max-width:760px;font-size:18px;color:var(--muted)}
+    .article[data-page="wijzigingen"]>h2{display:flex;align-items:center;gap:14px;margin:38px 0 18px;padding:15px 18px;border:1px solid rgba(0,174,239,.28);border-radius:14px;background:linear-gradient(90deg,rgba(0,174,239,.12),transparent)}
+    .article[data-page="wijzigingen"]>h2:before{content:"";width:11px;height:11px;border-radius:50%;background:#00c8f4;box-shadow:0 0 18px #00c8f4}
+    .article[data-page="wijzigingen"] .rule-card{margin:16px 0;padding:21px 24px;border-color:rgba(0,174,239,.25);box-shadow:0 8px 22px rgba(8,42,76,.08)}
+    .article[data-page="wijzigingen"] .rule-card h3{gap:12px;margin-bottom:14px;padding-bottom:14px!important;font-size:19px!important}
+    .change-kind{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+    .change-nieuw{color:#003e2d;background:#5af0b0}
+    .change-aangepast{color:#072e55;background:#6bd3ff}
+    .change-verwijderd{color:#5c1520;background:#ff9da8}
+    .change-title{font-size:20px;font-weight:900}
+    body.dark .article[data-page="wijzigingen"]>h1+p{color:#c9d8e8}
+    body.dark .article[data-page="wijzigingen"] .rule-card{background:linear-gradient(145deg,#0c2035,#0a1728);border-color:#1f577d}
+    body.dark .article[data-page="wijzigingen"] .rule-card p,body.dark .article[data-page="wijzigingen"] .rule-card li{color:#f4f8ff}
+    @media(max-width:760px){.article[data-page="wijzigingen"] .rule-card{padding:18px}.change-title{font-size:17px}}
+  </style>
 </head>
 <body>
   <header class="top">
@@ -398,7 +415,8 @@
       hulpdiensten:{nav:'Hulpdiensten Regels',title:'Hulpdiensten Regels',note:'Als hulpdienst vertegenwoordig je een officiële organisatie. Professioneel en dienstbaar optreden is daarom verplicht.',sections:[['Algemene houding','Blijf professioneel, communiceer duidelijk en handel proportioneel. Misbruik van dienstmiddelen of bevoegdheden is verboden.'],['Politie','Agenten volgen de commandostructuur, gebruiken passend geweld en bieden verdachten een eerlijk en speelbaar scenario.'],['Ambulance','Medisch personeel blijft neutraal, beoordeelt letsel zorgvuldig en deelt geen vertrouwelijke informatie.'],['Brandweer','Brandweermedewerkers zorgen voor een veilige afzetting en werken samen met andere aanwezige diensten.'],['Uit dienst','Dienstmiddelen, voertuigen, kleding en informatie mogen niet voor privédoeleinden worden gebruikt.']]},
       risico:{nav:'Risicogebieden',title:'Risicogebieden',intro:'In deze gebieden gelden aanvullende risico’s en regels.',sections:[['Wat is een risicogebied?','Een risicogebied is een gemarkeerde locatie waar de kans op criminele confrontaties groter is. Betreden gebeurt op eigen risico, maar alle algemene roleplayregels blijven gelden.'],['Gedragsregels','Schieten zonder aanleiding, terugkeren na overlijden en het opwachten bij de grens van het gebied blijven verboden.'],['Hulpdiensten','Hulpdiensten betreden een actief risicogebied alleen met voldoende ondersteuning en een duidelijk operationeel doel.']]}
     };
-    const order=['home','informatie','apv','wetboek','onderwereld','hulpdiensten','risico'];
+    pages.wijzigingen={nav:'Wijzigingen',title:'Wijzigingen',intro:'Bekijk wat er nieuw, aangepast of verwijderd is op de AFR-regelsite.',sections:[]};
+    const order=['home','informatie','apv','wetboek','onderwereld','hulpdiensten','risico','wijzigingen'];
     const penalties={
       'Artikel 1 - FailRP / Powergaming':'Categorie 6','Artikel 2 - Cheats':'Categorie 9','Artikel 3 - Exploits':'Categorie 2','Artikel 4 - Verstoring RP':'Categorie 1','Artikel 5 - Meta-gaming':'Categorie 3','Artikel 6 - Beroepskleding':'Categorie 2','Artikel 7 - Baiting':'Categorie 3','Artikel 8 - Spam':'Categorie 1','Artikel 9.1 - Combat-logging':'Categorie 6','Artikel 9.2 - Combat-stashen':'Categorie 5 + spullen inleveren','Artikel 10 - GTAV Driving style':'Categorie 2','Artikel 11 - Value of Life':'Categorie 7 + wapeninname','Artikel 12 – Microfoon / stemvervormer':'Categorie 1','Artikel 13 - Nederlandse Taal':'Categorie 1','Artikel 14 - Reporting':'Categorie 2','Artikel 15 - Karakter breken (OOC)':'Categorie 5','Artikel 16 - Alt Characters':'Categorie 9','Artikel 17 - Voertuigen in gebouwen':'Categorie 1','Artikel 18 - Standaard-outfit':'Categorie 1','Artikel 19 - Impersonatie overheidsmedewerker':'Categorie 3','Artikel 20 - GreenZone':'Categorie 2','Artikel 21 - VDM':'Categorie 2 · Massa-VDM: categorie 8','Artikel 22.1 - RDM (Crimineel)':'Categorie 4 + wapeninname · Massa-RDM: categorie 10','Artikel 22.2 - RDM (Politie / KMar)':'Categorie 4 + wapeninname · Massa-RDM: categorie 10','Artikel 23 – Belediging van spelers of staff':'Categorie 4','Artikel 24 - Scammen':'Categorie 4','Artikel 24.1 – Overvallen & Oplichting':'Categorie 4','Artikel 25 - Ontsnappen uit het cellencomplex':'Categorie 1','Artikel 26 - Stemherkenning':'Categorie 2','Artikel 27 - Streamsniping':'Categorie 5','Artikel 28 - Jobhoppen':'Categorie 3','Artikel 29 - Appartementen':'Categorie 3','Artikel 30 - Twitter':'Categorie 3','Artikel 31 - Ambulance':'Categorie 5','Artikel 32 – Algemene regels hulpdiensten':'Lid 1, 2, 4 en 7: categorie 3 · Lid 3: categorie 10','Artikel 33 – Voordoen als staff':'Categorie 5','Artikel 34 – New Life Rule':'Categorie 3','Artikel 35 – Kloten':'Categorie 4','Artikel 36 – Campen':'Categorie 3','Artikel 37 – Schieten vanuit een voertuig':'Categorie 5','Artikel 38 – IRL Trading':'Categorie 10','Artikel 39 - Bonus':'Categorie 1','Artikel 40 - Discord':'Categorie 1 · Beheerder/moderator: categorie 7','Artikel 41 - Ontvoeren overheidsmedewerker':'Categorie 5 + wapeninname','Artikel 42 - ANWB':'Categorie 5 + wapeninname','Artikel 43 - No Fly Zone':'Categorie 5 + wapeninname','Artikel 44 - Refunds':'Categorie 4','Artikel 47 - Helikopters & vliegtuigen':'Categorie 3','Artikel 48 – Toxic gedrag':'Categorie 5','Artikel 49 – Vliegende voertuigen':'Categorie 5','Artikel 50 – Bodylooten':'Categorie 5'
     };
@@ -436,7 +454,7 @@
     .article ol,.article ul{font-size:17px;padding-left:28px;margin:8px 0 22px}.article li{margin:7px 0}.article table{width:100%;border-collapse:collapse;margin:18px 0 34px;font-size:16px}.article th,.article td{border:1px solid var(--line);padding:12px 15px;text-align:left;vertical-align:top}.article th{background:#f5f6fa;font-weight:700}.article hr{border:0;border-top:1px solid var(--line);margin:46px 0}.article blockquote{margin:25px 0;padding:8px 20px;border-left:4px solid var(--accent);background:var(--note)}.article code{background:#f1f2f4;padding:2px 5px;border-radius:3px}.article img{max-width:100%;height:auto}.loading{color:#777;padding:24px 0}
   </style>
   <script>
-    const fullSources={home:'index.md',informatie:'informatie.md',apv:'apv.md',wetboek:'wetboek.md',onderwereld:'onderwereldregels.md',hulpdiensten:'hulpdienstenregels.md',risico:'risicogebieden.md'};
+    const fullSources={home:'index.md',informatie:'informatie.md',apv:'apv.md',wetboek:'wetboek.md',onderwereld:'onderwereldregels.md',hulpdiensten:'hulpdienstenregels.md',risico:'risicogebieden.md',wijzigingen:'wijzigingen.md'};
     const sourceCache={};
     const cleanMd=s=>s.replace(/\*\*/g,'').replace(/__/g,'').replace(/`/g,'').trim();
     const slugMd=s=>cleanMd(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -470,7 +488,17 @@
         while(node&&!(node.nodeType===1&&node.matches('h2,h3'))){const next=node.nextSibling;card.appendChild(node);node=next}
       });
     }
-    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);document.querySelector('#content').innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
+    function enhanceChangeLog(){
+      const root=document.querySelector('#content');if(root.dataset.page!=='wijzigingen')return;
+      root.querySelectorAll('.rule-card h3').forEach(heading=>{
+        const match=heading.textContent.trim().match(/^(Nieuw|Aangepast|Verwijderd)\s*[—–-]\s*(.+)$/i);if(!match)return;
+        const kind=match[1].toLowerCase();heading.textContent='';
+        const badge=document.createElement('span');badge.className='change-kind change-'+kind;badge.textContent=match[1];
+        const title=document.createElement('span');title.className='change-title';title.textContent=match[2];
+        heading.append(badge,title);
+      });
+    }
+    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);const contentRoot=document.querySelector('#content');contentRoot.dataset.page=key;contentRoot.innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();enhanceChangeLog();const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>document.getElementById(searchTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
     contentEl.addEventListener('click',e=>{const button=e.target.closest('.category-jump');if(!button)return;const target=document.querySelector(`#categorie-${button.dataset.category}`)||document.querySelector('#a3-strafbepaling');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.remove('category-target-flash');void target.offsetWidth;target.classList.add('category-target-flash')}});
     window.addEventListener('hashchange',renderFull);renderFull();
   </script>
