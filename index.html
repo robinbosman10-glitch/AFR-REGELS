@@ -408,7 +408,7 @@
   </header>
   <div id="searchResults" class="search-results"></div>
   <main class="layout"><aside class="side"></aside><article class="article" id="content"></article><aside class="toc"><h3>Inhoudsopgave</h3><div id="tocLinks"></div></aside></main>
-  <footer class="footer">© 2026 AmersfoortRolePlay · Alle regels kunnen tussentijds worden aangepast.</footer>
+  <footer class="footer">© 2026 AmersfoortRolePlay · Alle regels kunnen tussentijds worden aangepast. · Live vernieuwen: iedere 5 minuten</footer>
   <script>
     const pages={
       home:{nav:'Home',title:'Welkom bij AmersfoortRolePlay',intro:'Alles wat je nodig hebt om prettig en eerlijk te roleplayen vind je op deze website.',sections:[['Starten op de server','Lees voor je begint de Algemene Plaatselijke Verordening en het wetboek. Zo weet je precies wat er van je wordt verwacht.'],['Belangrijke onderdelen','<div class="cards"><a class="card" href="#apv"><span class="badge">REGELS</span><h3>Algemene Plaatselijke Verordening</h3><p>De algemene server- en roleplayregels.</p></a><a class="card" href="#wetboek"><span class="badge">WETBOEK</span><h3>Wetboek AFR</h3><p>Strafbare feiten en bijbehorende richtlijnen.</p></a><a class="card" href="#onderwereld"><span class="badge">ONDERWERELD</span><h3>Onderwereld Regels</h3><p>Regels voor criminele groeperingen.</p></a><a class="card" href="#hulpdiensten"><span class="badge">DIENSTEN</span><h3>Hulpdiensten Regels</h3><p>Afspraken voor officiële diensten.</p></a></div>'],['Hulp nodig?','Kom je er niet uit? Neem dan contact op met een stafflid via de officiële supportkanalen.']]},
@@ -554,6 +554,20 @@
       shareButton.addEventListener('click',async()=>{const data={title:document.title,text:'Bekijk de regels van AmersfoortRolePlay',url:location.href};let method='copy';
         try{if(navigator.share){await navigator.share(data);method='web_share'}else if(navigator.clipboard){await navigator.clipboard.writeText(data.url)}else{const area=document.createElement('textarea');area.value=data.url;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}trackShare(method);shareLabel.textContent=method==='web_share'?'Gedeeld!':'Link gekopieerd!';setTimeout(()=>shareLabel.textContent='Pagina delen',1800)}catch(e){}
       });
+    })();
+  </script>
+  <script id="afr-auto-refresh">
+    (()=>{const refreshDelay=5*60*1000,stateKey='afr-auto-refresh-position';
+      function restorePosition(){
+        try{const saved=JSON.parse(sessionStorage.getItem(stateKey)||'null');if(!saved||saved.url!==location.href||Date.now()-saved.time>90000)return;
+          sessionStorage.removeItem(stateKey);let attempts=0;const restore=()=>{const loading=document.querySelector('#content .loading');if(loading&&attempts++<30)return setTimeout(restore,100);window.scrollTo({top:saved.y,left:0,behavior:'auto'})};setTimeout(restore,120);
+        }catch(e){}
+      }
+      function refreshSite(){
+        try{sessionStorage.setItem(stateKey,JSON.stringify({url:location.href,y:window.scrollY,time:Date.now()}))}catch(e){}
+        location.reload();
+      }
+      restorePosition();setTimeout(refreshSite,refreshDelay);
     })();
   </script>
 </body>

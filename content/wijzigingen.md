@@ -7,6 +7,9 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ### Nieuw — Wijzigingenoverzicht
 Nieuwe pagina waarop spelers direct kunnen zien wat er aan de regelsite is veranderd.
 
+### Nieuw — Automatisch vernieuwen
+De website haalt iedere vijf minuten automatisch de nieuwste versie op en probeert dezelfde leespositie te behouden.
+
 ### Nieuw — Directe artikellinks
 Ieder artikel heeft een knop waarmee je een rechtstreekse link naar precies die regel kunt kopiëren.
 
