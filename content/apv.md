@@ -512,7 +512,7 @@
 1.Het gebied dat staat aangegeven op de kaart betreft een No-Fly Zone rondom Rode Garage & Eiland.
 2.Binnen dit gebied is het verboden om te vliegen met vliegende voertuigen en is het ook niet toegestaan om shootouts aan te gaan.
 
-<img width="1398" height="1125" alt="image" src="https://github.com/AfrRp/Amersfoort-APV/blob/main/docs/img/yesasdwa.png" />
+<img width="1398" height="1125" alt="image" src="https://media.discordapp.net/attachments/1163196111813628104/1547331124232192121/Screenshot_2026-09-09_213648.png?ex=6aa8f6a8&is=6aa7a528&hm=9ccea91889709834fc09bbbfd325c617257383ebfe7739c2bb6b56030b084c46&=&format=webp&quality=lossless" />
 <img width="466" height="406" alt="image" src="https://github.com/user-attachments/assets/9ce50de5-1b68-4e88-87f4-c0e17ded0c05" />
 
 
