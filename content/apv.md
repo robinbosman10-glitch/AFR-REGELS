@@ -56,7 +56,6 @@
 
 ---------------------
 
-
 ## Overtredingen - Verstoring openbare orde (RP)
 
 ### Artikel 1 - FailRP / Powergaming
@@ -92,7 +91,6 @@
     | Straf | Categorie 6 |
 |---|---|
 
-
 ### Artikel 2 - Cheats
 1. Hij/zij die gebruik maakt van software/hulpmiddelen (cheats) van derde partijen om profijt te krijgen in het eigen spel of die van een ander:
 2. Enkele voorbeelden hiervan zijn onder andere een crosshair, Flawless Widescreen, cheats en stretch. Het is alleen toegestaan om te spelen met de aspect ratio op Auto & 16:10.
@@ -102,7 +100,6 @@
 6. Het is niet toegestaan om cheats op jou pc te hebben staan in welke form dan ook.
     | Straf | Categorie 9 |
 |---|---|
-
 
 ### Artikel 3 - Exploits 
 1. Hij/zij die moedwillig een bug en/of exploit misbruikt om voor zichzelf of anderen profijt te behalen, ongeacht in welke middelen.
@@ -131,7 +128,6 @@
 | Straf | Categorie 2 |
 |---|---|
 
-
 ### Artikel 4 - Verstoring RP
 1. Hij/zij die moedwillig Roleplays van andere spelers verstoord.
 
@@ -152,7 +148,6 @@
 | Straf | Categorie 3 |
 |---|---|
 
-
 ### Artikel 6 - Beroepskleding
 1. Er wordt geacht dat de kleding wordt gedragen die is verstrekt door de baas voor het uitvoeren van het beroep.
 | Straf | Categorie 2 |
@@ -166,12 +161,10 @@
 | Straf | Categorie 3 |
 |---|---|
 
-
 ### Artikel 8 - Spam
 1. Hij/zij die in welk middel dan ook meer dan 3 berichten per 10 seconden of 10 berichten per 60 seconden stuurt.
 | Straf | Categorie 1 |
 |---|---|
-
 
 ### Artikel 9.1 - Combat-logging
 1. Hij/zij die tijdens een roleplay scenario, de stad verlaat zonder enige reden op te geven.
@@ -183,7 +176,6 @@
 7. Hij/zij die tijdens een roleplay scenario uitlogt of dood gaat met een wapen en de stad verlaat zal de helft van de wapens worden ingenomen.
  **| Straf | Categorie 6 |**
 |---|---|Op basis van het aantal waarschuwingen dat je hebt en je gedrag binnen de stad, wordt bepaald hoeveel wapens er per combatlog worden ingenomen, dit zal worden besloten door Hoge Raad+
-
 
 ### Artikel 9.2 - Combat-stashen
 1. Het is niet toegestaan om tijdens een roleplay scenario een wapen binnen 10 minuten na gebruik weg te leggen of te stashten.
@@ -328,14 +320,12 @@
 8. Het is verboden inwoners dood te schieten uit een voertuig / motor.
 9.Je mag alleen mensen doodschieten die in een auto zitten als jij persoon hebt zien schieten en je hem 0x uit het zicht bent verloren. Verlies jij persoon wel uit het zicht, heb jij geen reden meer om dodelijk vuur te openen.
 
-
 ### **Artikel 22.2 - RDM (Politie / Kmar)**
 1. Het is niet toegestaan om Politie gelijk dood te schieten wanneer ze niet zijn uitgestapt met een vuurwapen. (dus niet meteen dood schieten wanneer ze aankoppelen)
       - Dit komt te vervallen als je in een ''shootout'' zit en je meerdere keren op elkaar bent uitgestapt.
 2. Wanneer het mogelijk is om de communicatie/wapenriem af te pakken van een agent is het niet toegestaan om deze te finishen. (of dit nu binnen of buiten de 10mtr is finishen is niet toegestaan)
 3. Het is niet toegestaan om bewust te wachten op een scenario waar niets meer te doen is of bewust in de lucht te schieten om een shootout aan te gaan met politie om deze dan dood te schieten dit wordt gezien als RDM.
 4. Het is niet toegestaan in geen enkele situatie Politie lid / Kmar lid doodt te schieten uit voertuig. (Of ze nou eerder zijn uitgestapt ja of nee.)
-
 
 | Straf |||
 |---|---|---|
@@ -557,7 +547,6 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 1. Extreem toxic gedrag is niet toegestaan binnen de stad. Hieronder vallen onder andere vip-death-messages, montages en vergelijkbare uitingen. 
 2. Dit geldt zowel voor content die buiten de stad wordt geplaatst als voor uitspraken, opmerkingen of provocerend gedrag dat in-game wordt geuit.
 
-
 | Straf | Categorie 5 |
 |---|---|
 
@@ -577,7 +566,6 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 3. Het is **niet** toegestaan voor **DSI**, **RRT**, **Inspecteur + (UNM)**, **Opperwachtmeester + (UNM)** & **Recherche** om wapens af te pakken indien er geen schotenmelding heeft plaatsgevonden op de locatie waar je bent doodgegaan.
 4. Indien je **Inspecteur + Unmarked bevoegd of Opperwachtmeester + Unmarked bevoegd** bent, mag je tijdens **UNM **wapens afnemen.
 
-
 | Straf | Categorie 5 |
 |---|---|
 
@@ -592,9 +580,3 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 
 | Straf | Categorie 5 |
 |---|---|
-
-### test
-
-testwdqfawfawfawf
-
-**Strafcategorie:** Categorie 1
