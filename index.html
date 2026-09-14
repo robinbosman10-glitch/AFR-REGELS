@@ -408,7 +408,7 @@
     .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
-  <link rel="stylesheet" href="./admin.css?v=4">
+  <link rel="stylesheet" href="./admin.css?v=5">
 </head>
 <body>
   <section class="maintenance-banner" data-notice-id="site-update-2026-09-14" role="status" aria-label="Onderhoudsmelding">
@@ -419,9 +419,10 @@
   <header class="top">
     <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="admin-open" aria-label="Beheerdersomgeving openen"><span aria-hidden="true">◆</span><span>Beheer</span></button><nav class="admin-quick-links" aria-label="Beheerfuncties" hidden>
     <button type="button" data-open-admin="overview"><span>01</span> Dashboard</button>
-    <button type="button" data-open-admin="maintenance"><span>02</span> Onderhoud</button>
-    <button type="button" data-open-admin="accounts"><span>03</span> Accounts</button>
-    <button type="button" data-open-admin="audit"><span>04</span> Activiteiten</button>
+    <button type="button" data-open-admin="articles"><span>02</span> Artikelen</button>
+    <button type="button" data-open-admin="maintenance"><span>03</span> Onderhoud</button>
+    <button type="button" data-open-admin="accounts"><span>04</span> Accounts</button>
+    <button type="button" data-open-admin="audit"><span>05</span> Activiteiten</button>
     <button type="button" id="adminQuickLogout" class="admin-quick-logout"><span>↪</span> Uitloggen</button>
   </nav><button type="button" class="theme" title="Donkere modus" aria-label="Donkere modus aanzetten" aria-pressed="false"></button><div class="searchbox"><button type="button" class="searchToggle" aria-label="Zoeken openen"><span class="searchIcon"></span></button><input id="search" placeholder="Zoeken" aria-label="Doorzoek de website"></div><button class="hamb" aria-label="Menu openen">☰</button></div>
     <nav class="nav" aria-label="Hoofdnavigatie"></nav>
@@ -442,6 +443,7 @@
         <aside class="admin-nav">
           <div class="admin-user"><span class="admin-avatar">A</span><div><strong id="adminDisplayName">Beheerder</strong><small id="adminRole">—</small></div></div>
           <button type="button" class="admin-tab active" data-admin-tab="overview">Overzicht</button>
+          <button type="button" class="admin-tab" data-admin-tab="articles">Artikelen</button>
           <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button>
           <button type="button" class="admin-tab" data-admin-tab="accounts">Accounts</button>
           <button type="button" class="admin-tab" data-admin-tab="audit">Activiteiten</button>
@@ -452,6 +454,33 @@
             <span class="admin-kicker">DASHBOARD</span><h3>Welkom terug</h3>
             <div class="admin-stats"><article><span>Accounts</span><strong id="adminAccountCount">—</strong></article><article><span>Actief</span><strong id="adminActiveCount">—</strong></article><article><span>Jouw rol</span><strong id="adminRoleStat">—</strong></article></div>
             <div class="admin-info"><strong>Beveiligde verbinding actief</strong><p>Je sessie en rechten worden gecontroleerd via Supabase.</p></div>
+          </section>
+          <section class="admin-view" data-admin-view="articles">
+            <span class="admin-kicker">PUBLICEREN NAAR GITHUB</span><h3>Artikel toevoegen</h3>
+            <div class="article-publisher">
+              <form id="articlePublishForm" class="admin-form article-publish-form">
+                <div class="publisher-step"><span>1</span><div><strong>Kies de pagina</strong><small>Het artikel wordt onderaan het juiste regelsbestand toegevoegd.</small></div></div>
+                <label>Regelpagina<select id="articlePage" required><option value="">Kies een pagina…</option><option value="informatie">Informatie</option><option value="apv">Algemene Plaatselijke Verordening</option><option value="wetboek">Wetboek AFR</option><option value="onderwereld">Onderwereld Regels</option><option value="hulpdiensten">Hulpdiensten Regels</option><option value="risico">Risicogebieden</option></select></label>
+                <div class="publisher-step"><span>2</span><div><strong>Schrijf het artikel</strong><small>Gebruik een unieke, duidelijke titel en zet iedere regel op een nieuwe regel.</small></div></div>
+                <label>Artikeltitel<input id="articleTitle" maxlength="140" required placeholder="Bijvoorbeeld: Artikel 51 - Nieuwe regel"></label>
+                <label>Artikeltekst<textarea id="articleContent" rows="10" maxlength="50000" required placeholder="Schrijf hier de volledige regeltekst…"></textarea></label>
+                <label>Strafcategorie<select id="articleCategory"><option value="">Geen strafcategorie</option><option>Categorie 1</option><option>Categorie 2</option><option>Categorie 3</option><option>Categorie 4</option><option>Categorie 5</option><option>Categorie 6</option><option>Categorie 7</option><option>Categorie 8</option><option>Categorie 9</option></select></label>
+                <div class="publisher-step"><span>3</span><div><strong>Controleer en publiceer</strong><small>Na publicatie verwerkt GitHub Pages het nieuwe artikel automatisch.</small></div></div>
+                <label class="article-confirm"><input id="articleConfirm" type="checkbox" required><span>Ik heb de titel, tekst, pagina en strafcategorie gecontroleerd.</span></label>
+                <button class="admin-primary article-publish-button" type="submit">Artikel publiceren</button>
+                <p id="articlePublishStatus" class="admin-status" aria-live="polite"></p>
+                <aside class="no-delete-note"><strong>Verwijderen is uitgeschakeld</strong><span>Artikelen verwijderen kan uitsluitend via GitHub.</span></aside>
+              </form>
+              <aside class="article-preview-panel">
+                <div class="preview-head"><span>LIVE VOORBEELD</span><small>Zo komt het artikel ongeveer op de site te staan.</small></div>
+                <article class="article-preview-card">
+                  <h4 id="articlePreviewTitle">Jouw artikeltitel</h4>
+                  <div id="articlePreviewContent">De artikeltekst verschijnt hier terwijl je typt.</div>
+                  <span id="articlePreviewCategory" class="preview-category" hidden></span>
+                </article>
+                <div class="recent-published"><h4>Recent gepubliceerd</h4><div id="recentPublishedList">Nog geen artikelen gepubliceerd.</div></div>
+              </aside>
+            </div>
           </section>
           <section class="admin-view" data-admin-view="maintenance">
             <span class="admin-kicker">SITEBERICHT</span><h3>Onderhoudsmelding</h3>
@@ -654,6 +683,6 @@
       restorePosition();setTimeout(refreshSite,refreshDelay);
     })();
   </script>
-  <script src="./admin.js?v=4"></script>
+  <script src="./admin.js?v=5"></script>
 </body>
 </html>

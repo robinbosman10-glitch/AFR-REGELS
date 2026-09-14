@@ -7,6 +7,9 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ### Nieuw — Wijzigingenoverzicht
 Nieuwe pagina waarop spelers direct kunnen zien wat er aan de regelsite is veranderd.
 
+### Nieuw — Artikelen publiceren via Beheer
+Beheerders met artikelrechten kunnen via een duidelijk formulier nieuwe artikelen naar de juiste GitHub-regelpagina publiceren. Het formulier heeft een live voorbeeld en bevat bewust geen verwijderfunctie.
+
 ### Nieuw — Beheerdersomgeving
 Er is een beveiligd inlogscherm en beheerdersdashboard toegevoegd. De eigenaar kan de onderhoudsmelding beheren en krijgt toegang tot accounts, rechten en activiteiten.
 
