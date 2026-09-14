@@ -409,6 +409,30 @@
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
   <link rel="stylesheet" href="./admin.css?v=6">
+
+  <style id="afr-server-status-style">
+    .server-status-card{
+      position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;
+      margin:-22px 0 48px;padding:25px 27px;border:1px solid rgba(26,167,230,.34);border-radius:19px;
+      background:linear-gradient(135deg,rgba(7,36,76,.98),rgba(10,75,124,.96));
+      color:#fff;box-shadow:0 18px 42px rgba(4,42,89,.2)
+    }
+    .server-status-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 15%,rgba(70,220,255,.2),transparent 16rem);pointer-events:none}
+    .server-status-main,.server-status-actions{position:relative;z-index:1}.server-status-top{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+    .server-status-eyebrow{font-size:11px;font-weight:900;letter-spacing:.17em;color:#76dcff}
+    .server-status-dot{width:10px;height:10px;border-radius:50%;background:#87a1b8;box-shadow:0 0 0 5px rgba(135,161,184,.12)}
+    .server-status-card.is-online .server-status-dot{background:#36e589;box-shadow:0 0 0 5px rgba(54,229,137,.13),0 0 17px #36e589}
+    .server-status-card.is-offline .server-status-dot{background:#ff6479;box-shadow:0 0 0 5px rgba(255,100,121,.13)}
+    .server-status-state{font-size:13px;font-weight:800;color:#dcecff}.server-status-count{display:flex;align-items:baseline;gap:8px}
+    .server-status-number{font-size:38px;line-height:1;font-weight:900;letter-spacing:-1.5px}.server-status-capacity{font-size:16px;font-weight:750;color:#bdd2e8}
+    .server-status-label{margin-top:7px;font-size:14px;color:#bcd0e5}.server-status-actions{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:10px}
+    .server-join-button{display:inline-flex;align-items:center;justify-content:center;min-width:172px;padding:12px 18px;border-radius:11px;background:linear-gradient(100deg,#16c6ed,#4477ff);color:#031426!important;text-decoration:none!important;font-size:14px;font-weight:900;box-shadow:0 10px 25px rgba(11,173,232,.25);transition:.18s ease}
+    .server-join-button:hover{transform:translateY(-2px);filter:brightness(1.08)}.server-status-updated{font-size:11px;color:#92aac2}
+    .server-status-card.is-loading .server-status-number{animation:serverStatusPulse 1.2s ease-in-out infinite}
+    @keyframes serverStatusPulse{50%{opacity:.42}}
+    @media(max-width:620px){.server-status-card{grid-template-columns:1fr;margin:-12px 0 35px;padding:21px}.server-status-actions{align-items:stretch}.server-join-button{width:100%}.server-status-updated{text-align:center}}
+  </style>
+
 </head>
 <body>
   <section class="maintenance-banner" data-notice-id="site-update-2026-09-14" role="status" aria-label="Onderhoudsmelding">
@@ -691,6 +715,113 @@
       restorePosition();setTimeout(refreshSite,refreshDelay);
     })();
   </script>
+
+  <script id="afr-server-status-script">
+    (() => {
+      const statusUrl = "https://pbzukefsrtmymowlsdrp.supabase.co/functions/v1/fivem-status";
+      const publicKey = "sb_publishable_fIWTEv4S7qnetQuMbyxQjA_3KffY1lf";
+      const joinUrl = "https://cfx.re/join/rlvgdj";
+      const pollDelay = 60000;
+      let timer = 0;
+      let controller = null;
+
+      function createCard() {
+        const card = document.createElement("section");
+        card.className = "server-status-card is-loading";
+        card.setAttribute("aria-live", "polite");
+        card.innerHTML =
+          '<div class="server-status-main">' +
+            '<div class="server-status-top"><span class="server-status-dot"></span><span class="server-status-eyebrow">AFR LIVE SERVER</span><span class="server-status-state">Controleren...</span></div>' +
+            '<div class="server-status-count"><strong class="server-status-number">--</strong><span class="server-status-capacity">spelers</span></div>' +
+            '<div class="server-status-label">Live spelersaantal wordt opgehaald</div>' +
+          '</div>' +
+          '<div class="server-status-actions">' +
+            '<a class="server-join-button" href="' + joinUrl + '" target="_blank" rel="noopener">Direct verbinden →</a>' +
+            '<span class="server-status-updated">Elke minuut automatisch vernieuwd</span>' +
+          '</div>';
+        return card;
+      }
+
+      function currentCard() {
+        return document.querySelector("#content .server-status-card");
+      }
+
+      function mountCard() {
+        const root = document.querySelector("#content");
+        if (!root || root.dataset.page !== "home") {
+          clearTimeout(timer);
+          if (controller) controller.abort();
+          return;
+        }
+        if (currentCard()) return;
+        const card = createCard();
+        const title = root.querySelector("h1");
+        if (title) title.insertAdjacentElement("afterend", card);
+        else root.prepend(card);
+        refreshStatus();
+      }
+
+      function showOnline(card, data) {
+        const players = Number.isFinite(Number(data.players)) ? Number(data.players) : 0;
+        const maxPlayers = Number.isFinite(Number(data.maxPlayers)) ? Number(data.maxPlayers) : 0;
+        card.className = "server-status-card is-online";
+        card.querySelector(".server-status-state").textContent = "Server online";
+        card.querySelector(".server-status-number").textContent = String(players);
+        card.querySelector(".server-status-capacity").textContent = maxPlayers > 0 ? "/ " + maxPlayers + " spelers" : "spelers ingame";
+        card.querySelector(".server-status-label").textContent = data.hostname || "AmersfoortRolePlay";
+      }
+
+      function showOffline(card, unavailable) {
+        card.className = "server-status-card is-offline";
+        card.querySelector(".server-status-state").textContent = unavailable ? "Status niet bereikbaar" : "Server offline";
+        card.querySelector(".server-status-number").textContent = "0";
+        card.querySelector(".server-status-capacity").textContent = "spelers ingame";
+        card.querySelector(".server-status-label").textContent = unavailable ? "De live status kon niet worden geladen" : "De server is momenteel niet bereikbaar";
+      }
+
+      async function refreshStatus() {
+        clearTimeout(timer);
+        const card = currentCard();
+        if (!card || document.querySelector("#content")?.dataset.page !== "home") return;
+        if (controller) controller.abort();
+        controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        try {
+          const response = await fetch(statusUrl + "?t=" + Date.now(), {
+            headers: { apikey: publicKey },
+            cache: "no-store",
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error("Status request failed");
+          const data = await response.json();
+          if (data.online) showOnline(card, data);
+          else showOffline(card, false);
+          const stamp = new Date(data.updatedAt || Date.now()).toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" });
+          card.querySelector(".server-status-updated").textContent = "Bijgewerkt om " + stamp + " · elke minuut";
+        } catch (_error) {
+          if (currentCard()) showOffline(card, true);
+        } finally {
+          clearTimeout(timeout);
+          timer = setTimeout(refreshStatus, pollDelay);
+        }
+      }
+
+      const root = document.querySelector("#content");
+      if (root) {
+        let mountTimer = 0;
+        new MutationObserver(() => {
+          clearTimeout(mountTimer);
+          mountTimer = setTimeout(mountCard, 0);
+        }).observe(root, { childList: true });
+      }
+      window.addEventListener("hashchange", () => setTimeout(mountCard, 50));
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && currentCard()) refreshStatus();
+      });
+      mountCard();
+    })();
+  </script>
+
   <script src="./admin.js?v=6"></script>
 </body>
 </html>
