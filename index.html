@@ -55,7 +55,7 @@
       root.querySelectorAll('table td').forEach(cell=>{if(!cell.querySelector('.category-jump')&&/Categorie\s+(10|[1-9])\b/i.test(cell.textContent))cell.innerHTML=categoryMarkup(cell.innerHTML)});
     }
     const contentEl=document.querySelector('#content');
-    new MutationObserver(()=>{contentEl.querySelectorAll('h3').forEach(h=>{const value=penalties[h.textContent.trim()];if(value&&!h.nextElementSibling?.classList.contains('penalty')){const box=document.createElement('div');box.className='penalty';box.innerHTML=`<strong>Straf</strong><span>${categoryMarkup(value)}</span>`;h.insertAdjacentElement('afterend',box)}})}).observe(contentEl,{childList:true});
+    new MutationObserver(()=>{contentEl.querySelectorAll('h3').forEach(h=>{const value=penalties[h.textContent.trim()];let node=h.nextElementSibling,alreadyShown=false;while(node&&!node.matches('h2,h3')){if(node.matches('table,.penalty')&&/(straf|cat(?:e|o)gorie)/i.test(node.textContent)){alreadyShown=true;break}node=node.nextElementSibling}if(value&&!alreadyShown){const box=document.createElement('div');box.className='penalty';box.innerHTML=`<strong>Straf</strong><span>${categoryMarkup(value)}</span>`;h.insertAdjacentElement('afterend',box)}})}).observe(contentEl,{childList:true});
     window.addEventListener('hashchange',render);document.querySelector('.hamb').addEventListener('click',()=>document.querySelector('.nav').classList.toggle('open'));
     const searchBox=document.querySelector('.searchbox'),searchInput=document.querySelector('#search'),searchResults=document.querySelector('#searchResults');
     document.querySelector('.searchToggle').addEventListener('click',()=>{if(matchMedia('(max-width:760px)').matches)searchBox.classList.add('open');searchInput.focus()});
