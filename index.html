@@ -265,6 +265,53 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
+
+  <style id="afr-dark-contrast">
+    body.dark{--text:#f4f8ff;--muted:#c1cce0;--link:#53d8ff}
+    body.dark .article,
+    body.dark .article p,
+    body.dark .article li,
+    body.dark .article td,
+    body.dark .article th,
+    body.dark .article ol,
+    body.dark .article ul,
+    body.dark .article blockquote,
+    body.dark .article strong,
+    body.dark .article em{color:#f4f8ff}
+    body.dark .article h2,body.dark .article h3,body.dark .article h4{color:#fff}
+    body.dark .toc h3{color:#bfcce1}
+    body.dark .toc a{color:#eef6ff;border-left-color:#31516d}
+    body.dark .toc a.sub{color:#d9e7f7}
+    body.dark .toc a:hover{color:#57ddff;background:#102c48;border-left-color:#32d8ff}
+    body.dark .side a{color:#65dcff;background:#102b47}
+    body.dark .meta span{color:#f4f8ff}
+    body.dark .article code{color:#fff;background:#17304e}
+    body.dark .search-results,body.dark .search-results a{color:#f5f9ff}
+    body.dark .search-results small{color:#c4cee0}
+    body.dark .penalty span{color:#67ddff}
+    .article{border-width:3px}
+    body.dark .article{border-color:#1d668e;box-shadow:0 0 0 1px rgba(35,218,255,.1),0 18px 42px rgba(0,0,0,.3)}
+    .toc{border-width:2px}
+    body.dark .toc{border-color:#194e70;box-shadow:inset 0 0 0 1px rgba(48,210,255,.05)}
+    @media(min-width:981px){
+      .top{width:304px;border-right:2px solid #17678d}
+      body{padding-left:304px}
+      .layout{grid-template-columns:minmax(0,1fr) 320px}
+      .toc a{font-size:15px;font-weight:650;line-height:1.4;padding:9px 11px}
+      .toc a.sub{padding-left:20px}
+      .article{padding:clamp(38px,4vw,66px)}
+      .article h1{font-size:clamp(48px,5vw,68px)}
+      .nav a{font-size:15px;padding:12px 13px}
+    }
+    .article h3{font-weight:900}
+    .penalty strong{font-weight:900;letter-spacing:.02em}
+    .category-jump{font-weight:900;padding:4px 12px}
+    @media(max-width:760px){
+      .article{border-width:2px}
+      body.dark .article{box-shadow:none}
+      body.dark .toc a{color:#f4f8ff}
+    }
+  </style>
 </head>
 <body>
   <header class="top">
