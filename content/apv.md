@@ -591,3 +591,13 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 
 ---------------------
 *"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
+
+### Artikel 51 - Elite Turf
+
+1. Vanaf heden is het verboden om een turf (elite turf of normale turf) te pushen met een bulletproof auto!
+2. Geen enkele bulletproof auto is meer toegestaan. het moet mogelijk zijn om instant door het raam heen te schieten. een voertuig waarvan de achterkant dicht is is wel toegestaan.
+3. Turf Revive Spawn VIP, Het is niet nodig om wachtkamer te komen voor een revive omdat er een bug in de VIP zit.
+Er worden geen revives gegeven totdat de VIP weer werkt.
+
+| Straf | Categorie 5 |
+|---|---|
