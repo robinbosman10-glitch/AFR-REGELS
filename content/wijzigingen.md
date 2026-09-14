@@ -28,6 +28,9 @@ Bezoekers kunnen de huidige regelpagina via de deelknop delen of de link kopiër
 ### Nieuw — Bezoekersmeting
 Google Analytics is toegevoegd met een duidelijke toestemmingsmelding.
 
+### Aangepast — Beheerfuncties in de site
+Na het inloggen blijft de beheerder op de regelsite. Onder de knop Beheer verschijnen directe opties voor het dashboard, onderhoud, accounts en activiteiten.
+
 ### Aangepast — Beheerdersomgeving duidelijker
 Het inlogscherm en dashboard passen nu volledig binnen het scherm. Tekst, knoppen en formulieren zijn groter en het dashboard kan netjes scrollen op desktop en mobiel.
 

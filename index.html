@@ -408,7 +408,7 @@
     .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
-  <link rel="stylesheet" href="./admin.css?v=2">
+  <link rel="stylesheet" href="./admin.css?v=3">
 </head>
 <body>
   <section class="maintenance-banner" data-notice-id="site-update-2026-09-14" role="status" aria-label="Onderhoudsmelding">
@@ -417,7 +417,12 @@
     <button type="button" class="maintenance-close" aria-label="Onderhoudsmelding sluiten">×</button>
   </section>
   <header class="top">
-    <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="admin-open" aria-label="Beheerdersomgeving openen"><span aria-hidden="true">◆</span><span>Beheer</span></button><button type="button" class="theme" title="Donkere modus" aria-label="Donkere modus aanzetten" aria-pressed="false"></button><div class="searchbox"><button type="button" class="searchToggle" aria-label="Zoeken openen"><span class="searchIcon"></span></button><input id="search" placeholder="Zoeken" aria-label="Doorzoek de website"></div><button class="hamb" aria-label="Menu openen">☰</button></div>
+    <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="admin-open" aria-label="Beheerdersomgeving openen"><span aria-hidden="true">◆</span><span>Beheer</span></button><nav class="admin-quick-links" aria-label="Beheerfuncties" hidden>
+    <button type="button" data-open-admin="overview"><span>01</span> Dashboard</button>
+    <button type="button" data-open-admin="maintenance"><span>02</span> Onderhoud</button>
+    <button type="button" data-open-admin="accounts"><span>03</span> Accounts</button>
+    <button type="button" data-open-admin="audit"><span>04</span> Activiteiten</button>
+  </nav><button type="button" class="theme" title="Donkere modus" aria-label="Donkere modus aanzetten" aria-pressed="false"></button><div class="searchbox"><button type="button" class="searchToggle" aria-label="Zoeken openen"><span class="searchIcon"></span></button><input id="search" placeholder="Zoeken" aria-label="Doorzoek de website"></div><button class="hamb" aria-label="Menu openen">☰</button></div>
     <nav class="nav" aria-label="Hoofdnavigatie"></nav>
   </header>
   <section id="adminOverlay" class="admin-overlay" aria-hidden="true">
@@ -648,6 +653,6 @@
       restorePosition();setTimeout(refreshSite,refreshDelay);
     })();
   </script>
-  <script src="./admin.js?v=1"></script>
+  <script src="./admin.js?v=3"></script>
 </body>
 </html>
