@@ -593,3 +593,8 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 | Straf | Categorie 5 |
 |---|---|
 
+### test
+
+testwdqfawfawfawf
+
+**Strafcategorie:** Categorie 1
