@@ -54,3 +54,8 @@
   .admin-quick-links button{min-height:42px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:#e7f5ff;text-align:left;font-weight:800}
   .admin-quick-links button:hover{background:#103a58}
 }
+
+/* Quick logout v4 */
+.admin-quick-links .admin-quick-logout{margin-top:3px;border-top:1px solid rgba(255,118,132,.2);color:#ff9aa6}
+.admin-quick-links .admin-quick-logout span{color:#ff7181}
+.admin-quick-links .admin-quick-logout:hover{color:#fff;background:rgba(196,43,64,.24)}
