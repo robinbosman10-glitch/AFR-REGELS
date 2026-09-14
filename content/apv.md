@@ -512,10 +512,6 @@
 1.Het gebied dat staat aangegeven op de kaart betreft een No-Fly Zone rondom Rode Garage & Eiland.
 2.Binnen dit gebied is het verboden om te vliegen met vliegende voertuigen en is het ook niet toegestaan om shootouts aan te gaan.
 
-<img width="1398" height="1125" alt="image" src="https://media.discordapp.net/attachments/1163196111813628104/1547331124232192121/Screenshot_2026-09-09_213648.png?ex=6aa8f6a8&is=6aa7a528&hm=9ccea91889709834fc09bbbfd325c617257383ebfe7739c2bb6b56030b084c46&=&format=webp&quality=lossless" />
-<img width="466" height="406" alt="image" src="https://github.com/user-attachments/assets/9ce50de5-1b68-4e88-87f4-c0e17ded0c05" />
-
-
 | Straf | Categorie 5 + Wapeninname |
 |---|---|
 
@@ -597,15 +593,3 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 | Straf | Categorie 5 |
 |---|---|
 
-*"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
-
-### Artikel 53 - Voertuig Impound
-
-- Vanaf nu als je voertuig niet juist geparkeerd is, zal de staff uw voertuig gaan impounden. 
-- De prijs zal 500k zijn.
-- Een refund aanmaken voor dit, zal ten alletijden afgekeurd worden.
-- Dit zal onder de catagorie vallen van: **Midden op de weg je auto achterlaten, **
-
-- Je voertuig zal niet geimpound worden als je in de buurt bent, dit geldt alleen als de auto al langer dan 5 minuten op 1 plek staat.
-
-**Strafcategorie:** Categorie 4
