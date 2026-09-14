@@ -408,7 +408,7 @@
     .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
-  <link rel="stylesheet" href="./admin.css?v=5">
+  <link rel="stylesheet" href="./admin.css?v=6">
 </head>
 <body>
   <section class="maintenance-banner" data-notice-id="site-update-2026-09-14" role="status" aria-label="Onderhoudsmelding">
@@ -465,11 +465,14 @@
                 <label>Artikeltitel<input id="articleTitle" maxlength="140" required placeholder="Bijvoorbeeld: Artikel 51 - Nieuwe regel"></label>
                 <label>Artikeltekst<textarea id="articleContent" rows="10" maxlength="50000" required placeholder="Schrijf hier de volledige regeltekst…"></textarea></label>
                 <label>Strafcategorie<select id="articleCategory"><option value="">Geen strafcategorie</option><option>Categorie 1</option><option>Categorie 2</option><option>Categorie 3</option><option>Categorie 4</option><option>Categorie 5</option><option>Categorie 6</option><option>Categorie 7</option><option>Categorie 8</option><option>Categorie 9</option></select></label>
-                <div class="publisher-step"><span>3</span><div><strong>Controleer en publiceer</strong><small>Na publicatie verwerkt GitHub Pages het nieuwe artikel automatisch.</small></div></div>
+                <div class="publisher-step"><span>3</span><div><strong>Voeg bestanden toe</strong><small>Maximaal 5 bestanden, 4 MB per bestand en 10 MB totaal.</small></div></div>
+                <label class="article-file-picker"><span>Afbeeldingen of bestanden</span><input id="articleFiles" type="file" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf,.txt,.docx,image/png,image/jpeg,image/webp,image/gif,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><strong>Bestanden kiezen</strong><small>PNG, JPG, WEBP, GIF, PDF, TXT of DOCX</small></label>
+                <div id="articleFilesList" class="article-files-list"><span>Nog geen bestanden gekozen.</span></div>
+                <div class="publisher-step"><span>4</span><div><strong>Controleer en publiceer</strong><small>Na publicatie verwerkt GitHub Pages het nieuwe artikel automatisch.</small></div></div>
                 <label class="article-confirm"><input id="articleConfirm" type="checkbox" required><span>Ik heb de titel, tekst, pagina en strafcategorie gecontroleerd.</span></label>
                 <button class="admin-primary article-publish-button" type="submit">Artikel publiceren</button>
                 <p id="articlePublishStatus" class="admin-status" aria-live="polite"></p>
-                <aside class="no-delete-note"><strong>Verwijderen is uitgeschakeld</strong><span>Artikelen verwijderen kan uitsluitend via GitHub.</span></aside>
+                <aside class="no-delete-note"><strong>Beveiligd verwijderen</strong><span>Alleen de Owner ziet de verwijderknop. Andere beheerders kunnen niet verwijderen.</span></aside>
               </form>
               <aside class="article-preview-panel">
                 <div class="preview-head"><span>LIVE VOORBEELD</span><small>Zo komt het artikel ongeveer op de site te staan.</small></div>
@@ -481,6 +484,11 @@
                 <div class="recent-published"><h4>Recent gepubliceerd</h4><div id="recentPublishedList">Nog geen artikelen gepubliceerd.</div></div>
               </aside>
             </div>
+            <section class="article-library">
+              <div class="article-library-head"><div><span class="admin-kicker">ARTIKELBEHEER</span><h4>Alle artikelen</h4><p>Zoek bestaande artikelen. Alleen jouw Owner-account kan verwijderen.</p></div><label>Zoeken<input id="managedArticleSearch" type="search" placeholder="Zoek op titel of pagina…"></label></div>
+              <p id="managedArticlesStatus" class="admin-status" aria-live="polite"></p>
+              <div id="managedArticlesList" class="managed-articles-list"></div>
+            </section>
           </section>
           <section class="admin-view" data-admin-view="maintenance">
             <span class="admin-kicker">SITEBERICHT</span><h3>Onderhoudsmelding</h3>
@@ -683,6 +691,6 @@
       restorePosition();setTimeout(refreshSite,refreshDelay);
     })();
   </script>
-  <script src="./admin.js?v=5"></script>
+  <script src="./admin.js?v=6"></script>
 </body>
 </html>

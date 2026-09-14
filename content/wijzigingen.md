@@ -7,6 +7,9 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ### Nieuw — Wijzigingenoverzicht
 Nieuwe pagina waarop spelers direct kunnen zien wat er aan de regelsite is veranderd.
 
+### Nieuw — Bestanden bij artikelen
+Beheerders kunnen afbeeldingen, pdf's, tekstbestanden en Word-documenten aan nieuwe artikelen toevoegen. Alleen de Owner kan artikelen vanuit het dashboard verwijderen; andere rollen zien geen verwijderknop.
+
 ### Nieuw — Artikelen publiceren via Beheer
 Beheerders met artikelrechten kunnen via een duidelijk formulier nieuwe artikelen naar de juiste GitHub-regelpagina publiceren. Het formulier heeft een live voorbeeld en bevat bewust geen verwijderfunctie.
 
