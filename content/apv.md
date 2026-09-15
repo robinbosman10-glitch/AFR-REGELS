@@ -580,3 +580,10 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 
 | Straf | Categorie 5 |
 |---|---|
+
+### Artikel 52 - Douane Controle 
+
+1. Vanaf heden ben je verplicht mee te werken aan een douane controle als je daar rijd.
+
+| Straf | Categorie 4 |
+|---|---|
