@@ -398,6 +398,15 @@
 
 ### Artikel 30 - Twitter
 1. Twitter is geen illegale platform, elke illegale activiteit wordt op gehandhaafd.
+2. Let op: we gaan strenger handhaven op gedrag dat naar OOC leidt.
+3. Het is NIET toegestaan om via Twitter of andere manieren:
+4. Staff te vragen om scrapboost
+5. Te vragen om extra’s / coins / playergoals
+6. Of andere dingen die buiten RP om gaan
+7. Dit soort gedrag verpest de roleplay en gaan we dus harder aanpakken.
+
+8. Geen uitzonderingen.
+9. Hou het netjes en speel alles via roleplay zoals het hoort.
 
 | Straf | Categorie 3 |
 |---|---|
