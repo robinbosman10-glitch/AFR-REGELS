@@ -478,4 +478,14 @@ Dit geldt voor alle locaties!
 | 2e Rippen zonder reden. | Categorie 7 | 
 | 3e Rippen zonder reden. | Categorie 8 |
 
+### Artikel 149.OW - Speciale Voertuigen
+
+Bij Special Loot Voertuig mag je mensen niet instant finishen uit een voertuig!~
+
+*Dit mag alleen op turf locaties*
+
+| Straf | Dood schieten zonder reden. |
+|---|---|---|
+| 1e dood schieten zonder reden. | Categorie 4 |
+
 *"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
