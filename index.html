@@ -8,6 +8,22 @@
   <link rel="icon" type="image/png" href="./logo.png?v=afr2">
   <link rel="apple-touch-icon" href="./logo.png?v=afr2">
   <style>
+    /* Snelle cinematic overgang tussen regelcategorieën */
+    .afr-page-transition{position:fixed;inset:0;z-index:99990;display:grid;place-items:center;overflow:hidden;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .16s ease,visibility .16s ease}
+    .afr-page-transition::before,.afr-page-transition::after{content:"";position:absolute;inset:-8%;background:#010713;transform:skewX(-8deg) translateX(-112%);transition:transform .34s cubic-bezier(.7,0,.25,1)}
+    .afr-page-transition::after{background:linear-gradient(135deg,#03111f,#061c33 54%,#020711);transform:skewX(-8deg) translateX(112%)}
+    .afr-page-transition.is-active{visibility:visible;opacity:1}
+    .afr-page-transition.is-active::before,.afr-page-transition.is-active::after{transform:skewX(-8deg) translateX(-49.6%)}
+    .afr-page-transition.is-active::after{transform:skewX(-8deg) translateX(49.6%)}
+    .afr-page-transition.is-leaving{opacity:0;transition-duration:.32s}
+    .afr-page-transition-core{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:scale(.82);transition:opacity .2s ease .2s,transform .34s cubic-bezier(.2,.85,.3,1.2) .15s}
+    .afr-page-transition.is-active .afr-page-transition-core{opacity:1;transform:scale(1)}
+    .afr-page-transition-logo{width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 0 10px #25ddff) drop-shadow(0 0 28px #167dff)}
+    .afr-page-transition-line{width:180px;height:2px;margin:15px 0 12px;background:linear-gradient(90deg,transparent,#26dcff,#3979ff,transparent);box-shadow:0 0 15px #10cfff}
+    .afr-page-transition-label{color:#fff;font-size:clamp(19px,3vw,31px);font-weight:900;letter-spacing:.08em;text-transform:uppercase;text-shadow:0 0 18px #238cff}
+    .afr-page-transition-kicker{margin-bottom:3px;color:#6ee7ff;font-size:10px;font-weight:800;letter-spacing:.3em;text-transform:uppercase}
+    @media (prefers-reduced-motion:reduce){.afr-page-transition,.afr-page-transition::before,.afr-page-transition::after,.afr-page-transition-core{transition-duration:.01ms!important;transition-delay:0s!important}}
+
     /* AFR cinematic intro */
     body.intro-lock{overflow:hidden}
     .afr-intro{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;overflow:hidden;background:#01040a;color:#fff;isolation:isolate;opacity:1;visibility:visible;transition:opacity .7s ease,visibility .7s ease}
@@ -462,6 +478,16 @@
 
 </head>
 <body class="intro-lock">
+  
+  <div id="afrPageTransition" class="afr-page-transition" aria-hidden="true">
+    <div class="afr-page-transition-core">
+      <img class="afr-page-transition-logo" src="./logo.png" alt="">
+      <div class="afr-page-transition-line"></div>
+      <span class="afr-page-transition-kicker">AFR Regelgeving</span>
+      <strong class="afr-page-transition-label">Categorie laden</strong>
+    </div>
+  </div>
+
   <div id="afrIntro" class="afr-intro" role="dialog" aria-label="Welkom bij de APV van Amersfoort Roleplay">
     <div class="afr-intro-content">
       <div class="afr-intro-logo-wrap"><img class="afr-intro-logo" src="./logo.png" alt="Amersfoort Roleplay"></div>
@@ -739,6 +765,77 @@
       });
     })();
   </script>
+
+  <script id="afr-category-transition-script">
+    (() => {
+      const overlay = document.getElementById("afrPageTransition");
+      const content = document.getElementById("content");
+      if (!overlay || !content) return;
+
+      const names = {
+        home: "Home",
+        informatie: "Informatie",
+        apv: "Algemene Plaatselijke Verordening",
+        wetboek: "Wetboek AFR",
+        onderwereld: "Onderwereld Regels",
+        hulpdiensten: "Hulpdiensten Regels",
+        risico: "Risicogebieden",
+        wijzigingen: "Wijzigingen"
+      };
+      const label = overlay.querySelector(".afr-page-transition-label");
+      let currentPage = location.hash.slice(1) || "home";
+      let targetPage = "";
+      let startedAt = 0;
+      let finishTimer = 0;
+      let resetTimer = 0;
+
+      function startTransition(page) {
+        if (!names[page] || page === currentPage && !targetPage) return;
+        clearTimeout(finishTimer);
+        clearTimeout(resetTimer);
+        targetPage = page;
+        startedAt = performance.now();
+        label.textContent = names[page];
+        overlay.classList.remove("is-leaving");
+        overlay.classList.add("is-active");
+      }
+
+      function finishTransition() {
+        if (!targetPage) return;
+        const delay = Math.max(0, 560 - (performance.now() - startedAt));
+        clearTimeout(finishTimer);
+        finishTimer = window.setTimeout(() => {
+          overlay.classList.add("is-leaving");
+          resetTimer = window.setTimeout(() => {
+            overlay.classList.remove("is-active", "is-leaving");
+            currentPage = targetPage;
+            targetPage = "";
+          }, 340);
+        }, delay);
+      }
+
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest('a[href^="#"]');
+        if (!link) return;
+        const page = link.getAttribute("href").slice(1) || "home";
+        if (names[page] && page !== currentPage) startTransition(page);
+      }, true);
+
+      window.addEventListener("hashchange", () => {
+        const page = location.hash.slice(1) || "home";
+        if (names[page] && page !== currentPage) startTransition(page);
+      });
+
+      new MutationObserver(() => {
+        if (!targetPage) return;
+        const loadedPage = content.dataset.page;
+        const loading = content.querySelector(".loading");
+        if (loadedPage === targetPage && !loading) finishTransition();
+      }).observe(content, { childList: true, subtree: false });
+    })();
+  </script>
+
+
   <script id="afr-auto-refresh">
     (()=>{const refreshDelay=5*60*1000,stateKey='afr-auto-refresh-position';
       function restorePosition(){
