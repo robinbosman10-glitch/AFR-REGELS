@@ -5,7 +5,7 @@ Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieu
 ## 15 september 2026
 
 ### Nieuw — Privé Discord-meldingen
-De eigenaar ontvangt automatisch een privébericht bij nieuwe, aangepaste of verwijderde regelbestanden, inclusief een link naar de wijziging.
+De eigenaar ontvangt automatisch een privébericht bij nieuwe, aangepaste of verwijderde regelbestanden. De melding gebruikt een herkenbare AFR/APV-kaart met een knop naar de regelsite.
 
 ## 14 september 2026
 
