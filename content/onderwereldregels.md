@@ -469,8 +469,8 @@ Gebeurd dit te vaak dan zal het resulteren in het inleveren van alle wapens.
 
 ### Artikel 148.OW - Drugs Multiplier Eiland
 
-Tijdens de Acetone multiplier mag je de mensen niet rippen die van pluk naar garage gaan om een voertuig te pakken voor hun drugs.
-Dit geldt voor alle locaties!
+1 .Tijdens de Acetone multiplier mag je de mensen niet rippen die van pluk naar garage gaan om een voertuig te pakken voor hun drugs.
+2. Dit geldt voor alle locaties!
 
 | Straf | Rippen zonder reden. |
 |---|---|---|
@@ -480,12 +480,19 @@ Dit geldt voor alle locaties!
 
 ### Artikel 149.OW - Speciale Voertuigen
 
-Bij Special Loot Voertuig mag je mensen niet instant finishen uit een voertuig!~
+1. Bij Special Loot Voertuig mag je mensen niet instant finishen uit een voertuig!~
 
-*Dit mag alleen op turf locaties*
+2. *Dit mag alleen op turf locaties*
 
 | Straf | Dood schieten zonder reden. |
 |---|---|---|
 | 1e dood schieten zonder reden. | Categorie 4 |
+
+### Artikel 150.OW - 200 Meter Regel
+
+1. De 200 meter regel is nog gewoon van kracht dus er mag NIET binnen de 200 meter iemand bevrijd worden van de politie
+
+| Straf | Categorie 4 . |
+
 
 *"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
