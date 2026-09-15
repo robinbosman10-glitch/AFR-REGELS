@@ -598,9 +598,3 @@ Er worden geen revives gegeven totdat de VIP weer werkt.
 
 | Straf | Categorie 4 |
 |---|---|
-
-### Artikel Test OW.160 - TestArtikel
-
-**Categorie / straf:** Categorie 2
-
-Testartikel
