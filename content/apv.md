@@ -58,6 +58,12 @@
 
 ## Overtredingen - Verstoring openbare orde (RP)
 
+### Artikel 0.0 - Geem Intentie Tot Roleplay
+1. Geen enkel rp toepassen - Niet meer welkom
+| Straf | Categorie 9 |
+|---|---|
+
+
 ### Artikel 1 - FailRP / Powergaming
 1. Hij/zij die opzettelijk een roleplay van zeer slechte kwaliteit uitspeelt wordt gestraft volgens de 1e categorie.
 2. De overtreding vermeld in het eerste lid staat bekend als “FailRP”
