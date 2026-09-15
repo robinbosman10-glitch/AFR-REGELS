@@ -33,27 +33,51 @@ async function fetchFromConnectEndpoint() {
     signal: AbortSignal.timeout(8000),
   });
 
-  const endpointHeader = joinResponse.headers.get("x-citizenfx-url");
-  if (!endpointHeader) throw new Error("Cfx connect endpoint ontbreekt");
+  if (!joinResponse.ok) throw new Error("Cfx joinpagina niet bereikbaar");
 
-  const endpoint = new URL(endpointHeader);
-  if (endpoint.protocol !== "http:" && endpoint.protocol !== "https:") {
-    throw new Error("Ongeldig connect endpoint");
+  const endpointHeader = joinResponse.headers.get("x-citizenfx-url");
+  const joinHtml = await joinResponse.text();
+  const playerMatch = joinHtml.match(
+    /<span class=["']players["']>\s*<span[^>]*>[\s\S]*?<\/span>\s*(\d+)\s*<\/span>/i,
+  );
+  const titleMatch = joinHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+  const joinPlayers = playerMatch ? cleanNumber(playerMatch[1]) : 0;
+  const joinHostname = titleMatch
+    ? titleMatch[1].replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").trim()
+    : "AmersfoortRolePlay";
+
+  if (endpointHeader) {
+    try {
+      const endpoint = new URL(endpointHeader);
+      if (endpoint.protocol !== "http:" && endpoint.protocol !== "https:") {
+        throw new Error("Ongeldig connect endpoint");
+      }
+      const dynamicUrl = new URL("dynamic.json", endpoint);
+      const dynamicResponse = await fetch(dynamicUrl, {
+        headers: { Accept: "application/json", "User-Agent": "AFR-Website-Status/3.0" },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!dynamicResponse.ok) throw new Error("dynamic.json niet bereikbaar");
+
+      const data = await dynamicResponse.json();
+      return {
+        online: true,
+        players: cleanNumber(data.clients, joinPlayers),
+        maxPlayers: cleanNumber(data.sv_maxclients),
+        hostname: String(data.hostname ?? joinHostname),
+        joinUrl: JOIN_URL,
+        updatedAt: new Date().toISOString(),
+      };
+    } catch (_dynamicError) {
+      // De Cfx-joinpagina blijft een betrouwbare fallback voor het live aantal.
+    }
   }
 
-  const dynamicUrl = new URL("dynamic.json", endpoint);
-  const dynamicResponse = await fetch(dynamicUrl, {
-    headers: { Accept: "application/json", "User-Agent": "AFR-Website-Status/2.0" },
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!dynamicResponse.ok) throw new Error("dynamic.json niet bereikbaar");
-
-  const data = await dynamicResponse.json();
   return {
     online: true,
-    players: cleanNumber(data.clients),
-    maxPlayers: cleanNumber(data.sv_maxclients),
-    hostname: String(data.hostname ?? "AmersfoortRolePlay"),
+    players: joinPlayers,
+    maxPlayers: 0,
+    hostname: joinHostname,
     joinUrl: JOIN_URL,
     updatedAt: new Date().toISOString(),
   };
