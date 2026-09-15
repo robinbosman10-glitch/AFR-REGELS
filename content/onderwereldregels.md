@@ -36,7 +36,10 @@ Geblindeerde ramen zijn geen geldige reden om iemand te rippen.
 9. Op het moment dat jij 2 minuten rondhangt omtrent een scenario waar geschoten is is het toegestaan om persoon te rippen.
 Indien dit het geval is vervallen de normale ripregels hiervan dien jij ten alle tijden bewijs aan te kunnen tonen via een clip.
 10. Vanaf nu mag je alle witgeld/zwartgeld rippen van een persoon die ook een wapen op zak heeft. Heeft iemand alleen geld op zak mag je hem niet rippen ook al draagt ie een masker/holster/bulletproof vest. Dit geldt op land en eiland! 
-
+11. Rippen scrap pluk eiland!
+12. Mag 1x per 30 minuten. ( Zelfde Persoon )
+13. Diegene die om de paar minuten de zelfde mensen ript die aan het plukken zijn kunnen een zware sanctie verwachten!!!
+14. Ook als gang zijnde mag je met je gang maar 1x per 30 minuten de zelfde persoon rippen.****
 
 | Straf | Straf | Rippen zonder reden. |
 |---|---|---|
