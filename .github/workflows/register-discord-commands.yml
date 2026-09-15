@@ -1,4 +1,4 @@
-name: Discord commando registreren
+name: Discord commando's registreren
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ jobs:
   register:
     runs-on: ubuntu-latest
     steps:
-      - name: Registreer /artikel-toevoegen in AFR Discord
+      - name: Registreer AFR artikelcommando's in Discord
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_APPLICATION_ID: "1549311819879948330"
@@ -35,14 +35,86 @@ jobs:
                   "type": 3,
                   "required": true,
                   "choices": [
-                    { "name": "Home", "value": "home" },
-                    { "name": "Informatie", "value": "informatie" },
-                    { "name": "APV", "value": "apv" },
-                    { "name": "Wetboek AFR", "value": "wetboek" },
-                    { "name": "Onderwereld", "value": "onderwereld" },
-                    { "name": "Hulpdiensten", "value": "hulpdiensten" },
-                    { "name": "Risicogebieden", "value": "risico" },
-                    { "name": "Wijzigingen", "value": "wijzigingen" }
+                    {
+                      "name": "Home",
+                      "value": "home"
+                    },
+                    {
+                      "name": "Informatie",
+                      "value": "informatie"
+                    },
+                    {
+                      "name": "APV",
+                      "value": "apv"
+                    },
+                    {
+                      "name": "Wetboek AFR",
+                      "value": "wetboek"
+                    },
+                    {
+                      "name": "Onderwereld",
+                      "value": "onderwereld"
+                    },
+                    {
+                      "name": "Hulpdiensten",
+                      "value": "hulpdiensten"
+                    },
+                    {
+                      "name": "Risicogebieden",
+                      "value": "risico"
+                    },
+                    {
+                      "name": "Wijzigingen",
+                      "value": "wijzigingen"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "artikel-verwijderen",
+              "description": "Verwijder als owner een artikel via een veilige keuzelijst",
+              "type": 1,
+              "dm_permission": false,
+              "options": [
+                {
+                  "name": "pagina",
+                  "description": "Kies de pagina waarvan je een artikel wilt verwijderen",
+                  "type": 3,
+                  "required": true,
+                  "choices": [
+                    {
+                      "name": "Home",
+                      "value": "home"
+                    },
+                    {
+                      "name": "Informatie",
+                      "value": "informatie"
+                    },
+                    {
+                      "name": "APV",
+                      "value": "apv"
+                    },
+                    {
+                      "name": "Wetboek AFR",
+                      "value": "wetboek"
+                    },
+                    {
+                      "name": "Onderwereld",
+                      "value": "onderwereld"
+                    },
+                    {
+                      "name": "Hulpdiensten",
+                      "value": "hulpdiensten"
+                    },
+                    {
+                      "name": "Risicogebieden",
+                      "value": "risico"
+                    },
+                    {
+                      "name": "Wijzigingen",
+                      "value": "wijzigingen"
+                    }
                   ]
                 }
               ]
@@ -52,7 +124,14 @@ jobs:
 
           response_file="$(mktemp)"
           status="$(
-            curl --silent --show-error               --output "$response_file"               --write-out "%{http_code}"               --request PUT               --header "Authorization: Bot $DISCORD_BOT_TOKEN"               --header "Content-Type: application/json"               --data-binary @commands.json               "https://discord.com/api/v10/applications/$DISCORD_APPLICATION_ID/guilds/$DISCORD_GUILD_ID/commands"
+            curl --silent --show-error \
+              --output "$response_file" \
+              --write-out "%{http_code}" \
+              --request PUT \
+              --header "Authorization: Bot $DISCORD_BOT_TOKEN" \
+              --header "Content-Type: application/json" \
+              --data-binary @commands.json \
+              "https://discord.com/api/v10/applications/$DISCORD_APPLICATION_ID/guilds/$DISCORD_GUILD_ID/commands"
           )"
 
           cat "$response_file"
@@ -62,4 +141,4 @@ jobs:
             exit 1
           fi
 
-          echo "Discord-commando succesvol geregistreerd."
+          echo "Discord-commando's succesvol geregistreerd."
