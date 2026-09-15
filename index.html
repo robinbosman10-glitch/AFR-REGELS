@@ -802,7 +802,7 @@
 
       function finishTransition() {
         if (!targetPage) return;
-        const delay = Math.max(0, 560 - (performance.now() - startedAt));
+        const delay = Math.max(0, 1500 - (performance.now() - startedAt));
         clearTimeout(finishTimer);
         finishTimer = window.setTimeout(() => {
           overlay.classList.add("is-leaving");
