@@ -8,6 +8,17 @@
   <link rel="icon" type="image/png" href="./logo.png?v=afr2">
   <link rel="apple-touch-icon" href="./logo.png?v=afr2">
   <style>
+    /* Nieuwe en aangepaste artikelen sinds het vorige bezoek */
+    .article-change-badge{display:inline-flex;align-items:center;gap:7px;min-height:28px;margin-left:auto;padding:5px 10px;border:1px solid transparent;border-radius:999px;font-size:10px;font-weight:950;line-height:1;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap;animation:afrChangeBadgeIn .45s cubic-bezier(.2,.85,.3,1.25) both}
+    .article-change-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 9px currentColor}
+    .article-change-new{color:#70efff;border-color:#16cce5;background:#07364a;box-shadow:0 0 18px #12dfff25}
+    .article-change-updated{color:#ffd072;border-color:#d99627;background:#3b2608;box-shadow:0 0 18px #ffae2522}
+    body:not(.dark) .article-change-new{color:#006a91;background:#dffaff}
+    body:not(.dark) .article-change-updated{color:#855100;background:#fff2d1}
+    @keyframes afrChangeBadgeIn{from{opacity:0;transform:translateY(-6px) scale(.82)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media(max-width:760px){.article-change-badge{margin-left:0;order:3}}
+    @media(prefers-reduced-motion:reduce){.article-change-badge{animation:none}}
+
     /* Neon leesvoortgang */
     .afr-scroll-progress{position:fixed;top:0;left:0;z-index:60;width:100%;height:3px;pointer-events:none;background:#071426}
     .afr-scroll-progress-bar{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:left center;background:linear-gradient(90deg,#00dcff 0%,#258dff 52%,#745cff 100%);box-shadow:0 0 8px #00d9ff,0 0 18px #1787ff;will-change:transform}
@@ -748,7 +759,72 @@
         heading.append(badge,title);
       });
     }
-    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);const contentRoot=document.querySelector('#content');contentRoot.dataset.page=key;contentRoot.innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();enhanceChangeLog();enhanceArticleLinks(key);const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>{const target=document.getElementById(searchTarget);if(target){target.scrollIntoView({behavior:'smooth',block:'center'});const card=target.closest('.rule-card')||target;card.classList.add('article-link-target');setTimeout(()=>card.classList.remove('article-link-target'),2200)}});document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
+
+    function articleTextFingerprint(card){
+      const clone=card.cloneNode(true);
+      clone.querySelectorAll('.copy-article-link,.article-change-badge').forEach(node=>node.remove());
+      const value=(clone.textContent||'').replace(/\s+/g,' ').trim();
+      let hash=2166136261;
+      for(let index=0;index<value.length;index++){
+        hash^=value.charCodeAt(index);
+        hash=Math.imul(hash,16777619);
+      }
+      return (hash>>>0).toString(36);
+    }
+    function readArticleState(storage,key){
+      try{return JSON.parse(storage.getItem(key)||'{}')||{}}catch(error){return{}}
+    }
+    function writeArticleState(storage,key,value){
+      try{storage.setItem(key,JSON.stringify(value))}catch(error){}
+    }
+    function markArticleChanges(key){
+      const cards=[...document.querySelectorAll('#content .rule-card.numbered-rule')];
+      if(!cards.length)return;
+      const baselineKey='afr-article-baseline-v1';
+      const sessionKey='afr-article-session-changes-v1';
+      const allBaselines=readArticleState(localStorage,baselineKey);
+      const allChanges=readArticleState(sessionStorage,sessionKey);
+      const hadBaseline=Object.prototype.hasOwnProperty.call(allBaselines,key);
+      const oldBaseline=allBaselines[key]||{};
+      const currentBaseline={};
+      const changes=allChanges[key]||{};
+
+      cards.forEach(card=>{
+        const heading=card.querySelector(':scope > h3');
+        const tag=heading?.querySelector('.rule-tag');
+        if(!heading||!tag)return;
+        const articleKey=tag.textContent.trim().toLowerCase();
+        const fingerprint=articleTextFingerprint(card);
+        currentBaseline[articleKey]=fingerprint;
+        if(hadBaseline){
+          if(!Object.prototype.hasOwnProperty.call(oldBaseline,articleKey)){
+            changes[articleKey]='new';
+          }else if(oldBaseline[articleKey]!==fingerprint&&changes[articleKey]!=='new'){
+            changes[articleKey]='updated';
+          }
+        }
+      });
+
+      allBaselines[key]=currentBaseline;
+      allChanges[key]=hadBaseline?changes:{};
+      writeArticleState(localStorage,baselineKey,allBaselines);
+      writeArticleState(sessionStorage,sessionKey,allChanges);
+
+      if(!hadBaseline)return;
+      cards.forEach(card=>{
+        const heading=card.querySelector(':scope > h3');
+        const tag=heading?.querySelector('.rule-tag');
+        if(!heading||!tag)return;
+        const kind=changes[tag.textContent.trim().toLowerCase()];
+        if(!kind||heading.querySelector('.article-change-badge'))return;
+        const badge=document.createElement('span');
+        badge.className=`article-change-badge article-change-${kind}`;
+        badge.textContent=kind==='new'?'Nieuw':'Aangepast';
+        const copyButton=heading.querySelector('.copy-article-link');
+        heading.insertBefore(badge,copyButton||null);
+      });
+    }
+    async function renderFull(){const key=fullSources[location.hash.slice(1)]?location.hash.slice(1):'home';document.querySelector('#content').innerHTML='<p class="loading">Regels laden…</p>';try{const md=sourceCache[key]||(sourceCache[key]=await fetch(`content/${fullSources[key]}`).then(r=>{if(!r.ok)throw Error();return r.text()}));if(key!==((location.hash.slice(1)||'home')))return;const parsed=markdownMd(md);const contentRoot=document.querySelector('#content');contentRoot.dataset.page=key;contentRoot.innerHTML=parsed.html;addMissingPenalties();prepareCategoryLinks(key);enhanceArticleLayout();enhanceChangeLog();enhanceArticleLinks(key);markArticleChanges(key);const searchTarget=pendingSearchTarget;pendingSearchTarget='';if(searchTarget)requestAnimationFrame(()=>{const target=document.getElementById(searchTarget);if(target){target.scrollIntoView({behavior:'smooth',block:'center'});const card=target.closest('.rule-card')||target;card.classList.add('article-link-target');setTimeout(()=>card.classList.remove('article-link-target'),2200)}});document.querySelector('#tocLinks').innerHTML=parsed.heads.filter(h=>h.level<=3).map(h=>`<a class="${h.level>=3?'sub':''}" href="#${h.id}">${h.title}</a>`).join('');document.querySelector('.side').innerHTML=`<a href="#${key}">${pages[key].nav}</a>`;document.title=`${pages[key].nav} — AmersfoortRolePlay`}catch(e){document.querySelector('#content').innerHTML='<p>De volledige regels konden niet worden geladen. Probeer de pagina opnieuw.</p>'}}
     contentEl.addEventListener('click',async e=>{
       const copyButton=e.target.closest('.copy-article-link');if(!copyButton)return;
       const url=new URL(location.href);url.searchParams.set('artikel',copyButton.dataset.article);url.hash=copyButton.dataset.page;
