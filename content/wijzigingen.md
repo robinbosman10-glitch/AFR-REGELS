@@ -2,6 +2,11 @@
 
 Hier zie je in één oogopslag wat er aan de AFR-regelsite is veranderd. De nieuwste updates staan bovenaan.
 
+## 15 september 2026
+
+### Nieuw — Privé Discord-meldingen
+De eigenaar ontvangt automatisch een privébericht bij nieuwe, aangepaste of verwijderde regelbestanden, inclusief een link naar de wijziging.
+
 ## 14 september 2026
 
 ### Nieuw — Wijzigingenoverzicht
