@@ -23,7 +23,7 @@
     .afr-intro-rule{width:min(76vw,430px);height:2px;margin:24px 0 14px;overflow:hidden;background:#ffffff16}
     .afr-intro-rule::after{content:"";display:block;width:100%;height:100%;background:linear-gradient(90deg,transparent,#18d8ff 18%,#487dff 82%,transparent);transform:translateX(-105%);animation:afrRuleSweep 1s ease .68s forwards}
     .afr-intro-progress{width:min(70vw,320px);height:3px;margin-top:24px;border-radius:99px;overflow:hidden;background:#ffffff18}
-    .afr-intro-progress::after{content:"";display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#00dcff,#3478ff);box-shadow:0 0 18px #00c8ff;animation:afrIntroProgress 2.75s linear .15s forwards}
+    .afr-intro-progress::after{content:"";display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#00dcff,#3478ff);box-shadow:0 0 18px #00c8ff;animation:afrIntroProgress 4.75s linear .15s forwards}
     .afr-intro-skip{margin-top:12px;color:#b8c7d9;font-size:11px;letter-spacing:.13em;text-transform:uppercase;opacity:0;animation:afrTextRise .4s ease 1.35s forwards}
     @keyframes afrLogoEntrance{to{opacity:1;transform:translateY(0) scale(1)}}
     @keyframes afrTextRise{to{opacity:1;transform:translateY(0)}}
@@ -873,7 +873,7 @@
         document.body.classList.remove("intro-lock");
         window.setTimeout(() => intro.remove(), 750);
       };
-      const timer = window.setTimeout(closeIntro, 3000);
+      const timer = window.setTimeout(closeIntro, 5000);
       intro.addEventListener("click", () => {
         window.clearTimeout(timer);
         closeIntro();
