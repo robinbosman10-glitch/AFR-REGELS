@@ -472,4 +472,9 @@ Gebeurd dit te vaak dan zal het resulteren in het inleveren van alle wapens.
 ---------------------
 *"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
 
+### Artikel 148.OW Drugs Multiplier Eiland
 
+Tijdens de Acetone multiplier mag je de mensen niet rippen die van pluk naar garage gaan om een voertuig te pakken voor hun drugs.
+Dit geldt voor alle locaties!
+
+**Strafcategorie:** Categorie 5
