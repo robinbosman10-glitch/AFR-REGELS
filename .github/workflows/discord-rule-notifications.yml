@@ -60,14 +60,7 @@ jobs:
 
           [ -n "$summary" ] || summary='✏️ Regels bijgewerkt'
           short_message="$(printf '%s' "$COMMIT_MESSAGE" | head -c 400)"
-          message="📘 **AFR-regels bijgewerkt**
-
-${summary}
-**Door:** ${ACTOR}
-**Wijziging:** ${short_message}
-
-🌐 ${SITE_URL}
-🔎 ${COMMIT_URL}"
+          message="$(printf '📘 **AFR-regels bijgewerkt**\\n\\n%s\\n**Door:** %s\\n**Wijziging:** %s\\n\\n🌐 %s\\n🔎 %s' "$summary" "$ACTOR" "$short_message" "$SITE_URL" "$COMMIT_URL")"
 
           dm_response="$(curl --fail-with-body --silent --show-error \
             --request POST 'https://discord.com/api/v10/users/@me/channels' \
