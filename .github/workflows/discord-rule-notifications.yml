@@ -1,0 +1,88 @@
+name: Discord rule notifications
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/**'
+
+permissions:
+  contents: read
+
+jobs:
+  notify-owner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout rules
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Send private Discord notification
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_USER_ID: '424086753327054849'
+          SITE_URL: 'https://afrroleplay-apv.nl'
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          ACTOR: ${{ github.actor }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${DISCORD_BOT_TOKEN:-}" ]; then
+            echo 'DISCORD_BOT_TOKEN ontbreekt in GitHub Actions secrets.'
+            exit 1
+          fi
+
+          base_sha="$BEFORE_SHA"
+          if [ -z "$base_sha" ] || [[ "$base_sha" =~ ^0+$ ]] || ! git cat-file -e "$base_sha^{commit}" 2>/dev/null; then
+            base_sha="$(git rev-list --max-parents=0 "$AFTER_SHA")"
+          fi
+
+          added="$(git diff --name-only --diff-filter=A "$base_sha" "$AFTER_SHA" -- 'content/**' || true)"
+          modified="$(git diff --name-only --diff-filter=M "$base_sha" "$AFTER_SHA" -- 'content/**' || true)"
+          deleted="$(git diff --name-only --diff-filter=D "$base_sha" "$AFTER_SHA" -- 'content/**' || true)"
+
+          summary=''
+          while IFS= read -r file; do
+            [ -z "$file" ] || summary+="🆕 Toegevoegd: ${file#content/}"$'\n'
+          done <<< "$added"
+          while IFS= read -r file; do
+            [ -z "$file" ] || summary+="✏️ Aangepast: ${file#content/}"$'\n'
+          done <<< "$modified"
+          while IFS= read -r file; do
+            [ -z "$file" ] || summary+="🗑️ Verwijderd: ${file#content/}"$'\n'
+          done <<< "$deleted"
+
+          [ -n "$summary" ] || summary='✏️ Regels bijgewerkt'
+          short_message="$(printf '%s' "$COMMIT_MESSAGE" | head -c 400)"
+          message="📘 **AFR-regels bijgewerkt**
+
+${summary}
+**Door:** ${ACTOR}
+**Wijziging:** ${short_message}
+
+🌐 ${SITE_URL}
+🔎 ${COMMIT_URL}"
+
+          dm_response="$(curl --fail-with-body --silent --show-error \
+            --request POST 'https://discord.com/api/v10/users/@me/channels' \
+            --header "Authorization: Bot ${DISCORD_BOT_TOKEN}" \
+            --header 'Content-Type: application/json' \
+            --data "$(jq -cn --arg recipient_id "$DISCORD_USER_ID" '{recipient_id:$recipient_id}')")"
+
+          channel_id="$(printf '%s' "$dm_response" | jq -r '.id // empty')"
+          if [ -z "$channel_id" ]; then
+            echo 'Discord kon geen privégesprek openen.'
+            exit 1
+          fi
+
+          curl --fail-with-body --silent --show-error \
+            --request POST "https://discord.com/api/v10/channels/${channel_id}/messages" \
+            --header "Authorization: Bot ${DISCORD_BOT_TOKEN}" \
+            --header 'Content-Type: application/json' \
+            --data "$(jq -cn --arg content "$message" '{content:$content}')"
