@@ -5,7 +5,7 @@
     **Artikel 212.HD - Crimineel als Advocaat** is toegevoegd lees deze dus eventjes goed door!
     
 
-### Artikel 101.OW -  Rippen
+### Artikel 101.OW - Rippen
 1. Personen die aan een of meerdere van de onderstaande kenmerken voldoen, mogen worden geript:
 - Ze dragen een masker.
 - Ze dragen een zwarte motorhelm terwijl ze niet op een motor zitten.
@@ -93,11 +93,11 @@ Het moment dat er minder dan 20 agenten zijn in F10 mag je maximiaal 1 agent hos
 9. Als je op acetone pluk gaat plukken met wapen op zak mag je wapen geript worden.
 10. Acetone mag je niet rippen van de plukkers.
 
-### Artikel 106.OW -  Campen van ganghuizen
+### Artikel 106.OW - Campen van ganghuizen
 * Het campen van ganghuizen is niet toegestaan
 * Het campen in de omgeving van een ganghuis is niet toegestaan
 
-### Artikel 107.OW -  Verboden twitter berichten
+### Artikel 107.OW - Verboden twitter berichten
 Het plaatsen van illegale activiteiten op twitter is ten strengste verboden. 
 Berichten zoals:
 * - 1 Peaky Blinders
@@ -110,7 +110,7 @@ Berichten zoals:
 * Kan ik ergens mijn drugs verkopen?
 Dit is allemaal niet roleplay gericht en erg onrealistisch. Wil je daadwerkelijk contact opnemen met gangs hiervoor. Leg een connectie neer breng die boodschap telefonisch over na personen. Daarnaast ook voor gangs antwoord NIET op illegale twitter berichten. Anders ben jij onder andere medeplichtig met Verboden twitter berichten plaatsen.
 
-### Artikel 108.OW -  Gang switch
+### Artikel 108.OW - Gang switch
 - Ga je naar een andere gang? Dien je jezelf in roleplay te melden bij de leiding van de gang zodat je hoofdstuk netjes kan afsluiten bij die gang.
 Waarom moet ik me melden bij de leiding?
 
@@ -120,7 +120,7 @@ Dus het is NIET toegestaan:
 - Om te switch naar een andere gang zonder je gemeld te hebben bij de leiding van de gang.
 Bij een gang aan te sluiten zodat je hun wapens kan rippen (of in setup kan gooien) en daarna terug te gaan na je eigen gang.
 
-### Artikel 109.OW -  Laag niveau van roleplay
+### Artikel 109.OW - Laag niveau van roleplay
 - Het zomaar boeien van mensen zonder dat je daadwerkelijk een wapen op persoon gericht hebt. 
 Iemand laten instappen in je auto, en vervolgens /me boeit vast + pakt coms af.
 
@@ -139,7 +139,7 @@ Iemand laten instappen in je auto, en vervolgens /me boeit vast + pakt coms af.
 ### Artikel 111.OW - Gangkluis stelen
 Het stelen uit een gangkluis terwijl dit niet van jouw is, is NIET toegestaan.
 
-### Artikel 112.OW - Wapen Trekken/Gebruiken 
+### Artikel 112.OW - Wapen Trekken/Gebruiken
 1. Hij/zij die zijn wapen gebruikt en/of trekt dient minimaal 10 minuten te wachten voordat hij/zij mag uitloggen.
 2. Hij/zij die zijn wapen gebruikt en/of trekt dient minimaal 10 minuten te wachten voordat hij/zij het wapen terug mag leggen in zijn/haar appartementen.
 
@@ -182,7 +182,7 @@ Het stelen uit een gangkluis terwijl dit niet van jouw is, is NIET toegestaan.
 9. Het is niet toegestaan om een lesauto of CBR auto te gebruiken voor andere doeleinden dan de lesronde te rijden. Je mag dus niet van de bepaalde route afwijken.
 10. De kgsubmarin/urus die onder water kan mag niet gebruikt worden in een achtervolging.
 
-### Artikel 119.OW - Fouilleren  
+### Artikel 119.OW - Fouilleren
 
 #### **Lid 1: Voorwaarden voor fouillering**  
 Een fouillering is alleen toegestaan bij een **geldige en redelijke reden**, zoals:  
@@ -253,7 +253,7 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
    - Het moet allemaal in hetzelfde scenario gebeuren.
    - Je mag geen andere agenten gijzelen om het wapen terug te eisen, het moet echt via dezelfde agent teruggeript worden.
 
-### Artikel 124.OW Prijzen.
+### Artikel 124.OW - Prijzen
 
 1. Het is niet toegestaan om boven de max inkoop prijs & onder de inkoop prijs wapens & ammo te verkopen.
 2. Wanneer jij een wapen boven de max toegestane prijs verkoopt op vip wapenmarkt, zal per direct jouw wapenmarkt licentie worden ingenomen en zal je hier geen refund of compensatie voor ontvangen. 
@@ -292,13 +292,13 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 6. Mocht je niet aan deze eisen voldoen voor de overvallen heb je kans dat de DSI binnenvalt.
 
 
-### Artikel 127.0W Pluklocaties
+### Artikel 127.OW - Pluklocaties
 1. Het is verboden personen te handsuppen op pluklocaties.
 2. Het is niet toegestaan personen te rippen op pluklocaties.
 3. Het is verboden drugs te stelen uit een kofferbak of een helikopter.
 
 
-### Artikel 128.0W Handsuppen
+### Artikel 128.OW - Handsuppen
 1. Het is alleen toegestaan om een persoon te handsuppen als jij een geldige reden hebt om dit te doen, en dit ook kan aantonen door middel van een clip of dergelijke.
 2. Een geldige reden valt bijvoorbeeld onder:
       - De ripregels
@@ -306,7 +306,7 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 3. Het is dus niet toegestaan om zonder reden willekeurige mensen handsuppen om te hopen dat ze iets op zak hebben of iets in dezelfde zin. 
 4. Het is niet toegestaan om als bestuurder van een motor of auto te **handsuppen** dit mag enkel de bijrijder.
 
-### Artikel 129.OW Hostage Situaties
+### Artikel 129.OW - Hostage Situaties
 1. Wanneer je een Winkel ov, Bank, Plofkraak, Ammonution Store, Legerbasis Overval of Juwelier overvallen hebt.
 	- Is het toegestaan om 1x een gijzeling binnen 30 minuten te starten, Mocht je voor een 2e keer binnen 30 minuten een gijzeling starten is er een mogelijkheid dat de DSI ingrijpt. 
 2. Mocht je in een hostage situatie (hieronder gelden ook alle vormen van overvallen) zitten en de politie is aangekoppeld aan de situatie is het verboden de hostage situatie te verlaten **(enkel pas na groenlicht)**.
@@ -320,7 +320,7 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 	- Deze kan je herkennen aan het groene politie hesje/steekvest of de OpCo Letters in het rood achterop het steekvest. 
 7. Het is verboden om te counteren/schieten op een Hostage Situatie als de politie al is aangekoppelt.  
 
-### Artikel 130.OW Hit en Run
+### Artikel 130.OW - Hit en Run
 1. Het is niet toegestaan om een overval te doen dat je de locatie gelijk verlaat. (ook wel genoemd Hit en Run)
 2. Je moet minimaal 10 minuten wachten op de locatie of er Politie of Kmar eenheden aankoppelen, mocht dat niet het geval zijn mag je na de 10 minuten de locatie verlaten.
 3. Het is enkel toegestaan om een Hit en Run te doen op de Ammonution Special Overval. (hiervoor moet je een catogorie **1** wapen opzak hebben om te starten.)
@@ -328,12 +328,12 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 3.  Het is toegestaan om enkel en alleen de Ammonution Special Overval te doen zonder Hostages. (Let op Politie, Kmar & Criminelen mogen bij aankoppeling direct binnenvallen.)
 5. Voor de wapens die je ontvangt uit de overval is het verplicht om een **wapenlijst** ticket aan te maken.
 
-### Artikel 131.OW Knockout slaan
+### Artikel 131.OW - Knockout slaan
 1. Het is niet toegestaan om iemand KO te slaan via /me of andere middelen.
 2. De enige manier om iemand iets te laten vergeten over wat er in game is gebeurd is door het gebruik maken van een 'drugspil' (deze is verkrijgbaar in de onderwereld).
    Je kan deze pil aan iemand geven en die persoon kan hem gebruiken. De persoon zal 20 seconden duizelig worden en alle gebeurtenissen van het laatste uur vergeten.
 
-### Artikel 132.0W Verwerk/verkoop locaties
+### Artikel 132.OW - Verwerk/verkoop locaties
 1. Het is verboden personen te handsuppen op verwerklocaties.
 
 2. Het is niet toegestaan personen te rippen op verwerklocaties.
@@ -342,11 +342,11 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 5. Het  is niet toegestaan om op ecstasy verkoop in de stad personen te rippen (bij deze verkoop kan je je zakjes voor goedkoper verkopen dan in het noorden)
 6. Het is toegestaan om op Juwelen verkoop te rippen.
 
-### Artikel 133.0W Lossgeld eisen voor gangmembers
+### Artikel 133.OW - Lossgeld eisen voor gangmembers
 1. Zodra er een member van een gang (bijvoorbeeld een boss of underboss) door iemand wordt vastgehouden mag hier maximaal 500.000,- aan losgeld voor worden geëist.
 2. Een member van een gang mag maar 1 keer per dag gehostaged worden door dezelfde gang.
 
-### Artikel 134.0W Vrijbreken van gangmembers
+### Artikel 134.OW - Vrijbreken van gangmembers
 
 1. Als je tijdens een scenario je vriend inculsief wapen wilt terug eisen, gelden de volgende regels:
 	- Het is alleen mogelijk om je vriend terug te krijgen door het voertuig die weg rijd vanaf het senario waarin hij/zij word vervoerd te counteren met minimaal 2 vuurwapens!
@@ -357,7 +357,7 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 4. Het is verplicht voor de agent die een verdachte vervoert ook het inbeslaggenomen vuurwapen/slagwapen opzak te hebben.
 5. Het is niet toegestaan om het busje te counteren of enige actie te ondernemen zodra het busje zich op de parkeerplaats bevindt.
 
-### Artikel 135.0W Gijzeling
+### Artikel 135.OW - Gijzeling
 
 1. Wanneer criminelen een gijzeling beginnen en de politie aangekoppeld is, moeten ze ten alletijd binnen 10 meter van de hostage blijven. 
 	- Dit geldt ook voor de crimineel die gaat onderhandelen. (Tenzij anders aangegeven door de onderhandelaar)
@@ -370,17 +370,17 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 3. Als er politie aangekoppeld is mogen er geen andere gang leden zich meer bij het scenario betrekken, en ook niet in de omgeving zijn/bevinden/rondrijden.
 	- Als een ganglid vertrekt voor de politie en vervolgens terugkomt, is dit niet meer toegestaan om aan te koppelen. (Mits dit overlegd wordt met de onderhandelaar vanuit de politie)
 
-### Artikel 136.OW Beleid Aannemen & Ontslaan.
+### Artikel 136.OW - Beleid Aannemen & Ontslaan
 
 1. Bij ontslag van een crimineel moet eerst zijn ID-kaart in-game worden afgenomen en daarna mag hij pas worden neergeschoten; rollen in discords mogen pas daarna worden verwijderd.
 2. Het ontslag moet worden vastgelegd met een clip in een Overige Vragen-ticket; bij overtreding ontvangt de gang -5 punten. Als de crimineel binnen 24 uur niks meer van zich laat horen en de discords verlaat, volgt een straf van 175 taken.
 3. Nieuwe leden moeten minimaal 3 dagen in de gang blijven, tenzij anders afgesproken met OWC; bij niet-naleving volgt een straf van 200 taken.
 
-### Artikel 137.OW Beleid Porto OOC.
+### Artikel 137.OW - Beleid Porto OOC
 
 1. Wanneer je lid wordt van een gang, is het verplicht om in het Porto OOC-kanaal te zitten zodra je de stad betreedt. Dit geldt ook als je de Proeftijd-rol hebt gekregen in de Onderwereld Discord. Deze regel is niet van toepassing als je langer dan 15 minuten AFK in de stad staat.
 
-### Artikel 138.OW Holden
+### Artikel 138.OW - Holden
 
 1. Holden is alleen toegestaan onder de volgende omstandigheden:
 * Wanneer jij een overval doet en je word gecounterd is het toegestaan om te holden.
@@ -389,7 +389,7 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 2. **Wanneer is holden niet toegestaan:**
 * Als jij achtervolgt word en je gaat een gebouw in (denk aan een winkeltje, lester's huis, strandhuis etc.) om dat te holden.
 
-### Artikel 139.OW Dashboard en Kofferbak
+### Artikel 139.OW - Dashboard en Kofferbak
 
 1. Het is niet toegestaan om iets uit een dashboard of kofferbak te stelen behalve als het volgende van toepassing is:
 	- Je een ripreden hebt op persoon. (kijk Artikel 102.OW - Rippen)
@@ -397,12 +397,12 @@ Wordt deze stap overgeslagen, kan de geripte persoon een refund aanvragen door e
 Alleen wanneer de bovenstaande criteria een feit zijn is het toegestaan om spullen uit een voertuig te halen!
 (dus het random checken van dashboards en kofferbakken en dingen eruit stelen is niet toegestaan).
 
-### Artikel 140.OW Transport Counteren
+### Artikel 140.OW - Transport Counteren
 1. Vanaf het moment dat het transport in zicht is is het **niet** toegestaan om te counteren.
 	- Het moment dat het transport nog niet in zicht is en je ziet wapens is het toegestaan om te counteren.
 	- Het moment dat de gevangenen is bevrijd door de groepering van de counter mag je 200 meter verderop die groepering counteren.
 	
-### Artikel 141.OW Witgeldtransacties
+### Artikel 141.OW - Witgeldtransacties
 
 1. Alle onderwereld gerelateerde spullen dienen met zwartgeld betaald te worden. Hieronder valt het volgende:
 	- Wapens
@@ -416,24 +416,24 @@ Alleen wanneer de bovenstaande criteria een feit zijn is het toegestaan om spull
 	- Scrap metal
 	- alle niet onderwereld gerelateerde items ingame
 
-### Artikel 142.OW Vip Loot Player
+### Artikel 142.OW - Vip Loot Player
 
 1. Het is niet de bedoeling dat je random mensen gaat looten die dood liggen en spullen afpakt.
 	- (Mocht dit wel gebeuren dan ben je meteen je vip kwijt)
 2. Spelers die rond lopen met maskers/holsters/armour mogen alleen rippen als je daardwerkelijk een reden op hem had voordat ie geript was.
 
-### Artikel 143.OW Respawn Pass
+### Artikel 143.OW - Respawn Pass
 
 1. Het is niet toegestaan om je respawn pass te gebruiken wanneer je omhoog word geholpen door een andere crimineel.
 	- Mocht je je respawn pass gebruiken wanneer dat toegestaan is mag je pas na 20 min opnieuw aankoppelen bij het zelfde scenario.
 
-### Artikel 144.OW Turf Gebied
+### Artikel 144.OW - Turf Gebied
 
 1. Alleen mensen in dit gebied mag je doodschieten.
 	- Je mag niet mensen die buiten het gebied zijn dood schieten, gebeurd dit wel ontvang je taken voor RDM. 
 Gebeurd dit te vaak dan zal het resulteren in het inleveren van alle wapens. 
 
-### **Artikel 145.OW Zwartwassen**
+### Artikel 145.OW - Zwartwassen
 
 1. Onder zwartwassen wordt verstaan: het omzetten van witgeld naar zwartgeld.
 
@@ -467,7 +467,7 @@ Gebeurd dit te vaak dan zal het resulteren in het inleveren van alle wapens.
 3. Per situatie/scenario mag er slechts een wapen van dezelfde agent worden teruggeript of opgeëist.
 4. Het is niet toegestaan om willekeurig een agent hands-up te zetten om via een andere agent je wapen terug te eisen.
 
-### Artikel 148.OW Drugs Multiplier Eiland
+### Artikel 148.OW - Drugs Multiplier Eiland
 
 Tijdens de Acetone multiplier mag je de mensen niet rippen die van pluk naar garage gaan om een voertuig te pakken voor hun drugs.
 Dit geldt voor alle locaties!
