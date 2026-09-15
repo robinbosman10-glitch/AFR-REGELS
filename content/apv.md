@@ -577,6 +577,8 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 2. Geen enkele bulletproof auto is meer toegestaan. het moet mogelijk zijn om instant door het raam heen te schieten. een voertuig waarvan de achterkant dicht is is wel toegestaan.
 3. Turf Revive Spawn VIP, Het is niet nodig om wachtkamer te komen voor een revive omdat er een bug in de VIP zit.
 Er worden geen revives gegeven totdat de VIP weer werkt.
+4. Vanaf heden is het niet meer toegestaan om te rippen / bodylooten in de turf!
+5. Wanneer de turf ten einde is, is het ook verplicht om je wapen direct weg te doen en richting een garage te vertrekken / een voertuig pakken en de locatie verlaten.
 
 | Straf | Categorie 5 |
 |---|---|
