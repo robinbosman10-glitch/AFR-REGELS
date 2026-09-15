@@ -2,6 +2,7 @@ const OWNER_ID = "424086753327054849";
 const GITHUB_REPOSITORY = "robinbosman10-glitch/AFR-REGELS";
 const GITHUB_BRANCH = "main";
 const SITE_URL = "https://afrroleplay-apv.nl";
+const DELETE_PAGE_SIZE = 20;
 
 const PAGE_FILES: Record<string, string> = {
   home: "content/index.md",
@@ -198,6 +199,238 @@ function slug(value: string) {
     .replace(/^-|-$/g, "");
 }
 
+type ArticleEntry = {
+  code: string;
+  title: string;
+  level: number;
+  start: number;
+  end: number;
+};
+
+function parseArticles(markdown: string): ArticleEntry[] {
+  const lines = markdown.split("\n");
+  const articles: ArticleEntry[] = [];
+
+  for (let index = 0; index < lines.length; index++) {
+    const heading = lines[index].match(/^(#{1,6})\s+(.+?)\s*$/);
+    if (!heading) continue;
+
+    const level = heading[1].length;
+    const text = heading[2].replace(/\*\*/g, "").trim();
+    if (!/^Artikel\s+/i.test(text)) continue;
+
+    const parts = text.match(/^(Artikel\s+.+?)\s+[-–—]\s+(.+)$/i);
+    const code = (parts?.[1] ?? text).trim();
+    const title = (parts?.[2] ?? "Zonder titel").trim();
+
+    let end = lines.length;
+    for (let cursor = index + 1; cursor < lines.length; cursor++) {
+      const nextHeading = lines[cursor].match(/^(#{1,6})\s+/);
+      if (nextHeading && nextHeading[1].length <= level) {
+        end = cursor;
+        break;
+      }
+    }
+
+    articles.push({ code, title, level, start: index, end });
+  }
+
+  return articles;
+}
+
+function githubHeaders(token: string) {
+  return {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+    "Content-Type": "application/json",
+    "User-Agent": "AFR-Discord-Article-Bot/1.0",
+  };
+}
+
+async function fetchRulePage(page: string) {
+  const githubToken = Deno.env.get("GITHUB_TOKEN");
+  if (!githubToken) throw new Error("GITHUB_TOKEN ontbreekt in Supabase Secrets");
+
+  const filePath = PAGE_FILES[page];
+  if (!filePath) throw new Error("Onbekende regelpagina");
+
+  const apiUrl = `https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/${filePath}`;
+  const headers = githubHeaders(githubToken);
+  const response = await fetch(`${apiUrl}?ref=${GITHUB_BRANCH}`, { headers });
+  if (!response.ok) throw new Error("De regelpagina kon niet uit GitHub worden opgehaald");
+
+  const file = await response.json();
+  return {
+    apiUrl,
+    headers,
+    file,
+    markdown: decodeBase64(file.content ?? ""),
+  };
+}
+
+function deletionListPayload(page: string, articles: ArticleEntry[], requestedPage: number) {
+  if (!articles.length) {
+    return {
+      content: `Er zijn geen artikelen gevonden op **${PAGE_NAMES[page]}**.`,
+      embeds: [],
+      components: [],
+    };
+  }
+
+  const totalPages = Math.ceil(articles.length / DELETE_PAGE_SIZE);
+  const listPage = Math.max(0, Math.min(requestedPage, totalPages - 1));
+  const start = listPage * DELETE_PAGE_SIZE;
+  const visible = articles.slice(start, start + DELETE_PAGE_SIZE);
+
+  return {
+    content: "",
+    embeds: [{
+      color: 1230836,
+      author: { name: "AFR CONTROL • ARTIKELBEHEER", icon_url: `${SITE_URL}/logo.png` },
+      title: `Artikel verwijderen • ${PAGE_NAMES[page]}`,
+      description: `Kies hieronder het artikel dat je wilt verwijderen.\n\n**Pagina ${listPage + 1} van ${totalPages} • ${articles.length} artikelen**`,
+      footer: { text: "Verwijderen vereist altijd een extra bevestiging" },
+    }],
+    components: [
+      {
+        type: 1,
+        components: [{
+          type: 3,
+          custom_id: `afr_delete_select:${page}`,
+          placeholder: "Kies een artikel uit de lijst",
+          min_values: 1,
+          max_values: 1,
+          options: visible.map((article) => ({
+            label: article.code.slice(0, 100),
+            description: article.title.slice(0, 100),
+            value: article.code.slice(0, 100),
+          })),
+        }],
+      },
+      {
+        type: 1,
+        components: [
+          {
+            type: 2,
+            style: 2,
+            label: "Vorige",
+            emoji: { name: "⬅️" },
+            custom_id: `afr_delete_page:${page}:${listPage - 1}`,
+            disabled: listPage === 0,
+          },
+          {
+            type: 2,
+            style: 2,
+            label: "Volgende",
+            emoji: { name: "➡️" },
+            custom_id: `afr_delete_page:${page}:${listPage + 1}`,
+            disabled: listPage >= totalPages - 1,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+async function loadDeletionList(interaction: any, page: string, listPage = 0) {
+  try {
+    const current = await fetchRulePage(page);
+    const articles = parseArticles(current.markdown);
+    await updateOriginal(interaction, deletionListPayload(page, articles, listPage));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Onbekende fout";
+    await updateOriginal(interaction, {
+      content: `❌ **Artikellijst kon niet worden geladen**\n${message}`,
+      embeds: [],
+      components: [],
+    });
+  }
+}
+
+function deleteConfirmation(page: string, code: string) {
+  return {
+    type: 7,
+    data: {
+      content: "",
+      embeds: [{
+        color: 15158332,
+        author: { name: "AFR CONTROL • BEVESTIGING", icon_url: `${SITE_URL}/logo.png` },
+        title: `${code} definitief verwijderen?`,
+        description: `Dit verwijdert het volledige artikel uit **${PAGE_NAMES[page]}** en publiceert de wijziging direct op GitHub.`,
+        footer: { text: "Deze handeling kan niet via Discord ongedaan worden gemaakt" },
+      }],
+      components: [{
+        type: 1,
+        components: [
+          {
+            type: 2,
+            style: 4,
+            label: "Definitief verwijderen",
+            emoji: { name: "🗑️" },
+            custom_id: `afr_delete_confirm:${page}:${encodeURIComponent(code)}`,
+          },
+          {
+            type: 2,
+            style: 2,
+            label: "Annuleren",
+            custom_id: "afr_delete_cancel",
+          },
+        ],
+      }],
+    },
+  };
+}
+
+async function deleteArticle(interaction: any, page: string, requestedCode: string) {
+  try {
+    const current = await fetchRulePage(page);
+    const articles = parseArticles(current.markdown);
+    const article = articles.find((item) => item.code.toLowerCase() === requestedCode.toLowerCase());
+    if (!article) throw new Error(`${requestedCode} bestaat niet meer op ${PAGE_NAMES[page]}`);
+
+    const lines = current.markdown.split("\n");
+    lines.splice(article.start, article.end - article.start);
+    const updatedMarkdown = lines.join("\n").replace(/\n{4,}/g, "\n\n\n").trimEnd() + "\n";
+
+    const response = await fetch(current.apiUrl, {
+      method: "PUT",
+      headers: current.headers,
+      body: JSON.stringify({
+        message: `Delete ${article.code} via Discord`,
+        content: encodeBase64(updatedMarkdown),
+        sha: current.file.sha,
+        branch: GITHUB_BRANCH,
+      }),
+    });
+    if (!response.ok) {
+      const details = await response.text();
+      throw new Error(`Verwijderen via GitHub is mislukt (${response.status}): ${details.slice(0, 180)}`);
+    }
+
+    await updateOriginal(interaction, {
+      content: "",
+      embeds: [{
+        color: 5763719,
+        author: { name: "AFR CONTROL • ARTIKELBEHEER", icon_url: `${SITE_URL}/logo.png` },
+        title: `${article.code} verwijderd`,
+        description: `**${article.title}** is verwijderd uit **${PAGE_NAMES[page]}**. De website wordt nu automatisch bijgewerkt.`,
+        fields: [{ name: "STATUS", value: "🟢 Verwijderd", inline: true }],
+        footer: { text: "AmersfoortRolePlay • Discord artikelbeheer" },
+        timestamp: new Date().toISOString(),
+      }],
+      components: [],
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Onbekende fout";
+    await updateOriginal(interaction, {
+      content: `❌ **Artikel niet verwijderd**\n${message}`,
+      embeds: [],
+      components: [],
+    });
+  }
+}
+
 async function updateOriginal(interaction: any, payload: unknown) {
   const url = `https://discord.com/api/v10/webhooks/${interaction.application_id}/${interaction.token}/messages/@original`;
   await fetch(url, {
@@ -320,6 +553,53 @@ Deno.serve(async (request) => {
     const page = commandPage(interaction);
     if (!PAGE_FILES[page]) return json(ephemeral("Deze regelpagina bestaat niet."));
     return json(articleModal(page));
+  }
+
+  if (interaction.type === 2 && interaction.data?.name === "artikel-verwijderen") {
+    const page = commandPage(interaction);
+    if (!PAGE_FILES[page]) return json(ephemeral("Deze regelpagina bestaat niet."));
+    (globalThis as any).EdgeRuntime.waitUntil(loadDeletionList(interaction, page, 0));
+    return json({ type: 5, data: { flags: 64 } });
+  }
+
+  if (interaction.type === 3) {
+    const customId = String(interaction.data?.custom_id ?? "");
+
+    if (customId.startsWith("afr_delete_page:")) {
+      const [, , page, pageNumber] = customId.split(":");
+      if (!PAGE_FILES[page]) return json(ephemeral("Deze regelpagina bestaat niet."));
+      (globalThis as any).EdgeRuntime.waitUntil(
+        loadDeletionList(interaction, page, Number.parseInt(pageNumber, 10) || 0),
+      );
+      return json({ type: 6 });
+    }
+
+    if (customId.startsWith("afr_delete_select:")) {
+      const page = customId.split(":")[1] ?? "";
+      const code = String(interaction.data?.values?.[0] ?? "");
+      if (!PAGE_FILES[page] || !code) return json(ephemeral("Het gekozen artikel is ongeldig."));
+      return json(deleteConfirmation(page, code));
+    }
+
+    if (customId === "afr_delete_cancel") {
+      return json({
+        type: 7,
+        data: {
+          content: "✅ Verwijderen geannuleerd. Er is niets aangepast.",
+          embeds: [],
+          components: [],
+        },
+      });
+    }
+
+    if (customId.startsWith("afr_delete_confirm:")) {
+      const parts = customId.split(":");
+      const page = parts[1] ?? "";
+      const code = decodeURIComponent(parts.slice(2).join(":"));
+      if (!PAGE_FILES[page] || !code) return json(ephemeral("Het gekozen artikel is ongeldig."));
+      (globalThis as any).EdgeRuntime.waitUntil(deleteArticle(interaction, page, code));
+      return json({ type: 6 });
+    }
   }
 
   if (interaction.type === 5 && String(interaction.data?.custom_id ?? "").startsWith("afr_article:")) {
