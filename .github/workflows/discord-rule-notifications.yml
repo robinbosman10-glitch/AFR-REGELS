@@ -26,7 +26,6 @@ jobs:
           SITE_URL: 'https://afrroleplay-apv.nl'
           BEFORE_SHA: ${{ github.event.before }}
           AFTER_SHA: ${{ github.sha }}
-          COMMIT_URL: ${{ github.event.head_commit.url }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           ACTOR: ${{ github.actor }}
         shell: bash
@@ -58,9 +57,48 @@ jobs:
             [ -z "$file" ] || summary+="🗑️ Verwijderd: ${file#content/}"$'\n'
           done <<< "$deleted"
 
-          [ -n "$summary" ] || summary='✏️ Regels bijgewerkt'
+          [ -n "$summary" ] || summary='✏️ **Aangepast** · Regelgeving'
           short_message="$(printf '%s' "$COMMIT_MESSAGE" | head -c 400)"
-          message="$(printf '📘 **AFR-regels bijgewerkt**\n\n%s\n**Door:** %s\n**Wijziging:** %s\n\n🌐 %s\n🔎 %s' "$summary" "$ACTOR" "$short_message" "$SITE_URL" "$COMMIT_URL")"
+          timestamp="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          payload="$(jq -cn \
+            --arg description "$summary" \
+            --arg actor "$ACTOR" \
+            --arg change "$short_message" \
+            --arg timestamp "$timestamp" \
+            --arg site "$SITE_URL" \
+            '{
+              embeds: [{
+                color: 1230836,
+                author: {
+                  name: "AFR CONTROL • REGELGEVING",
+                  icon_url: "https://afrroleplay-apv.nl/logo.png"
+                },
+                title: "APV-wijziging gepubliceerd",
+                url: $site,
+                description: $description,
+                fields: [
+                  {name: "WIJZIGING", value: $change, inline: false},
+                  {name: "DOOR", value: $actor, inline: true},
+                  {name: "STATUS", value: "🟢 Gepubliceerd", inline: true}
+                ],
+                thumbnail: {
+                  url: "https://afrroleplay-apv.nl/logo.png"
+                },
+                footer: {
+                  text: "AmersfoortRolePlay • Regels & informatie"
+                },
+                timestamp: $timestamp
+              }],
+              components: [{
+                type: 1,
+                components: [{
+                  type: 2,
+                  style: 5,
+                  label: "Open de regelsite",
+                  url: $site
+                }]
+              }]
+            }')"
 
           dm_response="$(curl --fail-with-body --silent --show-error \
             --request POST 'https://discord.com/api/v10/users/@me/channels' \
@@ -78,4 +116,4 @@ jobs:
             --request POST "https://discord.com/api/v10/channels/${channel_id}/messages" \
             --header "Authorization: Bot ${DISCORD_BOT_TOKEN}" \
             --header 'Content-Type: application/json' \
-            --data "$(jq -cn --arg content "$message" '{content:$content}')"
+            --data "$payload"
