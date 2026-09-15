@@ -566,7 +566,7 @@ Deno.serve(async (request) => {
     const customId = String(interaction.data?.custom_id ?? "");
 
     if (customId.startsWith("afr_delete_page:")) {
-      const [, , page, pageNumber] = customId.split(":");
+      const [, page, pageNumber] = customId.split(":");
       if (!PAGE_FILES[page]) return json(ephemeral("Deze regelpagina bestaat niet."));
       (globalThis as any).EdgeRuntime.waitUntil(
         loadDeletionList(interaction, page, Number.parseInt(pageNumber, 10) || 0),
