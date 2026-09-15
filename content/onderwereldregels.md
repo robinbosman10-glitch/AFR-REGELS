@@ -467,14 +467,15 @@ Gebeurd dit te vaak dan zal het resulteren in het inleveren van alle wapens.
 3. Per situatie/scenario mag er slechts een wapen van dezelfde agent worden teruggeript of opgeëist.
 4. Het is niet toegestaan om willekeurig een agent hands-up te zetten om via een andere agent je wapen terug te eisen.
 
-
-
----------------------
-*"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
-
 ### Artikel 148.OW Drugs Multiplier Eiland
 
 Tijdens de Acetone multiplier mag je de mensen niet rippen die van pluk naar garage gaan om een voertuig te pakken voor hun drugs.
 Dit geldt voor alle locaties!
 
-**Strafcategorie:** Categorie 5
+| Straf | Rippen zonder reden. |
+|---|---|---|
+| 1e Rippen zonder reden. | Categorie 6 |
+| 2e Rippen zonder reden. | Categorie 7 | 
+| 3e Rippen zonder reden. | Categorie 8 |
+
+*"APV" is opgesteld uit naam van de Beheerder(s), bedoeld voor het eiland, de gemeente en de stad “Amersfoort”, opgemaakt door Beheer / Bestuur van Amersfoort Roleplay.*
