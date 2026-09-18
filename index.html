@@ -521,25 +521,26 @@
 
   <style id="afr-server-status-style">
     .server-status-card{
-      position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;
-      margin:-22px 0 48px;padding:25px 27px;border:1px solid rgba(26,167,230,.34);border-radius:19px;
-      background:linear-gradient(135deg,rgba(7,36,76,.98),rgba(10,75,124,.96));
-      color:#fff;box-shadow:0 18px 42px rgba(4,42,89,.2)
+      position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(225px,auto);gap:36px;
+      min-height:210px;margin:-22px 0 58px;padding:37px 40px;border:1px solid rgba(31,190,255,.52);border-radius:24px;
+      background:linear-gradient(135deg,rgba(5,29,63,.99),rgba(8,83,136,.98));
+      color:#fff;box-shadow:0 25px 65px rgba(2,34,76,.3),inset 0 1px 0 rgba(255,255,255,.08)
     }
-    .server-status-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 15%,rgba(70,220,255,.2),transparent 16rem);pointer-events:none}
-    .server-status-main,.server-status-actions{position:relative;z-index:1}.server-status-top{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-    .server-status-eyebrow{font-size:11px;font-weight:900;letter-spacing:.17em;color:#76dcff}
-    .server-status-dot{width:10px;height:10px;border-radius:50%;background:#87a1b8;box-shadow:0 0 0 5px rgba(135,161,184,.12)}
-    .server-status-card.is-online .server-status-dot{background:#36e589;box-shadow:0 0 0 5px rgba(54,229,137,.13),0 0 17px #36e589}
-    .server-status-card.is-offline .server-status-dot{background:#ff6479;box-shadow:0 0 0 5px rgba(255,100,121,.13)}
-    .server-status-state{font-size:13px;font-weight:800;color:#dcecff}.server-status-count{display:flex;align-items:baseline;gap:8px}
-    .server-status-number{font-size:38px;line-height:1;font-weight:900;letter-spacing:-1.5px}.server-status-capacity{font-size:16px;font-weight:750;color:#bdd2e8}
-    .server-status-label{margin-top:7px;font-size:14px;color:#bcd0e5}.server-status-actions{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:10px}
-    .server-join-button{display:inline-flex;align-items:center;justify-content:center;min-width:172px;padding:12px 18px;border-radius:11px;background:linear-gradient(100deg,#16c6ed,#4477ff);color:#031426!important;text-decoration:none!important;font-size:14px;font-weight:900;box-shadow:0 10px 25px rgba(11,173,232,.25);transition:.18s ease}
-    .server-join-button:hover{transform:translateY(-2px);filter:brightness(1.08)}.server-status-updated{font-size:11px;color:#92aac2}
+    .server-status-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 15%,rgba(70,220,255,.28),transparent 21rem);pointer-events:none}
+    .server-status-card:after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,#25dcff,#3977ff,transparent);box-shadow:0 0 18px #1ad8ff}
+    .server-status-main,.server-status-actions{position:relative;z-index:1}.server-status-top{display:flex;align-items:center;gap:12px;margin-bottom:19px}
+    .server-status-eyebrow{font-size:13px;font-weight:950;letter-spacing:.19em;color:#75e5ff}
+    .server-status-dot{width:13px;height:13px;border-radius:50%;background:#87a1b8;box-shadow:0 0 0 6px rgba(135,161,184,.12)}
+    .server-status-card.is-online .server-status-dot{background:#36e589;box-shadow:0 0 0 6px rgba(54,229,137,.14),0 0 22px #36e589}
+    .server-status-card.is-offline .server-status-dot{background:#ff6479;box-shadow:0 0 0 6px rgba(255,100,121,.13)}
+    .server-status-state{font-size:15px;font-weight:900;color:#e8f4ff}.server-status-count{display:flex;align-items:baseline;gap:12px}
+    .server-status-number{font-size:64px;line-height:.94;font-weight:950;letter-spacing:-2.5px}.server-status-capacity{font-size:20px;font-weight:800;color:#c7dcf1}
+    .server-status-label{margin-top:13px;font-size:16px;color:#c4d9ed}.server-status-actions{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:14px}
+    .server-join-button{display:inline-flex;align-items:center;justify-content:center;min-width:220px;min-height:60px;padding:15px 24px;border:1px solid rgba(112,232,255,.35);border-radius:15px;background:linear-gradient(100deg,#16c6ed,#4477ff);color:#031426!important;text-decoration:none!important;font-size:16px;font-weight:950;box-shadow:0 15px 35px rgba(11,173,232,.3);transition:.18s ease}
+    .server-join-button:hover{transform:translateY(-3px);filter:brightness(1.1);box-shadow:0 19px 42px rgba(11,173,232,.42)}.server-status-updated{text-align:center;font-size:12px;color:#a8c0d7}
     .server-status-card.is-loading .server-status-number{animation:serverStatusPulse 1.2s ease-in-out infinite}
     @keyframes serverStatusPulse{50%{opacity:.42}}
-    @media(max-width:620px){.server-status-card{grid-template-columns:1fr;margin:-12px 0 35px;padding:21px}.server-status-actions{align-items:stretch}.server-join-button{width:100%}.server-status-updated{text-align:center}}
+    @media(max-width:620px){.server-status-card{grid-template-columns:1fr;gap:23px;min-height:0;margin:-12px 0 40px;padding:27px 23px}.server-status-number{font-size:53px}.server-status-eyebrow{font-size:11px}.server-status-capacity{font-size:17px}.server-status-actions{align-items:stretch}.server-join-button{width:100%;min-height:56px}.server-status-updated{text-align:center}}
   </style>
 
 </head>
