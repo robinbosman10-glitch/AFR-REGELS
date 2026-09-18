@@ -521,26 +521,26 @@
 
   <style id="afr-server-status-style">
     .server-status-card{
-      position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:34px;
-      min-height:410px;margin:-22px 0 38px;padding:38px 40px;border:1px solid rgba(31,190,255,.55);border-radius:25px;
+      position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:42px;
+      min-height:450px;margin:-22px 0 38px;padding:48px 50px;border:1px solid rgba(31,190,255,.55);border-radius:25px;
       background:linear-gradient(135deg,rgba(4,27,60,.99),rgba(7,78,131,.98));color:#fff;
       box-shadow:0 27px 70px rgba(2,34,76,.34),inset 0 1px 0 rgba(255,255,255,.09)
     }
     .server-status-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 9%,rgba(70,220,255,.28),transparent 23rem);pointer-events:none}
     .server-status-card:after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,#25dcff,#3977ff,transparent);box-shadow:0 0 18px #1ad8ff}
     .server-status-main,.server-status-actions{position:relative;z-index:1}.server-status-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-    .server-status-eyebrow{font-size:13px;font-weight:950;letter-spacing:.19em;color:#75e5ff}.server-status-state{padding:5px 9px;border:1px solid #49e7a562;border-radius:999px;background:#153d365c;color:#baffd8;font-size:11px;font-weight:900}
+    .server-status-eyebrow{font-size:15px;font-weight:950;letter-spacing:.19em;color:#75e5ff}.server-status-state{padding:5px 9px;border:1px solid #49e7a562;border-radius:999px;background:#153d365c;color:#baffd8;font-size:13px;font-weight:900}
     .server-status-dot{width:13px;height:13px;border-radius:50%;background:#87a1b8;box-shadow:0 0 0 6px rgba(135,161,184,.12)}
     .server-status-card.is-online .server-status-dot{background:#36e589;box-shadow:0 0 0 6px rgba(54,229,137,.14),0 0 22px #36e589}.server-status-card.is-offline .server-status-dot{background:#ff6479;box-shadow:0 0 0 6px rgba(255,100,121,.13)}
     .server-status-card.is-offline .server-status-state{border-color:#ff81905c;background:#521b265c;color:#ffc2ca}
-    .server-status-count{display:flex;align-items:baseline;gap:12px}.server-status-number{font-size:70px;line-height:.92;font-weight:950;letter-spacing:-3px}.server-status-capacity{font-size:20px;font-weight:850;color:#c7dcf1}
-    .server-status-label{margin-top:13px;font-size:16px;color:#c8daec}
-    .server-status-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}.server-status-detail{display:grid;gap:5px;padding:13px 14px;border:1px solid rgba(88,192,235,.25);border-radius:12px;background:#061b3090}.server-status-detail span{color:#86aeca;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.server-status-detail strong{font-size:18px}
-    .server-occupancy{margin-top:16px}.server-occupancy-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;color:#a9c4da;font-size:11px;font-weight:850}.server-occupancy-track{height:9px;overflow:hidden;border:1px solid #2b6688;border-radius:999px;background:#031224}.server-occupancy-fill{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#29e49b,#19ceeb,#5276ff);box-shadow:0 0 14px #21d7e5;transition:width .65s ease}
-    .server-status-actions{display:flex;flex-direction:column;justify-content:center;gap:11px}.server-join-button,.server-copy-button{display:flex;align-items:center;justify-content:center;min-height:58px;padding:14px 18px;border-radius:14px;font-size:14px;font-weight:950;cursor:pointer;text-decoration:none!important}
+    .server-status-count{display:flex;align-items:baseline;gap:12px}.server-status-number{font-size:88px;line-height:.92;font-weight:950;letter-spacing:-3.5px}.server-status-capacity{font-size:24px;font-weight:850;color:#c7dcf1}
+    .server-status-label{margin-top:16px;font-size:19px;color:#c8daec}
+    .server-status-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px}.server-status-detail{display:grid;gap:5px;padding:19px 20px;border:1px solid rgba(88,192,235,.25);border-radius:12px;background:#061b3090}.server-status-detail span{color:#86aeca;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.server-status-detail strong{font-size:27px}
+    .server-occupancy{margin-top:22px}.server-occupancy-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;color:#a9c4da;font-size:13px;font-weight:850}.server-occupancy-track{height:13px;overflow:hidden;border:1px solid #2b6688;border-radius:999px;background:#031224}.server-occupancy-fill{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#29e49b,#19ceeb,#5276ff);box-shadow:0 0 14px #21d7e5;transition:width .65s ease}
+    .server-status-actions{display:flex;flex-direction:column;justify-content:center;gap:14px}.server-join-button,.server-copy-button{display:flex;align-items:center;justify-content:center;min-height:68px;padding:17px 21px;border-radius:15px;font-size:16px;font-weight:950;cursor:pointer;text-decoration:none!important}
     .server-join-button{border:1px solid rgba(112,232,255,.4);background:linear-gradient(100deg,#16c6ed,#4477ff);color:#031426!important;box-shadow:0 15px 35px rgba(11,173,232,.3);transition:.18s ease}.server-join-button:hover{transform:translateY(-3px);filter:brightness(1.1)}
     .server-copy-button{border:1px solid #3d7597;background:#08243a;color:#aeeaff}.server-copy-button:hover{border-color:#58dfff;background:#0b314b;color:#fff}
-    .server-join-code{display:grid;gap:4px;padding:13px;border:1px solid #265a7a;border-radius:12px;background:#061a2a;text-align:center}.server-join-code span{color:#7d9fb8;font-size:9px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.server-join-code strong{color:#7fe8ff;font-size:17px;letter-spacing:.08em}.server-status-updated{text-align:center;font-size:11px;color:#a8c0d7}
+    .server-join-code{display:grid;gap:6px;padding:18px;border:1px solid #265a7a;border-radius:12px;background:#061a2a;text-align:center}.server-join-code span{color:#7d9fb8;font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.server-join-code strong{color:#7fe8ff;font-size:22px;letter-spacing:.08em}.server-status-updated{text-align:center;font-size:13px;color:#a8c0d7}
     .server-status-card.is-loading .server-status-number{animation:serverStatusPulse 1.2s ease-in-out infinite}@keyframes serverStatusPulse{50%{opacity:.42}}
     @media(max-width:760px){.server-status-card{grid-template-columns:1fr;gap:24px;min-height:0;margin:-12px 0 30px;padding:27px 22px}.server-status-number{font-size:56px}.server-status-eyebrow{font-size:10px}.server-status-capacity{font-size:16px}.server-status-details{grid-template-columns:repeat(3,1fr)}.server-status-actions{align-items:stretch}.server-join-button,.server-copy-button{width:100%;min-height:54px}}
     @media(max-width:430px){.server-status-details{grid-template-columns:1fr}.server-status-top{flex-wrap:wrap}}
@@ -548,6 +548,18 @@
 
 </head>
 <body class="intro-lock">
+  <script id="afr-start-on-home">
+    (() => {
+      try {
+        const automaticRefresh = sessionStorage.getItem("afr-auto-refresh-position");
+        if (!automaticRefresh && location.hash !== "#home") {
+          history.replaceState(null, "", location.pathname + location.search + "#home");
+        }
+      } catch (_error) {
+        if (location.hash !== "#home") location.hash = "home";
+      }
+    })();
+  </script>
   <section id="afrLaunchGate" class="afr-launch-gate" aria-hidden="true" aria-label="Amersfoort Roleplay opening countdown">
     <span class="afr-launch-beam" aria-hidden="true"></span>
     <div class="afr-launch-shell">
