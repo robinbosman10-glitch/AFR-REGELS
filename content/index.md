@@ -4,14 +4,6 @@ hide:
   - toc
 ---
 # Wet- en Regelgeving Amersfoort RolePlay</br>
-Welkom op de pagina voor de Wet- en Regelgeving van Amersfoort!
-Zorg ervoor, dat je voor je deelneemt aan Amersfoort, kennis hebt genomen van deze wetten.
-</br>
-
-De Algemene Plaatselijke Verordening (APV) bevat alle regels die niet te maken hebben met de Roleplay (dit zijn zogezegd de "server regels").</br>
-
-- Het Algemeen Wetboek Amersfoort bevat alle wetten voor de burgers.</br>
-- Alle overige documenten zijn specifiek bedoeld voor bepaalde zaken.
 
 ## Officiële Discord Servers
 
