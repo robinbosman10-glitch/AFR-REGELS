@@ -708,7 +708,7 @@
               <h4>Nieuw account</h4>
               <div class="admin-form-grid"><label>Gebruikersnaam<input id="newUsername" pattern="[a-z0-9._-]{3,32}" required></label><label>Weergavenaam<input id="newDisplayName" maxlength="50" required></label></div>
               <div class="admin-form-grid"><label>Tijdelijk wachtwoord<input id="newPassword" type="password" minlength="10" required autocomplete="new-password"></label><label>Rol<select id="newRole"><option value="admin">Beheerder</option><option value="editor">Redacteur</option><option value="analyst">Analist</option><option value="viewer">Alleen bekijken</option></select></label></div>
-              <fieldset><legend>Rechten kiezen</legend><label><input type="checkbox" name="permission" value="manage_articles"> Artikelen beheren</label><label><input type="checkbox" name="permission" value="manage_maintenance"> Onderhoud beheren</label><label><input type="checkbox" name="permission" value="manage_changelog"> Wijzigingen beheren</label><label><input type="checkbox" name="permission" value="view_analytics"> Statistieken bekijken</label><label><input type="checkbox" name="permission" value="view_audit_log"> Activiteiten bekijken</label><label><input type="checkbox" name="permission" value="manage_accounts"> Accounts beheren</label></fieldset>
+              <fieldset><legend>Rechten kiezen</legend><label><input type="checkbox" name="permission" value="manage_articles"> Artikelen toevoegen en beheren</label><label><input type="checkbox" name="permission" value="delete_articles"> Artikelen verwijderen</label><label><input type="checkbox" name="permission" value="manage_maintenance"> Onderhoud beheren</label><label><input type="checkbox" name="permission" value="manage_changelog"> Wijzigingen beheren</label><label><input type="checkbox" name="permission" value="view_analytics"> Statistieken bekijken</label><label><input type="checkbox" name="permission" value="view_audit_log"> Activiteiten bekijken</label><label><input type="checkbox" name="permission" value="manage_accounts"> Accounts beheren</label></fieldset>
               <button class="admin-primary" type="submit">Account aanmaken</button>
               <p id="createAccountStatus" class="admin-status" aria-live="polite"></p>
             </form>
@@ -1355,6 +1355,6 @@
   </script>
 
 
-  <script src="./admin.js?v=7"></script>
+  <script src="./admin.js?v=8"></script>
 </body>
 </html>
