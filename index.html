@@ -8,6 +8,40 @@
   <link rel="icon" type="image/png" href="./logo.png?v=afr2">
   <link rel="apple-touch-icon" href="./logo.png?v=afr2">
   <style>
+    /* AFR Launch Lock — publieke fullscreen countdown */
+    body.launch-locked{overflow:hidden!important}
+    .afr-launch-gate{position:fixed;inset:0;z-index:110000;display:grid;place-items:center;overflow:hidden;padding:28px;background:#01040a;color:#fff;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .55s ease,visibility .55s ease;isolation:isolate}
+    .afr-launch-gate.is-active{visibility:visible;opacity:1;pointer-events:auto}
+    .afr-launch-gate::before{content:"";position:absolute;inset:-20%;z-index:-3;background:radial-gradient(circle at 50% 42%,#073b63 0,#03182c 24%,#010813 52%,#000 78%);animation:afrLaunchAtmosphere 7s ease-in-out infinite alternate}
+    .afr-launch-gate::after{content:"";position:absolute;inset:0;z-index:-2;opacity:.2;background-image:linear-gradient(#18cfff18 1px,transparent 1px),linear-gradient(90deg,#18cfff18 1px,transparent 1px);background-size:70px 70px;mask-image:radial-gradient(circle at center,#000,transparent 72%);animation:afrLaunchGrid 16s linear infinite}
+    .afr-launch-beam{position:absolute;left:-10%;right:-10%;top:50%;height:1px;background:linear-gradient(90deg,transparent,#22dcff,#5075ff,transparent);box-shadow:0 0 20px #1bcfff;opacity:.8;animation:afrLaunchBeam 4s ease-in-out infinite}
+    .afr-launch-shell{position:relative;width:min(960px,100%);text-align:center;display:flex;flex-direction:column;align-items:center}
+    .afr-launch-brand{position:relative;width:clamp(118px,14vw,175px);height:clamp(118px,14vw,175px);display:grid;place-items:center;margin-bottom:12px}
+    .afr-launch-brand::before,.afr-launch-brand::after{content:"";position:absolute;inset:-14px;border:1px solid #23dfff55;border-radius:50%;animation:afrLaunchRing 6s linear infinite}
+    .afr-launch-brand::after{inset:4px;border-color:#4b78ff70;animation-direction:reverse;animation-duration:4.5s}
+    .afr-launch-brand img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px #42e7ff) drop-shadow(0 0 34px #1678ff)}
+    .afr-launch-kicker{color:#6be9ff;font-size:11px;font-weight:950;letter-spacing:.35em;text-transform:uppercase}
+    .afr-launch-title{max-width:820px;margin:12px 0 8px;font-size:clamp(30px,5vw,65px);line-height:1.02;font-weight:950;letter-spacing:.025em;text-transform:uppercase;text-shadow:0 0 28px #167dff80}
+    .afr-launch-message{max-width:700px;margin:0;color:#abc4d8;font-size:clamp(14px,1.7vw,18px)}
+    .afr-launch-countdown{display:grid;grid-template-columns:repeat(4,minmax(110px,1fr));gap:14px;width:min(720px,100%);margin:34px 0 22px}
+    .afr-launch-unit{position:relative;overflow:hidden;padding:20px 12px 16px;border:1px solid #1d709c;border-radius:18px;background:linear-gradient(145deg,#071b2cdd,#092641cc);box-shadow:0 16px 44px #0009,inset 0 1px 0 #ffffff15}
+    .afr-launch-unit::before{content:"";position:absolute;left:14%;right:14%;top:0;height:2px;background:linear-gradient(90deg,transparent,#27e2ff,transparent);box-shadow:0 0 14px #20dfff}
+    .afr-launch-value{display:block;font-size:clamp(35px,6vw,68px);font-weight:950;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+    .afr-launch-label{display:block;margin-top:8px;color:#70dff6;font-size:10px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
+    .afr-launch-date{color:#d9e9f5;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .afr-launch-owner{margin-top:28px;padding:10px 15px;border:1px solid #2b5976;border-radius:11px;background:#06152299;color:#91aabd;font:800 11px/1 inherit;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+    .afr-launch-owner:hover{border-color:#36d9ff;color:#fff;background:#0a2940}
+    .afr-launch-live .afr-launch-countdown{display:none}
+    .afr-launch-live .afr-launch-title{color:#7df3ff;animation:afrLaunchLive 1s ease-in-out infinite alternate}
+    body.launch-locked .admin-overlay{z-index:120010}
+    @keyframes afrLaunchAtmosphere{to{transform:scale(1.08);filter:hue-rotate(12deg)}}
+    @keyframes afrLaunchGrid{to{background-position:70px 70px}}
+    @keyframes afrLaunchBeam{0%,100%{transform:translateY(-160px);opacity:.15}50%{transform:translateY(170px);opacity:.85}}
+    @keyframes afrLaunchRing{to{transform:rotate(360deg)}}
+    @keyframes afrLaunchLive{to{text-shadow:0 0 50px #24dfff,0 0 90px #245fff}}
+    @media(max-width:650px){.afr-launch-gate{padding:18px}.afr-launch-countdown{grid-template-columns:repeat(2,1fr);gap:10px;margin-top:25px}.afr-launch-unit{padding:15px 8px 13px}.afr-launch-owner{margin-top:18px}}
+    @media(prefers-reduced-motion:reduce){.afr-launch-gate::before,.afr-launch-gate::after,.afr-launch-beam,.afr-launch-brand::before,.afr-launch-brand::after,.afr-launch-live .afr-launch-title{animation:none!important}}
+
     /* Nieuwe en aangepaste artikelen sinds het vorige bezoek */
     .article-change-badge{display:inline-flex;align-items:center;gap:7px;min-height:28px;margin-left:auto;padding:5px 10px;border:1px solid transparent;border-radius:999px;font-size:10px;font-weight:950;line-height:1;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap;animation:afrChangeBadgeIn .45s cubic-bezier(.2,.85,.3,1.25) both}
     .article-change-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 9px currentColor}
@@ -482,7 +516,7 @@
     .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
-  <link rel="stylesheet" href="./admin.css?v=6">
+  <link rel="stylesheet" href="./admin.css?v=7">
 
   <style id="afr-server-status-style">
     .server-status-card{
@@ -509,6 +543,24 @@
 
 </head>
 <body class="intro-lock">
+  <section id="afrLaunchGate" class="afr-launch-gate" aria-hidden="true" aria-label="Amersfoort Roleplay opening countdown">
+    <span class="afr-launch-beam" aria-hidden="true"></span>
+    <div class="afr-launch-shell">
+      <div class="afr-launch-brand"><img src="./logo.png" alt="Amersfoort Roleplay"></div>
+      <span class="afr-launch-kicker">AFR Launch Protocol</span>
+      <h1 id="afrLaunchTitle" class="afr-launch-title">De APV opent binnenkort</h1>
+      <p id="afrLaunchMessage" class="afr-launch-message">De vernieuwde regelgeving wordt klaargezet.</p>
+      <div class="afr-launch-countdown" aria-label="Resterende tijd">
+        <div class="afr-launch-unit"><strong id="afrLaunchDays" class="afr-launch-value">00</strong><span class="afr-launch-label">Dagen</span></div>
+        <div class="afr-launch-unit"><strong id="afrLaunchHours" class="afr-launch-value">00</strong><span class="afr-launch-label">Uren</span></div>
+        <div class="afr-launch-unit"><strong id="afrLaunchMinutes" class="afr-launch-value">00</strong><span class="afr-launch-label">Minuten</span></div>
+        <div class="afr-launch-unit"><strong id="afrLaunchSeconds" class="afr-launch-value">00</strong><span class="afr-launch-label">Seconden</span></div>
+      </div>
+      <span id="afrLaunchDate" class="afr-launch-date"></span>
+      <button id="afrLaunchOwnerAccess" class="afr-launch-owner" type="button">Owner toegang</button>
+    </div>
+  </section>
+
   <div class="afr-scroll-progress" aria-hidden="true"><span id="afrScrollProgressBar" class="afr-scroll-progress-bar"></span></div>
 
   
@@ -541,7 +593,7 @@
     <div class="brandbar"><a class="brand-home" href="#home" aria-label="Ga naar de homepagina"><div class="logo"><img src="logo.png" alt=""></div><div class="brand">AmersfoortRolePlay</div></a><div class="spacer"></div><button type="button" class="admin-open" aria-label="Beheerdersomgeving openen"><span aria-hidden="true">◆</span><span>Beheer</span></button><nav class="admin-quick-links" aria-label="Beheerfuncties" hidden>
     <button type="button" data-open-admin="overview"><span>01</span> Dashboard</button>
     <button type="button" data-open-admin="articles"><span>02</span> Artikelen</button>
-    <button type="button" data-open-admin="maintenance"><span>03</span> Onderhoud</button>
+    <button type="button" data-open-admin="maintenance"><span>03</span> Onderhoud</button><button type="button" data-open-admin="countdown" data-owner-only><span>04</span> Opening</button>
     <button type="button" data-open-admin="accounts"><span>04</span> Accounts</button>
     <button type="button" data-open-admin="audit"><span>05</span> Activiteiten</button>
     <button type="button" id="adminQuickLogout" class="admin-quick-logout"><span>↪</span> Uitloggen</button>
@@ -565,7 +617,7 @@
           <div class="admin-user"><span class="admin-avatar">A</span><div><strong id="adminDisplayName">Beheerder</strong><small id="adminRole">—</small></div></div>
           <button type="button" class="admin-tab active" data-admin-tab="overview">Overzicht</button>
           <button type="button" class="admin-tab" data-admin-tab="articles">Artikelen</button>
-          <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button>
+          <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button><button type="button" class="admin-tab" data-admin-tab="countdown" data-owner-only>Opening</button>
           <button type="button" class="admin-tab" data-admin-tab="accounts">Accounts</button>
           <button type="button" class="admin-tab" data-admin-tab="audit">Activiteiten</button>
           <button type="button" id="adminLogout" class="admin-logout">Uitloggen</button>
@@ -620,6 +672,32 @@
               <label>Kleur<select id="maintenanceTone"><option value="warning">Oranje — onderhoud</option><option value="danger">Rood — storing</option><option value="info">Blauw — informatie</option></select></label>
               <button class="admin-primary" type="submit">Melding opslaan</button>
               <p id="maintenanceStatus" class="admin-status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="admin-view" data-admin-view="countdown" data-owner-only hidden>
+            <span class="admin-kicker">LAUNCH CONTROL</span><h3>Opening countdown</h3>
+            <p class="launch-admin-intro">Zet de volledige APV tijdelijk op slot. Bezoekers zien alleen de geanimeerde countdown; jouw Owner-account kan altijd naar binnen.</p>
+            <form id="launchControlForm" class="admin-form launch-control-form">
+              <label class="admin-switch-row"><span><strong>Countdown actief</strong><small>Verberg de APV voor alle gewone bezoekers</small></span><input id="launchEnabled" type="checkbox"></label>
+              <label>Openingstitel<input id="launchTitle" maxlength="80" required placeholder="De APV opent binnenkort"></label>
+              <label>Bericht<textarea id="launchMessage" rows="3" maxlength="220" required placeholder="We bereiden een grote opening voor."></textarea></label>
+              <label>Openingsdatum en tijd<input id="launchTarget" type="datetime-local" required></label>
+              <div class="launch-presets" aria-label="Snelle countdownkeuze">
+                <button type="button" data-launch-add="1">+ 1 uur</button>
+                <button type="button" data-launch-add="24">+ 1 dag</button>
+                <button type="button" data-launch-add="168">+ 1 week</button>
+              </div>
+              <aside class="launch-admin-preview">
+                <span>LIVE VOORBEELD</span>
+                <strong id="launchPreviewTitle">De APV opent binnenkort</strong>
+                <small id="launchPreviewTime">Kies een openingsmoment</small>
+              </aside>
+              <div class="launch-admin-actions">
+                <button class="admin-primary" type="submit">Countdown opslaan</button>
+                <button id="launchDisable" class="admin-danger-button" type="button">Countdown uitschakelen</button>
+              </div>
+              <p id="launchStatus" class="admin-status" aria-live="polite"></p>
             </form>
           </section>
           <section class="admin-view" data-admin-view="accounts">
@@ -1130,6 +1208,144 @@
     })();
   </script>
 
-  <script src="./admin.js?v=6"></script>
+
+  <script id="afr-launch-control-script">
+    (() => {
+      const SUPABASE_URL = "https://pbzukefsrtmymowlsdrp.supabase.co";
+      const PUBLISHABLE_KEY = "sb_publishable_fIWTEv4S7qnetQuMbyxQjA_3KffY1lf";
+      const gate = document.getElementById("afrLaunchGate");
+      if (!gate) return;
+
+      const nodes = {
+        title: document.getElementById("afrLaunchTitle"),
+        message: document.getElementById("afrLaunchMessage"),
+        date: document.getElementById("afrLaunchDate"),
+        days: document.getElementById("afrLaunchDays"),
+        hours: document.getElementById("afrLaunchHours"),
+        minutes: document.getElementById("afrLaunchMinutes"),
+        seconds: document.getElementById("afrLaunchSeconds")
+      };
+      const bypassKey = "afr-launch-owner-bypass";
+      let config = null;
+      let timer = 0;
+      let ownerConfirmed = false;
+      let liveTimer = 0;
+
+      const pad = value => String(Math.max(0, value)).padStart(2, "0");
+      const bypassed = eventId => {
+        try { return sessionStorage.getItem(bypassKey) === eventId; }
+        catch (error) { return false; }
+      };
+      const setBypass = eventId => {
+        try { sessionStorage.setItem(bypassKey, eventId); }
+        catch (error) {}
+      };
+      const clearBypass = () => {
+        try { sessionStorage.removeItem(bypassKey); }
+        catch (error) {}
+      };
+
+      function hideGate() {
+        gate.classList.remove("is-active", "afr-launch-live");
+        gate.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("launch-locked");
+        clearInterval(timer);
+        timer = 0;
+      }
+
+      function tick() {
+        if (!config) return hideGate();
+        const target = new Date(config.target_at).getTime();
+        const remaining = target - Date.now();
+        if (!Number.isFinite(target) || remaining <= 0) {
+          clearInterval(timer);
+          timer = 0;
+          gate.classList.add("afr-launch-live");
+          nodes.title.textContent = config.live_title || "WE ZIJN LIVE";
+          nodes.message.textContent = "De APV wordt nu geopend.";
+          nodes.date.textContent = "";
+          clearTimeout(liveTimer);
+          liveTimer = window.setTimeout(hideGate, 2600);
+          return;
+        }
+        const totalSeconds = Math.floor(remaining / 1000);
+        nodes.days.textContent = pad(Math.floor(totalSeconds / 86400));
+        nodes.hours.textContent = pad(Math.floor(totalSeconds % 86400 / 3600));
+        nodes.minutes.textContent = pad(Math.floor(totalSeconds % 3600 / 60));
+        nodes.seconds.textContent = pad(totalSeconds % 60);
+      }
+
+      function showGate(next) {
+        config = next;
+        if (ownerConfirmed) setBypass(next.event_id);
+        if (bypassed(next.event_id)) return hideGate();
+        nodes.title.textContent = next.title || "De APV opent binnenkort";
+        nodes.message.textContent = next.message || "De vernieuwde regelgeving wordt klaargezet.";
+        const target = new Date(next.target_at);
+        nodes.date.textContent = Number.isNaN(target.getTime()) ? "" : target.toLocaleString("nl-NL", {
+          weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit"
+        });
+        gate.classList.remove("afr-launch-live");
+        gate.classList.add("is-active");
+        gate.setAttribute("aria-hidden", "false");
+        document.body.classList.add("launch-locked");
+        clearInterval(timer);
+        tick();
+        timer = window.setInterval(tick, 1000);
+      }
+
+      async function refresh() {
+        try {
+          const response = await fetch(SUPABASE_URL + "/rest/v1/site_settings?key=eq.maintenance&select=value", {
+            headers: { apikey: PUBLISHABLE_KEY },
+            cache: "no-store"
+          });
+          if (!response.ok) throw new Error("Countdown kon niet worden geladen");
+          const rows = await response.json();
+          const next = rows?.[0]?.value?.launch;
+          const target = new Date(next?.target_at || 0).getTime();
+          if (next?.enabled && target > Date.now()) showGate(next);
+          else {
+            config = next || null;
+            hideGate();
+          }
+        } catch (error) {
+          hideGate();
+        }
+      }
+
+      document.getElementById("afrLaunchOwnerAccess").addEventListener("click", () => {
+        document.querySelector(".admin-open")?.click();
+      });
+
+      window.AFRLaunchControl = {
+        refresh,
+        ownerAuthenticated(profile) {
+          if (profile?.role !== "owner") return;
+          ownerConfirmed = true;
+          if (config?.event_id) {
+            setBypass(config.event_id);
+            hideGate();
+          }
+        },
+        ownerLoggedOut() {
+          ownerConfirmed = false;
+          clearBypass();
+          refresh();
+        },
+        bypass(eventId) {
+          ownerConfirmed = true;
+          if (eventId) setBypass(eventId);
+          hideGate();
+        }
+      };
+
+      refresh();
+      window.setInterval(refresh, 30000);
+    })();
+  </script>
+
+
+  <script src="./admin.js?v=7"></script>
 </body>
 </html>
