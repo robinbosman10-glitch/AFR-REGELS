@@ -108,7 +108,7 @@
       const value={...root,launch};
       await ensureSession();
       await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});
-      window.AFRLaunchControl?.bypass(launch.event_id);
+      window.AFRLaunchControl?.ownerAuthenticated(profile);
       await window.AFRLaunchControl?.refresh();
       status(el,launch.enabled?'Countdown geactiveerd. Bezoekers zien nu alleen de timer.':'Countdowninstellingen opgeslagen.','success');
     }catch(err){status(el,err.message,'error')}finally{button.disabled=false}
