@@ -15,18 +15,21 @@
   async function ensureSession(){if(session?.expires_at&&session.expires_at<Math.floor(Date.now()/1000)+60)await refreshSession()}
   async function loadProfile(){await ensureSession();const rows=await authRequest('/rest/v1/admin_profiles?id=eq.'+encodeURIComponent(session.user.id)+'&select=*');const item=rows?.[0];if(!item||!item.active)throw new Error('Dit account heeft geen actieve beheerdersrechten.');profile=item;return item}
   const can=permission=>profile?.role==='owner'||profile?.permissions?.includes(permission);
+  const articlePermissions=['view_articles','add_articles','edit_articles','publish_articles','delete_articles','manage_files','manage_articles'];
+  const canAny=(...permissions)=>permissions.some(permission=>can(permission));
+  const canUseArticles=()=>canAny(...articlePermissions);
 
   function openPanel(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>$('#adminUsername')?.focus(),80)}
   function closePanel(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.style.overflow=''}
   adminOpen.addEventListener('click',()=>{if(profile){selectAdminTab('overview');openPanel()}else openPanel()});$('.admin-close').addEventListener('click',closePanel);overlay.addEventListener('click',e=>{if(e.target===overlay)closePanel()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))closePanel()});
 
-  function showDashboard(){loginView.hidden=true;dashboard.hidden=false;document.body.classList.add('admin-authenticated');quickLinks.hidden=false;adminOpen.querySelector('span:last-child').textContent=profile.display_name;$('#adminDisplayName').textContent=profile.display_name;$('#adminRole').textContent=profile.role;$('#adminRoleStat').textContent=profile.role;document.querySelectorAll('.admin-tab,[data-open-admin]').forEach(button=>{const tab=button.dataset.adminTab||button.dataset.openAdmin;button.hidden=(tab==='accounts'&&!can('manage_accounts'))||(tab==='audit'&&!can('view_audit_log'))||(tab==='articles'&&!can('manage_articles'))||(tab==='maintenance'&&!can('manage_maintenance'))||(tab==='countdown'&&profile?.role!=='owner')});document.querySelectorAll('[data-owner-only]').forEach(node=>node.hidden=profile?.role!=='owner');window.AFRLaunchControl?.ownerAuthenticated(profile);loadOverview()}
+  function showDashboard(){loginView.hidden=true;dashboard.hidden=false;document.body.classList.add('admin-authenticated');quickLinks.hidden=false;adminOpen.querySelector('span:last-child').textContent=profile.display_name;$('#adminDisplayName').textContent=profile.display_name;$('#adminRole').textContent=profile.role;$('#adminRoleStat').textContent=profile.role;document.querySelectorAll('.admin-tab,[data-open-admin]').forEach(button=>{const tab=button.dataset.adminTab||button.dataset.openAdmin;button.hidden=(tab==='accounts'&&!can('manage_accounts'))||(tab==='audit'&&!can('view_audit_log'))||(tab==='articles'&&!canUseArticles())||(tab==='maintenance'&&!can('manage_maintenance'))||(tab==='server'&&!can('manage_server_status'))||(tab==='countdown'&&!can('manage_countdown'))});document.querySelectorAll('[data-owner-only]').forEach(node=>node.hidden=profile?.role!=='owner');window.AFRLaunchControl?.ownerAuthenticated(profile);loadOverview()}
   function showLogin(){dashboard.hidden=true;loginView.hidden=false;profile=null;accounts=[];document.body.classList.remove('admin-authenticated');quickLinks.hidden=true;adminOpen.querySelector('span:last-child').textContent='Beheer'}
   $('#adminLoginForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter,username=$('#adminUsername').value.trim().toLowerCase(),password=$('#adminPassword').value;status($('#adminLoginStatus'),'Beveiligd controleren…');button.disabled=true;try{if(!/^[a-z0-9._-]{3,32}$/.test(username))throw new Error('Controleer de gebruikersnaam.');const data=await publicRequest('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:username+'@'+LOGIN_DOMAIN,password})});data.expires_at=Math.floor(Date.now()/1000)+data.expires_in;saveSession(data);await loadProfile();$('#adminPassword').value='';showDashboard();closePanel();status($('#adminLoginStatus'),'')}catch(err){saveSession(null);status($('#adminLoginStatus'),err.message,'error')}finally{button.disabled=false}});
   async function logoutAdmin(){try{if(session)await authRequest('/auth/v1/logout',{method:'POST'})}catch(e){}saveSession(null);showLogin();closePanel();window.AFRLaunchControl?.ownerLoggedOut()}
   $('#adminLogout').addEventListener('click',logoutAdmin);$('#adminQuickLogout').addEventListener('click',logoutAdmin);
 
-  function selectAdminTab(tab){if(tab==='countdown'&&profile?.role!=='owner')tab='overview';document.querySelectorAll('.admin-tab').forEach(x=>x.classList.toggle('active',x.dataset.adminTab===tab));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.dataset.adminView===tab));if(tab==='articles')loadArticlePublisher();if(tab==='maintenance')loadMaintenanceForm();if(tab==='countdown')loadLaunchForm();if(tab==='accounts')loadAccounts();if(tab==='audit')loadAudit();if(tab==='overview')loadOverview()}
+  function selectAdminTab(tab){const target=document.querySelector('.admin-tab[data-admin-tab="'+tab+'"]');if(target?.hidden)tab='overview';document.querySelectorAll('.admin-tab').forEach(x=>x.classList.toggle('active',x.dataset.adminTab===tab));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.dataset.adminView===tab));if(tab==='articles')loadArticlePublisher();if(tab==='maintenance')loadMaintenanceForm();if(tab==='server')loadServerControl();if(tab==='countdown')loadLaunchForm();if(tab==='accounts')loadAccounts();if(tab==='audit')loadAudit();if(tab==='overview')loadOverview()}
   document.querySelectorAll('.admin-tab').forEach(button=>button.addEventListener('click',()=>selectAdminTab(button.dataset.adminTab)));
   document.querySelectorAll('[data-open-admin]').forEach(button=>button.addEventListener('click',()=>{selectAdminTab(button.dataset.openAdmin);openPanel()}));
 
@@ -50,6 +53,23 @@
   $('#managedArticleSearch').addEventListener('input',renderManagedArticles);
   async function deleteManagedArticle(item,button){if(!can('delete_articles'))return;const answer=prompt('Typ VERWIJDER om dit artikel definitief uit GitHub te verwijderen:\n\n'+item.title);if(answer!=='VERWIJDER')return;button.disabled=true;const el=$('#managedArticlesStatus');status(el,'Artikel verwijderen uit GitHub…');try{const result=await callArticleFunction({action:'delete',page:item.page,title:item.title});status(el,result.message||'Artikel verwijderd.','success');await loadManagedArticles();loadRecentPublished()}catch(err){status(el,err.message,'error');button.disabled=false}}
 
+  async function loadServerControl(){
+    if(!can('manage_server_status'))return;
+    const card=$('#serverAdminCard'),state=$('#serverAdminState'),players=$('#serverAdminPlayers'),capacity=$('#serverAdminCapacity'),checked=$('#serverAdminChecked'),name=$('#serverAdminName'),el=$('#serverAdminStatus'),button=$('#serverAdminRefresh');
+    card.className='server-admin-card is-loading';state.textContent='Controleren…';status(el,'Live servergegevens ophalen…');if(button)button.disabled=true;
+    try{
+      const response=await fetch(SUPABASE_URL+'/functions/v1/fivem-status',{headers:{apikey:PUBLISHABLE_KEY},cache:'no-store'});
+      const data=await parseResponse(response);
+      const online=data.online!==false&&(Number.isFinite(Number(data.players))||data.hostname);
+      if(!online)throw new Error(data.message||'De server geeft momenteel geen online status terug.');
+      const current=Number.isFinite(Number(data.players))?Number(data.players):0,max=Number.isFinite(Number(data.maxPlayers))?Number(data.maxPlayers):0;
+      card.className='server-admin-card is-online';state.textContent='Server online';players.textContent=String(current);capacity.textContent=max?String(max):'—';name.textContent=data.hostname||'AmersfoortRolePlay';checked.textContent=new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});status(el,'Live verbinding werkt.','success');
+    }catch(err){
+      card.className='server-admin-card is-offline';state.textContent='Niet bereikbaar';players.textContent='0';capacity.textContent='—';checked.textContent=new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});status(el,err.message||'Serverstatus kon niet worden opgehaald.','error');
+    }finally{if(button)button.disabled=false}
+  }
+  $('#serverAdminRefresh').addEventListener('click',loadServerControl);
+
   async function getMaintenance(){const rows=await publicRequest('/rest/v1/site_settings?key=eq.maintenance&select=value');return rows?.[0]?.value||null}
   async function applyMaintenance(){const banner=$('.maintenance-banner');if(!banner)return;try{const cfg=await getMaintenance();if(!cfg)throw new Error();banner.dataset.noticeId=cfg.notice_id||'maintenance';banner.dataset.tone=cfg.tone||'warning';banner.querySelector('.maintenance-copy strong').textContent=cfg.title||'Onderhoud';banner.querySelector('.maintenance-copy span').textContent=cfg.message||'';let dismissed=false;try{dismissed=sessionStorage.getItem('afr-dismissed-maintenance')===banner.dataset.noticeId}catch(e){}banner.classList.toggle('is-hidden',!cfg.enabled||dismissed);banner.classList.add('admin-configured')}catch(e){banner.classList.add('admin-configured')}}
   async function loadMaintenanceForm(){try{const cfg=await getMaintenance();$('#maintenanceEnabled').checked=!!cfg?.enabled;$('#maintenanceTitle').value=cfg?.title||'';$('#maintenanceMessage').value=cfg?.message||'';$('#maintenanceTone').value=cfg?.tone||'warning';status($('#maintenanceStatus'),'')}catch(e){status($('#maintenanceStatus'),e.message,'error')}}
@@ -69,7 +89,7 @@
     $('#launchPreviewTime').textContent=Number.isNaN(target.getTime())?'Kies een openingsmoment':target.toLocaleString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
   }
   async function loadLaunchForm(){
-    if(profile?.role!=='owner')return;
+    if(!can('manage_countdown'))return;
     try{
       const root=await getMaintenance()||{},cfg=root.launch||{};
       $('#launchEnabled').checked=!!cfg.enabled;
@@ -89,7 +109,7 @@
   }));
   $('#launchControlForm').addEventListener('submit',async e=>{
     e.preventDefault();
-    if(profile?.role!=='owner')return;
+    if(!can('manage_countdown'))return;
     const button=e.submitter,el=$('#launchStatus');
     status(el,'Launch countdown opslaan…');button.disabled=true;
     try{
@@ -114,7 +134,7 @@
     }catch(err){status(el,err.message,'error')}finally{button.disabled=false}
   });
   $('#launchDisable').addEventListener('click',async()=>{
-    if(profile?.role!=='owner')return;
+    if(!can('manage_countdown'))return;
     const button=$('#launchDisable'),el=$('#launchStatus');
     status(el,'Countdown uitschakelen…');button.disabled=true;
     try{
@@ -130,7 +150,11 @@
 
   function accountNode(item){const row=document.createElement('article');row.className='admin-account';const dot=document.createElement('span');dot.className='account-state'+(item.active?' active':'');const copy=document.createElement('div'),name=document.createElement('strong'),user=document.createElement('small'),role=document.createElement('span');name.textContent=item.display_name;user.textContent='@'+item.username;role.className='account-role';role.textContent=item.role;copy.append(name,user);row.append(dot,copy,role);return row}
   async function loadAccounts(){const box=$('#adminAccountsList');box.textContent='Accounts laden…';try{accounts=await authRequest('/rest/v1/admin_profiles?select=id,username,display_name,role,permissions,active,created_at&order=created_at.asc');box.textContent='';accounts.forEach(item=>box.append(accountNode(item)));if(!accounts.length)box.textContent='Geen accounts gevonden.'}catch(e){box.textContent=e.message}}
-  $('#createAccountForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter,el=$('#createAccountStatus');status(el,'Account veilig aanmaken…');button.disabled=true;try{await ensureSession();const permissions=[...document.querySelectorAll('input[name="permission"]:checked')].map(x=>x.value);if(permissions.includes('delete_articles')&&!permissions.includes('manage_articles'))permissions.push('manage_articles');const response=await fetch(SUPABASE_URL+'/functions/v1/admin-create-user',{method:'POST',headers:{apikey:PUBLISHABLE_KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify({username:$('#newUsername').value.trim().toLowerCase(),display_name:$('#newDisplayName').value.trim(),password:$('#newPassword').value,role:$('#newRole').value,permissions})});await parseResponse(response);e.target.reset();status(el,'Account is aangemaakt.','success');loadAccounts();loadOverview()}catch(err){const message=/Failed to fetch|404|FunctionsFetchError/i.test(err.message)?'De beveiligde accountfunctie moet nog worden geïnstalleerd.':err.message;status(el,message,'error')}finally{button.disabled=false}});
+  const allPermissions=$('#allPermissions');
+  const permissionInputs=[...document.querySelectorAll('input[name="permission"]')];
+  allPermissions.addEventListener('change',()=>permissionInputs.forEach(input=>input.checked=allPermissions.checked));
+  permissionInputs.forEach(input=>input.addEventListener('change',()=>{allPermissions.checked=permissionInputs.length>0&&permissionInputs.every(item=>item.checked);allPermissions.indeterminate=!allPermissions.checked&&permissionInputs.some(item=>item.checked)}));
+  $('#createAccountForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter,el=$('#createAccountStatus');status(el,'Account veilig aanmaken…');button.disabled=true;try{await ensureSession();const permissions=[...document.querySelectorAll('input[name="permission"]:checked')].map(x=>x.value);const response=await fetch(SUPABASE_URL+'/functions/v1/admin-create-user',{method:'POST',headers:{apikey:PUBLISHABLE_KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify({username:$('#newUsername').value.trim().toLowerCase(),display_name:$('#newDisplayName').value.trim(),password:$('#newPassword').value,role:$('#newRole').value,permissions})});await parseResponse(response);e.target.reset();status(el,'Account is aangemaakt.','success');loadAccounts();loadOverview()}catch(err){const message=/Failed to fetch|404|FunctionsFetchError/i.test(err.message)?'De beveiligde accountfunctie moet nog worden geïnstalleerd.':err.message;status(el,message,'error')}finally{button.disabled=false}});
 
   async function loadAudit(){const box=$('#adminAuditList');box.textContent='Activiteiten laden…';try{const rows=await authRequest('/rest/v1/admin_audit_log?select=id,action,target,created_at,user_id&order=created_at.desc&limit=40');box.textContent='';rows.forEach(item=>{const row=document.createElement('article');row.className='admin-audit-item';const copy=document.createElement('div'),title=document.createElement('strong'),date=document.createElement('small');title.textContent=item.action+(item.target?' · '+item.target:'');date.textContent=new Date(item.created_at).toLocaleString('nl-NL');copy.append(title,date);row.append(copy);box.append(row)});if(!rows.length)box.textContent='Nog geen activiteiten.'}catch(e){box.textContent=e.message}}
 
