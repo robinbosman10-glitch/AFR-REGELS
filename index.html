@@ -517,7 +517,7 @@
     .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
     @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
   </style>
-  <link rel="stylesheet" href="./admin.css?v=7">
+  <link rel="stylesheet" href="./admin.css?v=8">
 
   <style id="afr-server-status-style">
     .server-status-card{
@@ -618,7 +618,9 @@
           <div class="admin-user"><span class="admin-avatar">A</span><div><strong id="adminDisplayName">Beheerder</strong><small id="adminRole">—</small></div></div>
           <button type="button" class="admin-tab active" data-admin-tab="overview">Overzicht</button>
           <button type="button" class="admin-tab" data-admin-tab="articles">Artikelen</button>
-          <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button><button type="button" class="admin-tab" data-admin-tab="countdown" data-owner-only>Opening</button>
+          <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button>
+          <button type="button" class="admin-tab" data-admin-tab="server">Serverbeheer</button>
+          <button type="button" class="admin-tab" data-admin-tab="countdown">Opening</button>
           <button type="button" class="admin-tab" data-admin-tab="accounts">Accounts</button>
           <button type="button" class="admin-tab" data-admin-tab="audit">Activiteiten</button>
           <button type="button" id="adminLogout" class="admin-logout">Uitloggen</button>
@@ -676,7 +678,29 @@
             </form>
           </section>
 
-          <section class="admin-view" data-admin-view="countdown" data-owner-only hidden>
+          <section class="admin-view" data-admin-view="server">
+            <span class="admin-kicker">FIVEM LIVE CONTROL</span><h3>Serverbeheer</h3>
+            <p class="server-admin-intro">Bekijk rechtstreeks vanuit het beheerpaneel of de AFR-server bereikbaar is en hoeveel spelers er online zijn.</p>
+            <div id="serverAdminCard" class="server-admin-card is-loading">
+              <div class="server-admin-head">
+                <span class="server-admin-pulse"></span>
+                <div><small>LIVE SERVERSTATUS</small><strong id="serverAdminState">Controleren…</strong></div>
+              </div>
+              <div class="server-admin-metrics">
+                <article><span>Spelers</span><strong id="serverAdminPlayers">--</strong></article>
+                <article><span>Capaciteit</span><strong id="serverAdminCapacity">--</strong></article>
+                <article><span>Laatste controle</span><strong id="serverAdminChecked">--:--</strong></article>
+              </div>
+              <div class="server-admin-name"><span>Servernaam</span><strong id="serverAdminName">AmersfoortRolePlay</strong></div>
+              <div class="server-admin-actions">
+                <button id="serverAdminRefresh" class="admin-primary" type="button">Status vernieuwen</button>
+                <a class="server-admin-join" href="https://cfx.re/join/rlvgdj" target="_blank" rel="noopener">Direct verbinden →</a>
+              </div>
+              <p id="serverAdminStatus" class="admin-status" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <section class="admin-view" data-admin-view="countdown">
             <span class="admin-kicker">LAUNCH CONTROL</span><h3>Opening countdown</h3>
             <p class="launch-admin-intro">Zet de volledige APV tijdelijk op slot. Bezoekers zien alleen de geanimeerde countdown; jouw Owner-account kan altijd naar binnen.</p>
             <form id="launchControlForm" class="admin-form launch-control-form">
@@ -708,7 +732,23 @@
               <h4>Nieuw account</h4>
               <div class="admin-form-grid"><label>Gebruikersnaam<input id="newUsername" pattern="[a-z0-9._-]{3,32}" required></label><label>Weergavenaam<input id="newDisplayName" maxlength="50" required></label></div>
               <div class="admin-form-grid"><label>Tijdelijk wachtwoord<input id="newPassword" type="password" minlength="10" required autocomplete="new-password"></label><label>Rol<select id="newRole"><option value="admin">Beheerder</option><option value="editor">Redacteur</option><option value="analyst">Analist</option><option value="viewer">Alleen bekijken</option></select></label></div>
-              <fieldset><legend>Rechten kiezen</legend><label><input type="checkbox" name="permission" value="manage_articles"> Artikelen toevoegen en beheren</label><label><input type="checkbox" name="permission" value="delete_articles"> Artikelen verwijderen</label><label><input type="checkbox" name="permission" value="manage_maintenance"> Onderhoud beheren</label><label><input type="checkbox" name="permission" value="manage_changelog"> Wijzigingen beheren</label><label><input type="checkbox" name="permission" value="view_analytics"> Statistieken bekijken</label><label><input type="checkbox" name="permission" value="view_audit_log"> Activiteiten bekijken</label><label><input type="checkbox" name="permission" value="manage_accounts"> Accounts beheren</label></fieldset>
+              <fieldset class="permission-grid"><legend>Rechten kiezen</legend>
+                <label><input type="checkbox" name="permission" value="view_articles"> Artikelen bekijken</label>
+                <label><input type="checkbox" name="permission" value="add_articles"> Artikelen toevoegen</label>
+                <label><input type="checkbox" name="permission" value="edit_articles"> Artikelen aanpassen</label>
+                <label><input type="checkbox" name="permission" value="publish_articles"> Artikelen publiceren</label>
+                <label><input type="checkbox" name="permission" value="delete_articles"> Artikelen verwijderen</label>
+                <label><input type="checkbox" name="permission" value="manage_files"> Bestanden beheren</label>
+                <label><input type="checkbox" name="permission" value="manage_maintenance"> Onderhoud beheren</label>
+                <label><input type="checkbox" name="permission" value="manage_countdown"> Countdown beheren</label>
+                <label><input type="checkbox" name="permission" value="send_discord_notifications"> Discord-meldingen versturen</label>
+                <label><input type="checkbox" name="permission" value="manage_server_status"> Serverstatus beheren</label>
+                <label><input type="checkbox" name="permission" value="view_analytics"> Statistieken bekijken</label>
+                <label><input type="checkbox" name="permission" value="view_audit_log"> Activiteiten bekijken</label>
+                <label><input type="checkbox" name="permission" value="manage_accounts"> Accounts beheren</label>
+                <label><input type="checkbox" name="permission" value="restore_backups"> Back-ups herstellen</label>
+                <label class="permission-all"><input id="allPermissions" type="checkbox"> <span><strong>Alles</strong><small>Alle rechten in één keer selecteren</small></span></label>
+              </fieldset>
               <button class="admin-primary" type="submit">Account aanmaken</button>
               <p id="createAccountStatus" class="admin-status" aria-live="polite"></p>
             </form>
@@ -1355,6 +1395,6 @@
   </script>
 
 
-  <script src="./admin.js?v=8"></script>
+  <script src="./admin.js?v=9"></script>
 </body>
 </html>
