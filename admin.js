@@ -20,13 +20,13 @@
   function closePanel(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.style.overflow=''}
   adminOpen.addEventListener('click',()=>{if(profile){selectAdminTab('overview');openPanel()}else openPanel()});$('.admin-close').addEventListener('click',closePanel);overlay.addEventListener('click',e=>{if(e.target===overlay)closePanel()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))closePanel()});
 
-  function showDashboard(){loginView.hidden=true;dashboard.hidden=false;document.body.classList.add('admin-authenticated');quickLinks.hidden=false;adminOpen.querySelector('span:last-child').textContent=profile.display_name;$('#adminDisplayName').textContent=profile.display_name;$('#adminRole').textContent=profile.role;$('#adminRoleStat').textContent=profile.role;document.querySelectorAll('.admin-tab,[data-open-admin]').forEach(button=>{const tab=button.dataset.adminTab||button.dataset.openAdmin;button.hidden=(tab==='accounts'&&!can('manage_accounts'))||(tab==='audit'&&!can('view_audit_log'))||(tab==='articles'&&!can('manage_articles'))||(tab==='maintenance'&&!can('manage_maintenance'))});loadOverview()}
+  function showDashboard(){loginView.hidden=true;dashboard.hidden=false;document.body.classList.add('admin-authenticated');quickLinks.hidden=false;adminOpen.querySelector('span:last-child').textContent=profile.display_name;$('#adminDisplayName').textContent=profile.display_name;$('#adminRole').textContent=profile.role;$('#adminRoleStat').textContent=profile.role;document.querySelectorAll('.admin-tab,[data-open-admin]').forEach(button=>{const tab=button.dataset.adminTab||button.dataset.openAdmin;button.hidden=(tab==='accounts'&&!can('manage_accounts'))||(tab==='audit'&&!can('view_audit_log'))||(tab==='articles'&&!can('manage_articles'))||(tab==='maintenance'&&!can('manage_maintenance'))||(tab==='countdown'&&profile?.role!=='owner')});document.querySelectorAll('[data-owner-only]').forEach(node=>node.hidden=profile?.role!=='owner');window.AFRLaunchControl?.ownerAuthenticated(profile);loadOverview()}
   function showLogin(){dashboard.hidden=true;loginView.hidden=false;profile=null;accounts=[];document.body.classList.remove('admin-authenticated');quickLinks.hidden=true;adminOpen.querySelector('span:last-child').textContent='Beheer'}
   $('#adminLoginForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter,username=$('#adminUsername').value.trim().toLowerCase(),password=$('#adminPassword').value;status($('#adminLoginStatus'),'Beveiligd controleren…');button.disabled=true;try{if(!/^[a-z0-9._-]{3,32}$/.test(username))throw new Error('Controleer de gebruikersnaam.');const data=await publicRequest('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:username+'@'+LOGIN_DOMAIN,password})});data.expires_at=Math.floor(Date.now()/1000)+data.expires_in;saveSession(data);await loadProfile();$('#adminPassword').value='';showDashboard();closePanel();status($('#adminLoginStatus'),'')}catch(err){saveSession(null);status($('#adminLoginStatus'),err.message,'error')}finally{button.disabled=false}});
-  async function logoutAdmin(){try{if(session)await authRequest('/auth/v1/logout',{method:'POST'})}catch(e){}saveSession(null);showLogin();closePanel()}
+  async function logoutAdmin(){try{if(session)await authRequest('/auth/v1/logout',{method:'POST'})}catch(e){}saveSession(null);showLogin();closePanel();window.AFRLaunchControl?.ownerLoggedOut()}
   $('#adminLogout').addEventListener('click',logoutAdmin);$('#adminQuickLogout').addEventListener('click',logoutAdmin);
 
-  function selectAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.toggle('active',x.dataset.adminTab===tab));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.dataset.adminView===tab));if(tab==='articles')loadArticlePublisher();if(tab==='maintenance')loadMaintenanceForm();if(tab==='accounts')loadAccounts();if(tab==='audit')loadAudit();if(tab==='overview')loadOverview()}
+  function selectAdminTab(tab){if(tab==='countdown'&&profile?.role!=='owner')tab='overview';document.querySelectorAll('.admin-tab').forEach(x=>x.classList.toggle('active',x.dataset.adminTab===tab));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.dataset.adminView===tab));if(tab==='articles')loadArticlePublisher();if(tab==='maintenance')loadMaintenanceForm();if(tab==='countdown')loadLaunchForm();if(tab==='accounts')loadAccounts();if(tab==='audit')loadAudit();if(tab==='overview')loadOverview()}
   document.querySelectorAll('.admin-tab').forEach(button=>button.addEventListener('click',()=>selectAdminTab(button.dataset.adminTab)));
   document.querySelectorAll('[data-open-admin]').forEach(button=>button.addEventListener('click',()=>{selectAdminTab(button.dataset.openAdmin);openPanel()}));
 
@@ -53,7 +53,80 @@
   async function getMaintenance(){const rows=await publicRequest('/rest/v1/site_settings?key=eq.maintenance&select=value');return rows?.[0]?.value||null}
   async function applyMaintenance(){const banner=$('.maintenance-banner');if(!banner)return;try{const cfg=await getMaintenance();if(!cfg)throw new Error();banner.dataset.noticeId=cfg.notice_id||'maintenance';banner.dataset.tone=cfg.tone||'warning';banner.querySelector('.maintenance-copy strong').textContent=cfg.title||'Onderhoud';banner.querySelector('.maintenance-copy span').textContent=cfg.message||'';let dismissed=false;try{dismissed=sessionStorage.getItem('afr-dismissed-maintenance')===banner.dataset.noticeId}catch(e){}banner.classList.toggle('is-hidden',!cfg.enabled||dismissed);banner.classList.add('admin-configured')}catch(e){banner.classList.add('admin-configured')}}
   async function loadMaintenanceForm(){try{const cfg=await getMaintenance();$('#maintenanceEnabled').checked=!!cfg?.enabled;$('#maintenanceTitle').value=cfg?.title||'';$('#maintenanceMessage').value=cfg?.message||'';$('#maintenanceTone').value=cfg?.tone||'warning';status($('#maintenanceStatus'),'')}catch(e){status($('#maintenanceStatus'),e.message,'error')}}
-  $('#maintenanceForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;status($('#maintenanceStatus'),'Opslaan…');button.disabled=true;try{const value={enabled:$('#maintenanceEnabled').checked,title:$('#maintenanceTitle').value.trim(),message:$('#maintenanceMessage').value.trim(),tone:$('#maintenanceTone').value,notice_id:'notice-'+Date.now()};await ensureSession();await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});status($('#maintenanceStatus'),'Onderhoudsmelding opgeslagen.','success');await applyMaintenance()}catch(err){status($('#maintenanceStatus'),err.message,'error')}finally{button.disabled=false}});
+  $('#maintenanceForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;status($('#maintenanceStatus'),'Opslaan…');button.disabled=true;try{const current=await getMaintenance()||{};const value={...current,enabled:$('#maintenanceEnabled').checked,title:$('#maintenanceTitle').value.trim(),message:$('#maintenanceMessage').value.trim(),tone:$('#maintenanceTone').value,notice_id:'notice-'+Date.now()};await ensureSession();await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});status($('#maintenanceStatus'),'Onderhoudsmelding opgeslagen.','success');await applyMaintenance()}catch(err){status($('#maintenanceStatus'),err.message,'error')}finally{button.disabled=false}});
+
+
+  function launchLocalValue(value){
+    const date=value?new Date(value):new Date(Date.now()+24*60*60*1000);
+    if(Number.isNaN(date.getTime()))return'';
+    const pad=value=>String(value).padStart(2,'0');
+    return date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate())+'T'+pad(date.getHours())+':'+pad(date.getMinutes());
+  }
+  function updateLaunchPreview(){
+    const title=$('#launchTitle').value.trim()||'De APV opent binnenkort';
+    const target=new Date($('#launchTarget').value);
+    $('#launchPreviewTitle').textContent=title;
+    $('#launchPreviewTime').textContent=Number.isNaN(target.getTime())?'Kies een openingsmoment':target.toLocaleString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  }
+  async function loadLaunchForm(){
+    if(profile?.role!=='owner')return;
+    try{
+      const root=await getMaintenance()||{},cfg=root.launch||{};
+      $('#launchEnabled').checked=!!cfg.enabled;
+      $('#launchTitle').value=cfg.title||'De APV opent binnenkort';
+      $('#launchMessage').value=cfg.message||'De vernieuwde regelgeving wordt klaargezet.';
+      $('#launchTarget').value=launchLocalValue(cfg.target_at);
+      updateLaunchPreview();
+      const active=cfg.enabled&&new Date(cfg.target_at).getTime()>Date.now();
+      status($('#launchStatus'),active?'Countdown is actief voor alle bezoekers.':'Countdown staat uit.',active?'success':'');
+    }catch(err){status($('#launchStatus'),err.message,'error')}
+  }
+  ['#launchTitle','#launchTarget'].forEach(selector=>$(selector).addEventListener('input',updateLaunchPreview));
+  document.querySelectorAll('[data-launch-add]').forEach(button=>button.addEventListener('click',()=>{
+    const hours=Number(button.dataset.launchAdd)||1;
+    $('#launchTarget').value=launchLocalValue(new Date(Date.now()+hours*60*60*1000));
+    updateLaunchPreview();
+  }));
+  $('#launchControlForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(profile?.role!=='owner')return;
+    const button=e.submitter,el=$('#launchStatus');
+    status(el,'Launch countdown opslaan…');button.disabled=true;
+    try{
+      const target=new Date($('#launchTarget').value);
+      if(Number.isNaN(target.getTime()))throw new Error('Kies een geldige openingsdatum en tijd.');
+      if($('#launchEnabled').checked&&target.getTime()<=Date.now())throw new Error('De openingsdatum moet in de toekomst liggen.');
+      const root=await getMaintenance()||{};
+      const launch={
+        enabled:$('#launchEnabled').checked,
+        title:$('#launchTitle').value.trim()||'De APV opent binnenkort',
+        message:$('#launchMessage').value.trim()||'De vernieuwde regelgeving wordt klaargezet.',
+        target_at:target.toISOString(),
+        live_title:'WE ZIJN LIVE',
+        event_id:'launch-'+Date.now()
+      };
+      const value={...root,launch};
+      await ensureSession();
+      await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});
+      window.AFRLaunchControl?.bypass(launch.event_id);
+      await window.AFRLaunchControl?.refresh();
+      status(el,launch.enabled?'Countdown geactiveerd. Bezoekers zien nu alleen de timer.':'Countdowninstellingen opgeslagen.','success');
+    }catch(err){status(el,err.message,'error')}finally{button.disabled=false}
+  });
+  $('#launchDisable').addEventListener('click',async()=>{
+    if(profile?.role!=='owner')return;
+    const button=$('#launchDisable'),el=$('#launchStatus');
+    status(el,'Countdown uitschakelen…');button.disabled=true;
+    try{
+      const root=await getMaintenance()||{},previous=root.launch||{};
+      const value={...root,launch:{...previous,enabled:false,event_id:'launch-'+Date.now()}};
+      await ensureSession();
+      await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});
+      $('#launchEnabled').checked=false;
+      await window.AFRLaunchControl?.refresh();
+      status(el,'Countdown uitgeschakeld. De APV is weer zichtbaar voor iedereen.','success');
+    }catch(err){status(el,err.message,'error')}finally{button.disabled=false}
+  });
 
   function accountNode(item){const row=document.createElement('article');row.className='admin-account';const dot=document.createElement('span');dot.className='account-state'+(item.active?' active':'');const copy=document.createElement('div'),name=document.createElement('strong'),user=document.createElement('small'),role=document.createElement('span');name.textContent=item.display_name;user.textContent='@'+item.username;role.className='account-role';role.textContent=item.role;copy.append(name,user);row.append(dot,copy,role);return row}
   async function loadAccounts(){const box=$('#adminAccountsList');box.textContent='Accounts laden…';try{accounts=await authRequest('/rest/v1/admin_profiles?select=id,username,display_name,role,permissions,active,created_at&order=created_at.asc');box.textContent='';accounts.forEach(item=>box.append(accountNode(item)));if(!accounts.length)box.textContent='Geen accounts gevonden.'}catch(e){box.textContent=e.message}}
