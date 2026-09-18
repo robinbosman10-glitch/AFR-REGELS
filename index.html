@@ -510,12 +510,13 @@
     @media(max-width:760px){.copy-article-link{margin-left:0}.copy-link-label{font-size:11px}}
   </style>
   <style id="afr-maintenance-style">
-    .maintenance-banner{position:relative;z-index:1200;display:flex;align-items:center;gap:14px;padding:12px max(18px,calc((100vw - 1500px)/2));color:#fff4d6;background:linear-gradient(90deg,#6f3500,#ad5700 48%,#6f3500);border-bottom:1px solid #ffb13b;box-shadow:0 5px 22px rgba(45,21,0,.25)}
-    .maintenance-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:2px solid #ffd277;border-radius:50%;font-weight:950;color:#261100;background:#ffd277}
-    .maintenance-copy{display:flex;align-items:baseline;gap:12px;min-width:0}.maintenance-copy strong{font-size:14px;letter-spacing:.04em;text-transform:uppercase}.maintenance-copy span{font-size:14px}
-    .maintenance-close{margin-left:auto;flex:0 0 36px;width:36px;height:36px;border:1px solid rgba(255,255,255,.28);border-radius:10px;color:#fff;background:rgba(0,0,0,.15);font-size:24px;line-height:1;cursor:pointer}
-    .maintenance-close:hover{background:rgba(0,0,0,.32)}.maintenance-banner.is-hidden{display:none}
-    @media(max-width:760px){.maintenance-banner{align-items:flex-start;padding:11px 12px;gap:10px}.maintenance-copy{display:grid;gap:2px}.maintenance-copy strong,.maintenance-copy span{font-size:12px}.maintenance-close{width:32px;height:32px;flex-basis:32px}}
+    .maintenance-banner{position:sticky;top:14px;z-index:1200;display:flex;align-items:center;gap:18px;min-height:78px;margin:14px 16px 10px;padding:17px max(24px,calc((100vw - 1460px)/2));color:#fff4d6;background:linear-gradient(90deg,#6f3500,#ad5700 48%,#6f3500);border:1px solid #ffb13b;border-radius:16px;box-shadow:0 10px 32px rgba(45,21,0,.34),0 0 0 1px rgba(255,177,59,.08)}
+    body:has(.maintenance-banner:not(.is-hidden)) .top{top:102px}
+    .maintenance-icon{display:grid;place-items:center;flex:0 0 43px;width:43px;height:43px;border:2px solid #ffd277;border-radius:50%;font-size:20px;font-weight:950;color:#261100;background:#ffd277;box-shadow:0 0 18px rgba(255,210,119,.28)}
+    .maintenance-copy{display:flex;align-items:baseline;gap:15px;min-width:0}.maintenance-copy strong{font-size:18px;letter-spacing:.045em;text-transform:uppercase}.maintenance-copy span{font-size:17px;font-weight:650;line-height:1.4}
+    .maintenance-close{margin-left:auto;flex:0 0 46px;width:46px;height:46px;border:1px solid rgba(255,255,255,.32);border-radius:12px;color:#fff;background:rgba(0,0,0,.18);font-size:29px;line-height:1;cursor:pointer}
+    .maintenance-close:hover{background:rgba(0,0,0,.38)}.maintenance-banner.is-hidden{display:none}
+    @media(max-width:760px){.maintenance-banner{top:8px;align-items:center;min-height:70px;margin:8px 8px 6px;padding:13px 14px;gap:11px;border-radius:13px}body:has(.maintenance-banner:not(.is-hidden)) .top{top:84px}.maintenance-copy{display:grid;gap:3px}.maintenance-copy strong{font-size:14px}.maintenance-copy span{font-size:13px}.maintenance-icon{width:36px;height:36px;flex-basis:36px;font-size:16px}.maintenance-close{width:38px;height:38px;flex-basis:38px;font-size:24px}}
       /* Discord serverlogo's */
     .article table img[alt^="Discord"]{display:block;width:58px;height:58px;margin:auto;border-radius:14px;object-fit:cover;background:#07192b;box-shadow:0 0 0 1px #26cfff55,0 8px 20px #001b3390,0 0 18px #18cfff22}
     .article table td:has(img[alt^="Discord"]){width:82px;padding:10px;vertical-align:middle}
