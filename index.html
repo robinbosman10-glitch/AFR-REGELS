@@ -31,6 +31,7 @@
     .afr-launch-date{color:#d9e9f5;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
     .afr-launch-owner{margin-top:28px;padding:10px 15px;border:1px solid #2b5976;border-radius:11px;background:#06152299;color:#91aabd;font:800 11px/1 inherit;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
     .afr-launch-owner:hover{border-color:#36d9ff;color:#fff;background:#0a2940}
+    .afr-launch-owner.is-owner-ready{border-color:#31e1ff;background:linear-gradient(135deg,#073b50,#123d71);color:#fff;box-shadow:0 0 22px #18d8ff35}
     .afr-launch-live .afr-launch-countdown{display:none}
     .afr-launch-live .afr-launch-title{color:#7df3ff;animation:afrLaunchLive 1s ease-in-out infinite alternate}
     body.launch-locked .admin-overlay{z-index:120010}
@@ -1277,7 +1278,6 @@
 
       function showGate(next) {
         config = next;
-        if (ownerConfirmed) setBypass(next.event_id);
         if (bypassed(next.event_id)) return hideGate();
         nodes.title.textContent = next.title || "De APV opent binnenkort";
         nodes.message.textContent = next.message || "De vernieuwde regelgeving wordt klaargezet.";
@@ -1314,7 +1314,17 @@
         }
       }
 
-      document.getElementById("afrLaunchOwnerAccess").addEventListener("click", () => {
+      const ownerAccess = document.getElementById("afrLaunchOwnerAccess");
+      function updateOwnerAccess() {
+        ownerAccess.textContent = ownerConfirmed ? "Timer overslaan" : "Owner toegang";
+        ownerAccess.classList.toggle("is-owner-ready", ownerConfirmed);
+      }
+      ownerAccess.addEventListener("click", () => {
+        if (ownerConfirmed && config?.event_id) {
+          setBypass(config.event_id);
+          hideGate();
+          return;
+        }
         document.querySelector(".admin-open")?.click();
       });
 
@@ -1323,14 +1333,12 @@
         ownerAuthenticated(profile) {
           if (profile?.role !== "owner") return;
           ownerConfirmed = true;
-          if (config?.event_id) {
-            setBypass(config.event_id);
-            hideGate();
-          }
+          updateOwnerAccess();
         },
         ownerLoggedOut() {
           ownerConfirmed = false;
           clearBypass();
+          updateOwnerAccess();
           refresh();
         },
         bypass(eventId) {
@@ -1340,6 +1348,7 @@
         }
       };
 
+      updateOwnerAccess();
       refresh();
       window.setInterval(refresh, 30000);
     })();
