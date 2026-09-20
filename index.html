@@ -92,6 +92,7 @@
 
     /* AFR cinematic intro */
     body.intro-lock{overflow:hidden}
+    html.afr-intro-seen .afr-intro{display:none!important}
     .afr-intro{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;overflow:hidden;background:#01040a;color:#fff;isolation:isolate;opacity:1;visibility:visible;transition:opacity .7s ease,visibility .7s ease}
     .afr-intro::before{content:"";position:absolute;inset:-20%;z-index:-2;background:radial-gradient(circle at 50% 45%,#083459 0,#031627 24%,#01040a 58%,#000 100%);animation:afrIntroPulse 2.6s ease-in-out both}
     .afr-intro::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.22;background:linear-gradient(90deg,transparent 49.8%,#20d6ff 50%,transparent 50.2%),linear-gradient(0deg,transparent 49.8%,#287dff 50%,transparent 50.2%);background-size:90px 90px;mask-image:radial-gradient(circle,#000 0,transparent 68%);animation:afrGridReveal 1.5s ease both}
@@ -556,6 +557,13 @@
   <script id="afr-start-on-home">
     (() => {
       try {
+        const introSeen = sessionStorage.getItem("afr-intro-seen") === "1";
+        if (introSeen) {
+          document.documentElement.classList.add("afr-intro-seen");
+          document.body.classList.remove("intro-lock");
+        } else {
+          sessionStorage.setItem("afr-intro-seen", "1");
+        }
         const automaticRefresh = sessionStorage.getItem("afr-auto-refresh-position");
         if (!automaticRefresh && location.hash !== "#home") {
           history.replaceState(null, "", location.pathname + location.search + "#home");
@@ -1287,6 +1295,11 @@
     (() => {
       const intro = document.getElementById("afrIntro");
       if (!intro) return;
+      if (document.documentElement.classList.contains("afr-intro-seen")) {
+        document.body.classList.remove("intro-lock");
+        intro.remove();
+        return;
+      }
       let closed = false;
       const closeIntro = () => {
         if (closed) return;
