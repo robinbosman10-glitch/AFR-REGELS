@@ -523,7 +523,7 @@
     .article table td:has(img[alt^="Discord"]){width:82px;padding:10px;vertical-align:middle}
     @media(max-width:600px){.article table img[alt^="Discord"]{width:46px;height:46px;border-radius:11px}.article table td:has(img[alt^="Discord"]){width:62px;padding:8px}}
   </style>
-  <link rel="stylesheet" href="./admin.css?v=8">
+  <link rel="stylesheet" href="./admin.css?v=9">
 
   <style id="afr-server-status-style">
     .server-status-card{
@@ -646,6 +646,7 @@
         <aside class="admin-nav">
           <div class="admin-user"><span class="admin-avatar">A</span><div><strong id="adminDisplayName">Beheerder</strong><small id="adminRole">—</small></div></div>
           <button type="button" class="admin-tab active" data-admin-tab="overview">Overzicht</button>
+          <button type="button" class="admin-tab launch-center-tab" data-admin-tab="launch-center" data-owner-only>Launch Center</button>
           <button type="button" class="admin-tab" data-admin-tab="articles">Artikelen</button>
           <button type="button" class="admin-tab" data-admin-tab="maintenance">Onderhoud</button>
           <button type="button" class="admin-tab" data-admin-tab="server">Serverbeheer</button>
@@ -659,6 +660,59 @@
             <span class="admin-kicker">DASHBOARD</span><h3>Welkom terug</h3>
             <div class="admin-stats"><article><span>Accounts</span><strong id="adminAccountCount">—</strong></article><article><span>Actief</span><strong id="adminActiveCount">—</strong></article><article><span>Jouw rol</span><strong id="adminRoleStat">—</strong></article></div>
             <div class="admin-info"><strong>Beveiligde verbinding actief</strong><p>Je sessie en rechten worden gecontroleerd via Supabase.</p></div>
+          </section>
+          <section class="admin-view launch-center-view" data-admin-view="launch-center" data-owner-only>
+            <header class="launch-center-hero">
+              <div><span class="admin-kicker">AFR LAUNCH COMMAND</span><h3>Commandocentrum</h3><p>Alle vitale systemen en launch-knoppen in één live overzicht.</p></div>
+              <div class="launch-center-clock"><strong id="launchCenterClock">--:--:--</strong><span id="launchCenterDate">Datum laden…</span></div>
+            </header>
+
+            <section class="launch-center-countdown">
+              <div class="launch-center-section-head"><div><span>OPENINGSPROTOCOL</span><strong id="launchCenterTitle">Geen actieve countdown</strong></div><span id="launchCenterCountdownBadge" class="command-badge neutral">Uit</span></div>
+              <div class="launch-center-time">
+                <div><strong id="launchCenterDays">00</strong><span>Dagen</span></div>
+                <div><strong id="launchCenterHours">00</strong><span>Uren</span></div>
+                <div><strong id="launchCenterMinutes">00</strong><span>Minuten</span></div>
+                <div><strong id="launchCenterSeconds">00</strong><span>Seconden</span></div>
+              </div>
+              <p id="launchCenterTarget">Stel eerst een openingsmoment in.</p>
+            </section>
+
+            <div class="launch-center-grid">
+              <article id="launchCenterMaintenanceCard" class="command-status-card">
+                <div class="command-status-icon">!</div><div><span>Onderhoud</span><strong id="launchCenterMaintenanceState">Controleren…</strong><small id="launchCenterMaintenanceMessage">Sitebericht laden</small></div>
+              </article>
+              <article id="launchCenterServerCard" class="command-status-card">
+                <div class="command-status-icon">◆</div><div><span>FiveM-server</span><strong id="launchCenterServerState">Controleren…</strong><small id="launchCenterServerPlayers">Live spelers laden</small></div>
+              </article>
+              <article id="launchCenterSiteCard" class="command-status-card">
+                <div class="command-status-icon">✓</div><div><span>Publieke website</span><strong id="launchCenterSiteState">Online</strong><small>HTTPS en custom domein actief</small></div>
+              </article>
+            </div>
+
+            <section class="launch-center-console">
+              <div class="launch-center-actions">
+                <span class="launch-center-label">SNELLE ACTIES</span>
+                <button id="launchCenterOpenCountdown" type="button">Countdown instellen <span>→</span></button>
+                <button id="launchCenterToggleMaintenance" type="button">Onderhoud omschakelen <span>→</span></button>
+                <button id="launchCenterRefresh" type="button">Alles vernieuwen <span>↻</span></button>
+                <button id="launchCenterRelease" class="command-release" type="button">Site nu vrijgeven <span>⚡</span></button>
+                <p id="launchCenterStatus" class="admin-status" aria-live="polite"></p>
+              </div>
+              <div class="launch-center-checklist">
+                <span class="launch-center-label">LAUNCH CHECKLIST</span>
+                <div id="launchCheckOwner" class="launch-check"><i></i><span>Owner-sessie beveiligd</span><strong>Gereed</strong></div>
+                <div id="launchCheckHttps" class="launch-check"><i></i><span>HTTPS en domein</span><strong>Controleren</strong></div>
+                <div id="launchCheckServer" class="launch-check"><i></i><span>FiveM-server bereikbaar</span><strong>Controleren</strong></div>
+                <div id="launchCheckCountdown" class="launch-check"><i></i><span>Countdown ingesteld</span><strong>Controleren</strong></div>
+                <div id="launchCheckMaintenance" class="launch-check"><i></i><span>Onderhoudsmelding</span><strong>Controleren</strong></div>
+              </div>
+            </section>
+
+            <section class="launch-center-activity">
+              <div class="launch-center-section-head"><div><span>LIVE LOGBOEK</span><strong>Laatste beheeractiviteiten</strong></div></div>
+              <div id="launchCenterActivityList" class="launch-center-activity-list">Activiteiten laden…</div>
+            </section>
           </section>
           <section class="admin-view" data-admin-view="articles">
             <span class="admin-kicker">PUBLICEREN NAAR GITHUB</span><h3>Artikel toevoegen</h3>
@@ -1468,6 +1522,6 @@
   </script>
 
 
-  <script src="./admin.js?v=9"></script>
+  <script src="./admin.js?v=10"></script>
 </body>
 </html>
