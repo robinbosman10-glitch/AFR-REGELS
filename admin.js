@@ -29,7 +29,7 @@
   async function logoutAdmin(){try{if(session)await authRequest('/auth/v1/logout',{method:'POST'})}catch(e){}saveSession(null);showLogin();closePanel();window.AFRLaunchControl?.ownerLoggedOut()}
   $('#adminLogout').addEventListener('click',logoutAdmin);$('#adminQuickLogout').addEventListener('click',logoutAdmin);
 
-  function selectAdminTab(tab){const target=document.querySelector('.admin-tab[data-admin-tab="'+tab+'"]');if(target?.hidden)tab='overview';document.querySelectorAll('.admin-tab').forEach(x=>x.classList.toggle('active',x.dataset.adminTab===tab));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.dataset.adminView===tab));if(tab==='articles')loadArticlePublisher();if(tab==='maintenance')loadMaintenanceForm();if(tab==='server')loadServerControl();if(tab==='countdown')loadLaunchForm();if(tab==='accounts')loadAccounts();if(tab==='audit')loadAudit();if(tab==='overview')loadOverview()}
+  function selectAdminTab(tab){const target=document.querySelector('.admin-tab[data-admin-tab="'+tab+'"]');if(target?.hidden)tab='overview';document.querySelectorAll('.admin-tab').forEach(x=>x.classList.toggle('active',x.dataset.adminTab===tab));document.querySelectorAll('.admin-view').forEach(view=>view.classList.toggle('active',view.dataset.adminView===tab));if(tab==='launch-center')loadLaunchCenter();if(tab==='articles')loadArticlePublisher();if(tab==='maintenance')loadMaintenanceForm();if(tab==='server')loadServerControl();if(tab==='countdown')loadLaunchForm();if(tab==='accounts')loadAccounts();if(tab==='audit')loadAudit();if(tab==='overview')loadOverview()}
   document.querySelectorAll('.admin-tab').forEach(button=>button.addEventListener('click',()=>selectAdminTab(button.dataset.adminTab)));
   document.querySelectorAll('[data-open-admin]').forEach(button=>button.addEventListener('click',()=>{selectAdminTab(button.dataset.openAdmin);openPanel()}));
 
@@ -52,6 +52,92 @@
   async function loadManagedArticles(){const el=$('#managedArticlesStatus');status(el,'Artikelen ophalen…');try{const result=await callArticleFunction({action:'list'});managedArticles=(result.articles||[]).sort((a,b)=>(articlePageNames[a.page]||a.page).localeCompare(articlePageNames[b.page]||b.page,'nl')||a.title.localeCompare(b.title,'nl'));renderManagedArticles();status(el,managedArticles.length+' artikelen geladen.','success')}catch(err){status(el,err.message,'error')}}
   $('#managedArticleSearch').addEventListener('input',renderManagedArticles);
   async function deleteManagedArticle(item,button){if(!can('delete_articles'))return;const answer=prompt('Typ VERWIJDER om dit artikel definitief uit GitHub te verwijderen:\n\n'+item.title);if(answer!=='VERWIJDER')return;button.disabled=true;const el=$('#managedArticlesStatus');status(el,'Artikel verwijderen uit GitHub…');try{const result=await callArticleFunction({action:'delete',page:item.page,title:item.title});status(el,result.message||'Artikel verwijderd.','success');await loadManagedArticles();loadRecentPublished()}catch(err){status(el,err.message,'error');button.disabled=false}}
+
+  let launchCenterTarget=0;
+
+  function launchCenterClockTick(){
+    const clock=$('#launchCenterClock'),date=$('#launchCenterDate');
+    if(clock){const now=new Date();clock.textContent=now.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit',second:'2-digit'});date.textContent=now.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+    if(!launchCenterTarget)return;
+    const remaining=Math.max(0,launchCenterTarget-Date.now()),total=Math.floor(remaining/1000);
+    const days=Math.floor(total/86400),hours=Math.floor(total%86400/3600),minutes=Math.floor(total%3600/60),seconds=total%60;
+    const pad=value=>String(value).padStart(2,'0');
+    $('#launchCenterDays').textContent=pad(days);$('#launchCenterHours').textContent=pad(hours);$('#launchCenterMinutes').textContent=pad(minutes);$('#launchCenterSeconds').textContent=pad(seconds);
+  }
+
+  function setLaunchCheck(id,state,label){
+    const row=$(id);if(!row)return;row.className='launch-check '+state;row.querySelector('strong').textContent=label;
+  }
+
+  async function loadLaunchCenter(){
+    if(profile?.role!=='owner')return;
+    const statusEl=$('#launchCenterStatus');
+    status(statusEl,'Commandocentrum synchroniseren…');
+    launchCenterClockTick();
+    try{
+      const root=await getMaintenance()||{},launch=root.launch||{},target=new Date(launch.target_at).getTime(),active=!!launch.enabled&&Number.isFinite(target)&&target>Date.now();
+      launchCenterTarget=active?target:0;
+      $('#launchCenterTitle').textContent=active?(launch.title||'De APV opent binnenkort'):'Geen actieve countdown';
+      $('#launchCenterCountdownBadge').textContent=active?'Actief':'Uit';
+      $('#launchCenterCountdownBadge').className='command-badge '+(active?'online':'neutral');
+      $('#launchCenterTarget').textContent=active?'Opening: '+new Date(target).toLocaleString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}):'Stel eerst een openingsmoment in.';
+      if(!active){['#launchCenterDays','#launchCenterHours','#launchCenterMinutes','#launchCenterSeconds'].forEach(id=>$(id).textContent='00')}
+      const maintenance=!!root.enabled,maintenanceCard=$('#launchCenterMaintenanceCard');
+      maintenanceCard.className='command-status-card '+(maintenance?'warning':'online');
+      $('#launchCenterMaintenanceState').textContent=maintenance?'Melding actief':'Geen melding actief';
+      $('#launchCenterMaintenanceMessage').textContent=maintenance?(root.title||'Onderhoud'):'Publieke pagina is vrij';
+      setLaunchCheck('#launchCheckOwner','ready','Gereed');
+      setLaunchCheck('#launchCheckHttps',location.protocol==='https:'?'ready':'warning',location.protocol==='https:'?'Gereed':'Niet HTTPS');
+      setLaunchCheck('#launchCheckCountdown',active?'ready':'warning',active?'Ingesteld':'Niet actief');
+      setLaunchCheck('#launchCheckMaintenance',maintenance?'warning':'ready',maintenance?'Actief':'Vrij');
+      await Promise.allSettled([loadLaunchCenterServer(),loadLaunchCenterActivity()]);
+      status(statusEl,'Alle launchsystemen zijn bijgewerkt.','success');
+      launchCenterClockTick();
+    }catch(err){status(statusEl,err.message||'Commandocentrum kon niet worden geladen.','error')}
+  }
+
+  async function loadLaunchCenterServer(){
+    const card=$('#launchCenterServerCard');
+    try{
+      const response=await fetch(SUPABASE_URL+'/functions/v1/fivem-status?t='+Date.now(),{headers:{apikey:PUBLISHABLE_KEY},cache:'no-store'});
+      const data=await parseResponse(response);
+      if(!data.online)throw new Error('offline');
+      const players=Number.isFinite(Number(data.players))?Number(data.players):0,max=Number.isFinite(Number(data.maxPlayers))&&Number(data.maxPlayers)>0?Number(data.maxPlayers):600;
+      card.className='command-status-card online';$('#launchCenterServerState').textContent='Server online';$('#launchCenterServerPlayers').textContent=players+' / '+max+' spelers';setLaunchCheck('#launchCheckServer','ready','Online');
+    }catch(_err){card.className='command-status-card danger';$('#launchCenterServerState').textContent='Niet bereikbaar';$('#launchCenterServerPlayers').textContent='Controleer de FiveM-status';setLaunchCheck('#launchCheckServer','danger','Offline')}
+  }
+
+  async function loadLaunchCenterActivity(){
+    const box=$('#launchCenterActivityList');
+    try{
+      const rows=await authRequest('/rest/v1/admin_audit_log?select=id,action,target,created_at&order=created_at.desc&limit=8');
+      box.textContent='';
+      rows.forEach(item=>{const row=document.createElement('div'),dot=document.createElement('i'),copy=document.createElement('div'),title=document.createElement('strong'),meta=document.createElement('small');row.className='launch-activity-row';title.textContent=String(item.action||'activiteit').replaceAll('_',' ');meta.textContent=(item.target?item.target+' · ':'')+new Date(item.created_at).toLocaleString('nl-NL');copy.append(title,meta);row.append(dot,copy);box.append(row)});
+      if(!rows.length)box.textContent='Nog geen beheeractiviteiten.';
+    }catch(_err){box.textContent='Logboek kon niet worden geladen.'}
+  }
+
+  $('#launchCenterOpenCountdown').addEventListener('click',()=>selectAdminTab('countdown'));
+  $('#launchCenterRefresh').addEventListener('click',loadLaunchCenter);
+  $('#launchCenterToggleMaintenance').addEventListener('click',async()=>{
+    if(profile?.role!=='owner')return;
+    const el=$('#launchCenterStatus');status(el,'Onderhoudsstatus aanpassen…');
+    try{
+      const root=await getMaintenance()||{},value={...root,enabled:!root.enabled,notice_id:'notice-'+Date.now()};
+      await ensureSession();await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});
+      await applyMaintenance();await loadLaunchCenter();
+    }catch(err){status(el,err.message,'error')}
+  });
+  $('#launchCenterRelease').addEventListener('click',async()=>{
+    if(profile?.role!=='owner'||!confirm('Site nu vrijgeven? De countdown wordt direct uitgeschakeld voor alle bezoekers.'))return;
+    const button=$('#launchCenterRelease'),el=$('#launchCenterStatus');button.disabled=true;status(el,'Publieke APV vrijgeven…');
+    try{
+      const root=await getMaintenance()||{},previous=root.launch||{},value={...root,launch:{...previous,enabled:false,event_id:'launch-'+Date.now()}};
+      await ensureSession();await authRequest('/rest/v1/site_settings?key=eq.maintenance',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({value,updated_by:session.user.id})});
+      $('#launchEnabled').checked=false;launchCenterTarget=0;await window.AFRLaunchControl?.refresh();await loadLaunchCenter();status(el,'De APV is vrijgegeven voor alle bezoekers.','success');
+    }catch(err){status(el,err.message,'error')}finally{button.disabled=false}
+  });
+  setInterval(launchCenterClockTick,1000);
 
   async function loadServerControl(){
     if(!can('manage_server_status'))return;
