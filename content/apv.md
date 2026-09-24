@@ -512,15 +512,7 @@
 | Straf | Categorie 5 + Wapeninname |
 |---|---|
 
-### Artikel 43 No Fly Zone - Vliegende Voertuigen. 
-
-1.Het gebied dat staat aangegeven op de kaart betreft een No-Fly Zone rondom Rode Garage & Eiland.
-2.Binnen dit gebied is het verboden om te vliegen met vliegende voertuigen en is het ook niet toegestaan om shootouts aan te gaan.
-
-| Straf | Categorie 5 + Wapeninname |
-|---|---|
-
-### Artikel 44 - Refunds
+### Artikel 43 - Refunds
 
 1. Items worden niet gerefund wanneer zij verloren zijn gegaan door een aangekondigde server restart.
 2. Stacks aan items zoals drugs worden alleen gerefund bij het onverwachts wegvallen van de server door bijvoorbeeld een crash.
@@ -546,7 +538,7 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 | Straf | Categorie 4 |
 |---|---|
 
-### Artikel 47 - Helikopters & Vliegtuigen
+### Artikel 44 - Helikopters & Vliegtuigen
 
 1. Het is verplicht om ten alle tijden een minimale hoogte van 150 meter aan te houden.
 2. Je mag in het rode gebied enkel landen op een helipad.
@@ -557,7 +549,7 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 | Straf | Categorie 3 |
 |---|---|
 
-### Artikel 48 – Toxic Gedrag 
+### Artikel 45 – Toxic Gedrag 
 
 1. Extreem toxic gedrag is niet toegestaan binnen de stad. Hieronder vallen onder andere vip-death-messages, montages en vergelijkbare uitingen. 
 2. Dit geldt zowel voor content die buiten de stad wordt geplaatst als voor uitspraken, opmerkingen of provocerend gedrag dat in-game wordt geuit.
@@ -565,16 +557,7 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 | Straf | Categorie 5 |
 |---|---|
 
-### Artikel 49 – Vliegende voertuigen.
-
-1. Het is toegestaan om gebruik te maken van de vliegende voertuigen in Roleplay.
-2. Het is niet toegestaan om te schieten vanuit een vliegend voertuig zowel als bestuurder als achterop zijnde niet.
-3. Indien je misbruik maakt van de vliegende voertuigen door lid 2 te verbreken zal dit leiden tot een straf.
-
-| Straf | Categorie 5 |
-|---|---|
-
-### Artikel 50 – Bodylooten.
+### Artikel 46 – Bodylooten.
 
 1. Het is **niet** toegestaan voor Politie / Kmar & andere specialisaties om wapens af te pakken indien je dood bent. 
 2. Dit is uitsluitend toegestaan voor **DSI**, **RRT**, **Inspecteur + (UNM)**, **Opperwachtmeester + (UNM)** & **Recherche** indien er sprake is van een desbetreffende schotenmelding. 
@@ -586,19 +569,7 @@ Als je refund hier niet aan voldoet, staat een stafflid in zijn/haar recht om je
 
 ---------------------
 
-### Artikel 51 - Elite Turf
-
-1. Vanaf heden is het verboden om een turf (elite turf of normale turf) te pushen met een bulletproof auto!
-2. Geen enkele bulletproof auto is meer toegestaan. het moet mogelijk zijn om instant door het raam heen te schieten. een voertuig waarvan de achterkant dicht is is wel toegestaan.
-3. Turf Revive Spawn VIP, Het is niet nodig om wachtkamer te komen voor een revive omdat er een bug in de VIP zit.
-Er worden geen revives gegeven totdat de VIP weer werkt.
-4. Vanaf heden is het niet meer toegestaan om te rippen / bodylooten in de turf!
-5. Wanneer de turf ten einde is, is het ook verplicht om je wapen direct weg te doen en richting een garage te vertrekken / een voertuig pakken en de locatie verlaten.
-
-| Straf | Categorie 5 |
-|---|---|
-
-### Artikel 52 - Douane Controle 
+### Artikel 47 - Douane Controle 
 
 1. Vanaf heden ben je verplicht mee te werken aan een douane controle als je daar rijd.
 
