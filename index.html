@@ -17,7 +17,7 @@
     .afr-server-gate-line{position:absolute;left:-5%;right:-5%;top:50%;height:1px;background:linear-gradient(90deg,transparent,#ff2949,#ff7185,transparent);box-shadow:0 0 24px #ff2949;animation:afrServerGateScan 4s ease-in-out infinite}
     .afr-server-gate-shell{width:min(900px,100%);display:flex;flex-direction:column;align-items:center;text-align:center}
     .afr-server-gate-logo{width:clamp(105px,14vw,165px);height:clamp(105px,14vw,165px);object-fit:contain;filter:drop-shadow(0 0 12px #ff3655) grayscale(.15)}
-    .afr-server-gate-alert{display:grid;place-items:center;width:66px;height:66px;margin-top:15px;border:2px solid #ff526b;border-radius:50%;background:#4d101c;color:#ff9aaa;font-size:34px;font-weight:950;box-shadow:0 0 0 10px #ff425e12,0 0 38px #ff284b52}
+    .afr-server-gate-alert{display:grid;place-items:center;width:66px;height:66px;margin-top:0;border:2px solid #ff526b;border-radius:50%;background:#4d101c;color:#ff9aaa;font-size:34px;font-weight:950;box-shadow:0 0 0 10px #ff425e12,0 0 38px #ff284b52}
     .afr-server-gate-kicker{margin-top:22px;color:#ff8597;font-size:11px;font-weight:950;letter-spacing:.34em;text-transform:uppercase}
     .afr-server-gate-title{margin:12px 0;color:#fff;font-size:clamp(48px,9vw,104px);font-weight:1000;line-height:.9;letter-spacing:.035em;text-transform:uppercase;text-shadow:0 0 36px #ff2b4d70}
     .afr-server-gate-message{max-width:680px;margin:4px 0 0;color:#e4b1b9;font-size:clamp(15px,2vw,19px);line-height:1.55}
@@ -608,14 +608,11 @@
   <section id="afrServerGate" class="afr-server-gate" aria-hidden="true" aria-label="Website tijdelijk niet bereikbaar">
     <span class="afr-server-gate-line" aria-hidden="true"></span>
     <div class="afr-server-gate-shell">
-      <img class="afr-server-gate-logo" src="./logo.png" alt="Amersfoort Roleplay">
       <div class="afr-server-gate-alert" aria-hidden="true">!</div>
-      <span class="afr-server-gate-kicker">AFR Website</span>
       <h1 class="afr-server-gate-title">Niet bereikbaar</h1>
       <p id="afrServerGateMessage" class="afr-server-gate-message">De website is tijdelijk gesloten. Kom later terug.</p>
       <div class="afr-server-gate-actions">
         <button id="afrServerGateRetry" class="server-gate-retry" type="button">Pagina opnieuw laden</button>
-        <button id="afrServerGateAdmin" class="server-gate-admin" type="button">Beheerderstoegang</button>
       </div>
       <span id="afrServerGateStatus" class="afr-server-gate-status">Website tijdelijk gesloten</span>
     </div>
@@ -1578,7 +1575,6 @@
       if (!gate) return;
 
       const retry = document.getElementById("afrServerGateRetry");
-      const admin = document.getElementById("afrServerGateAdmin");
       let ownerBypass = false;
 
       function showGate() {
@@ -1595,7 +1591,6 @@
       }
 
       retry.addEventListener("click", () => location.reload());
-      admin.addEventListener("click", () => document.querySelector(".admin-open")?.click());
 
       window.AFRServerGate = {
         refresh: showGate,
