@@ -605,19 +605,19 @@
       }
     })();
   </script>
-  <section id="afrServerGate" class="afr-server-gate" aria-hidden="true" aria-label="AFR-server niet bereikbaar">
+  <section id="afrServerGate" class="afr-server-gate" aria-hidden="true" aria-label="Website tijdelijk niet bereikbaar">
     <span class="afr-server-gate-line" aria-hidden="true"></span>
     <div class="afr-server-gate-shell">
       <img class="afr-server-gate-logo" src="./logo.png" alt="Amersfoort Roleplay">
       <div class="afr-server-gate-alert" aria-hidden="true">!</div>
-      <span class="afr-server-gate-kicker">AFR serverstatus</span>
+      <span class="afr-server-gate-kicker">AFR Website</span>
       <h1 class="afr-server-gate-title">Niet bereikbaar</h1>
-      <p id="afrServerGateMessage" class="afr-server-gate-message">De Amersfoort Roleplay-server is momenteel niet bereikbaar. De APV wordt weer geopend zodra de server online is.</p>
+      <p id="afrServerGateMessage" class="afr-server-gate-message">De website is tijdelijk gesloten. Kom later terug.</p>
       <div class="afr-server-gate-actions">
-        <button id="afrServerGateRetry" class="server-gate-retry" type="button">Opnieuw controleren</button>
+        <button id="afrServerGateRetry" class="server-gate-retry" type="button">Pagina opnieuw laden</button>
         <button id="afrServerGateAdmin" class="server-gate-admin" type="button">Beheerderstoegang</button>
       </div>
-      <span id="afrServerGateStatus" class="afr-server-gate-status">Iedere minuut automatische controle</span>
+      <span id="afrServerGateStatus" class="afr-server-gate-status">Website tijdelijk gesloten</span>
     </div>
   </section>
   <section id="afrLaunchGate" class="afr-launch-gate" aria-hidden="true" aria-label="Amersfoort Roleplay opening countdown">
@@ -1573,95 +1573,46 @@
 
   <script id="afr-server-website-gate">
     (() => {
+      const SITE_LOCKED = true;
       const gate = document.getElementById("afrServerGate");
       if (!gate) return;
+
       const retry = document.getElementById("afrServerGateRetry");
       const admin = document.getElementById("afrServerGateAdmin");
-      const status = document.getElementById("afrServerGateStatus");
-      const message = document.getElementById("afrServerGateMessage");
-      const endpoint = "https://pbzukefsrtmymowlsdrp.supabase.co/functions/v1/fivem-status";
-      const key = "sb_publishable_fIWTEv4S7qnetQuMbyxQjA_3KffY1lf";
-      const onlineKey = "afr-server-last-online";
-      let offline = false;
       let ownerBypass = false;
-      let timer = 0;
-      let controller = null;
-      let failures = 0;
 
-      function openGate(text) {
-        offline = true;
-        if (ownerBypass) return;
-        if (text) message.textContent = text;
+      function showGate() {
+        if (!SITE_LOCKED || ownerBypass) return hideGate();
         gate.classList.add("is-active");
         gate.setAttribute("aria-hidden", "false");
         document.body.classList.add("server-unavailable");
       }
 
-      function closeGate() {
-        offline = false;
+      function hideGate() {
         gate.classList.remove("is-active");
         gate.setAttribute("aria-hidden", "true");
         document.body.classList.remove("server-unavailable");
       }
 
-      async function check() {
-        clearTimeout(timer);
-        if (controller) controller.abort();
-        controller = new AbortController();
-        retry.disabled = true;
-        status.textContent = "Serverstatus controleren…";
-        const timeout = setTimeout(() => controller.abort(), 20000);
-        try {
-          const response = await fetch(endpoint + "?gate=" + Date.now(), {
-            headers: { apikey: key },
-            cache: "no-store",
-            signal: controller.signal
-          });
-          if (!response.ok) throw new Error("Statuscontrole mislukt");
-          const data = await response.json();
-          failures = 0;
-          if (data.online) {
-            try { localStorage.setItem(onlineKey, String(Date.now())); } catch (_error) {}
-            closeGate();
-            status.textContent = "Server online";
-          } else {
-            openGate("De Amersfoort Roleplay-server is momenteel niet bereikbaar. De APV wordt weer geopend zodra de server online is.");
-            status.textContent = "Server offline · automatische hercontrole actief";
-          }
-        } catch (_error) {
-          failures++;
-          let recentlyOnline = false;
-          try { recentlyOnline = Date.now() - Number(localStorage.getItem(onlineKey) || 0) < 180000; } catch (_ignore) {}
-          if (!recentlyOnline && failures >= 2) {
-            openGate("De verbinding met de Amersfoort Roleplay-server kan niet worden gemaakt. De APV opent automatisch zodra de server weer bereikbaar is.");
-          }
-          status.textContent = recentlyOnline ? "Tijdelijke statusfout · opnieuw proberen…" : "Statusverbinding niet bereikbaar";
-        } finally {
-          clearTimeout(timeout);
-          retry.disabled = false;
-          timer = setTimeout(check, 60000);
-        }
-      }
-
-      retry.addEventListener("click", check);
+      retry.addEventListener("click", () => location.reload());
       admin.addEventListener("click", () => document.querySelector(".admin-open")?.click());
+
       window.AFRServerGate = {
-        refresh: check,
+        refresh: showGate,
         ownerAuthenticated(profile) {
           if (profile?.role !== "owner") return;
           ownerBypass = true;
-          gate.classList.remove("is-active");
-          gate.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("server-unavailable");
+          hideGate();
         },
         ownerLoggedOut() {
           ownerBypass = false;
-          if (offline) openGate();
+          showGate();
         }
       };
-      check();
+
+      showGate();
     })();
   </script>
-  <script src="./admin.js?v=11"></script>
+  <script src="./admin.js?v=12"></script>
 </body>
 </html>
