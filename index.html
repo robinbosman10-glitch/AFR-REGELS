@@ -539,6 +539,17 @@
     .server-status-dot{width:13px;height:13px;border-radius:50%;background:#87a1b8;box-shadow:0 0 0 6px rgba(135,161,184,.12)}
     .server-status-card.is-online .server-status-dot{background:#36e589;box-shadow:0 0 0 6px rgba(54,229,137,.14),0 0 22px #36e589}.server-status-card.is-offline .server-status-dot{background:#ff6479;box-shadow:0 0 0 6px rgba(255,100,121,.13)}
     .server-status-card.is-offline .server-status-state{border-color:#ff81905c;background:#521b265c;color:#ffc2ca}
+    .server-offline-panel{display:none;position:relative;z-index:2;text-align:center}
+    .server-status-card.is-offline{grid-template-columns:1fr;place-items:center;border-color:#ff405c;background:radial-gradient(circle at 50% 40%,rgba(180,25,49,.34),transparent 19rem),linear-gradient(145deg,#16070b,#3a0c16);box-shadow:0 27px 70px rgba(75,0,14,.42),inset 0 1px 0 rgba(255,255,255,.06)}
+    .server-status-card.is-offline::after{background:linear-gradient(90deg,transparent,#ff3554,#ff7185,transparent);box-shadow:0 0 24px #ff294b}
+    .server-status-card.is-offline .server-status-main,.server-status-card.is-offline .server-status-actions{display:none}
+    .server-status-card.is-offline .server-offline-panel{display:grid;place-items:center;gap:15px;width:100%}
+    .server-offline-symbol{display:grid;place-items:center;width:78px;height:78px;border:2px solid #ff526b;border-radius:50%;background:#4c101b;color:#ff9cab;font-size:39px;font-weight:950;box-shadow:0 0 0 10px rgba(255,66,94,.08),0 0 36px rgba(255,40,75,.32);animation:serverOfflinePulse 1.8s ease-in-out infinite}
+    .server-offline-kicker{color:#ff91a2;font-size:12px;font-weight:950;letter-spacing:.28em;text-transform:uppercase}
+    .server-offline-title{margin:0;color:#fff;font-size:clamp(42px,7vw,82px);font-weight:1000;line-height:.95;letter-spacing:.035em;text-transform:uppercase;text-shadow:0 0 28px rgba(255,52,82,.48)}
+    .server-offline-message{max-width:590px;margin:0;color:#e9b8c0;font-size:17px;font-weight:650}
+    .server-offline-retry{margin-top:5px;color:#be7f89;font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    @keyframes serverOfflinePulse{50%{transform:scale(1.08);box-shadow:0 0 0 15px rgba(255,66,94,.04),0 0 48px rgba(255,40,75,.48)}}
     .server-status-count{display:flex;align-items:baseline;gap:12px}.server-status-number{font-size:88px;line-height:.92;font-weight:950;letter-spacing:-3.5px}.server-status-capacity{font-size:24px;font-weight:850;color:#c7dcf1}
     .server-status-label{margin-top:16px;font-size:19px;color:#c8daec}
     .server-status-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px}.server-status-detail{display:grid;gap:5px;padding:19px 20px;border:1px solid rgba(88,192,235,.25);border-radius:12px;background:#061b3090}.server-status-detail span{color:#86aeca;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.server-status-detail strong{font-size:27px}
@@ -1231,6 +1242,13 @@
             '<button class="server-copy-button" type="button">Joinlink kopiëren</button>' +
             '<div class="server-join-code"><span>FiveM joincode</span><strong>rlvgdj</strong></div>' +
             '<span class="server-status-updated">Elke minuut automatisch vernieuwd</span>' +
+          '</div>' +
+          '<div class="server-offline-panel">' +
+            '<div class="server-offline-symbol">!</div>' +
+            '<span class="server-offline-kicker">AFR LIVE SERVER</span>' +
+            '<h2 class="server-offline-title">Niet bereikbaar</h2>' +
+            '<p class="server-offline-message">De AFR-server is momenteel niet bereikbaar. Probeer het later opnieuw.</p>' +
+            '<span class="server-offline-retry">De status wordt iedere minuut automatisch opnieuw gecontroleerd</span>' +
           '</div>';
         return card;
       }
@@ -1290,15 +1308,10 @@
 
       function showOffline(card, unavailable) {
         card.className = "server-status-card is-offline";
-        card.querySelector(".server-status-state").textContent = unavailable ? "Status niet bereikbaar" : "Server offline";
-        card.querySelector(".server-status-number").textContent = "0";
-        card.querySelector(".server-status-capacity").textContent = "spelers ingame";
-        card.querySelector(".server-status-label").textContent = unavailable ? "De live status kon niet worden geladen" : "De server is momenteel niet bereikbaar";
-        card.querySelector(".server-detail-max").textContent = "—";
-        card.querySelector(".server-detail-free").textContent = "—";
-        card.querySelector(".server-detail-percent").textContent = "0%";
-        card.querySelector(".server-occupancy-value").textContent = "Geen live gegevens";
-        card.querySelector(".server-occupancy-fill").style.width = "0%";
+        const message = card.querySelector(".server-offline-message");
+        if (message) message.textContent = unavailable
+          ? "De live verbinding met de AFR-server kan momenteel niet worden gemaakt. Probeer het later opnieuw."
+          : "De AFR-server is momenteel offline en daardoor niet bereikbaar. Probeer het later opnieuw.";
       }
 
       async function refreshStatus() {
